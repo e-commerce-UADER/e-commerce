@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+.pnp/
+.pnp.js
+
+# Build
+dist/
+build/
+.vite/
+
+# Entorno
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Editor / SO
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Tests y cobertura
+coverage/
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Subidas locales
+backend/uploads/
