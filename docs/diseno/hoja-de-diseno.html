@@ -1,0 +1,1059 @@
+<title>Aventura 360 Sistema Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    /* Marca — tomada del logo */
+    --bosque:   #2D4A32;
+    --oliva:    #6B7A3A;
+    --naranja:  #D4622A;
+    --pizarra:  #2E3A42;
+    --crema:    #F7F3EC;
+
+    /* Neutros sesgados al verde de marca, no gris puro */
+    --n-000: #FFFDF9;
+    --n-050: #F7F3EC;
+    --n-100: #EBE6DC;
+    --n-200: #D9D4C7;
+    --n-300: #B8B4A6;
+    --n-500: #7C7F73;
+    --n-700: #454B45;
+    --n-900: #21261F;
+
+    /* Semánticos — separados del acento de marca */
+    --ok:    #3F7D45;
+    --warn:  #B8862B;
+    --error: #A83A28;
+
+    /* Roles */
+    --bg:          var(--n-050);
+    --bg-elev:     var(--n-000);
+    --bg-sunken:   var(--n-100);
+    --texto:       var(--pizarra);
+    --texto-suave: var(--n-500);
+    --borde:       var(--n-200);
+    --borde-fuerte:var(--n-300);
+    --primario:    var(--bosque);
+    --acento:      var(--naranja);
+    --sobre-prim:  #F4F7F2;
+
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --cuerpo: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", "Consolas", monospace;
+
+    --paso: 8px;
+    --radio: 3px;
+    --ancho: 1180px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:          #171A15;
+      --bg-elev:     #1F241D;
+      --bg-sunken:   #12140F;
+      --texto:       #E8E4D8;
+      --texto-suave: #9A9C8E;
+      --borde:       #333A2F;
+      --borde-fuerte:#4A5243;
+      --primario:    #7FA274;
+      --acento:      #E8814D;
+      --sobre-prim:  #12140F;
+      --ok:    #6FA872;
+      --warn:  #D9A84A;
+      --error: #D4705C;
+      --n-100: #262B22;
+      --n-200: #333A2F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:          #171A15;
+    --bg-elev:     #1F241D;
+    --bg-sunken:   #12140F;
+    --texto:       #E8E4D8;
+    --texto-suave: #9A9C8E;
+    --borde:       #333A2F;
+    --borde-fuerte:#4A5243;
+    --primario:    #7FA274;
+    --acento:      #E8814D;
+    --sobre-prim:  #12140F;
+    --ok:    #6FA872;
+    --warn:  #D9A84A;
+    --error: #D4705C;
+    --n-100: #262B22;
+    --n-200: #333A2F;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--texto);
+    font-family: var(--cuerpo);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .env {
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Cabecera ---------- */
+  .cabecera {
+    background: var(--primario);
+    color: var(--sobre-prim);
+    border-bottom: 4px solid var(--acento);
+  }
+  :root[data-theme="dark"] .cabecera,
+  :root:not([data-theme="light"]) .cabecera { }
+
+  .cabecera-int {
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 40px 24px 34px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .marca-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin: 0 0 10px;
+  }
+  .marca-titulo {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(38px, 6vw, 62px);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .marca-titulo em {
+    font-style: normal;
+    color: #C9D6BE;
+  }
+  .marca-bajada {
+    margin: 12px 0 0;
+    font-size: 15px;
+    opacity: 0.85;
+    max-width: 46ch;
+  }
+  .meta-doc {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.9;
+    opacity: 0.8;
+    text-align: right;
+  }
+  .meta-doc b { font-weight: 500; opacity: 0.6; }
+
+  /* ---------- Secciones ---------- */
+  section { padding: 52px 0 8px; }
+  .sec-cab {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid var(--borde);
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--acento);
+    font-weight: 500;
+  }
+  h2 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1;
+  }
+  .sec-nota {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--texto-suave);
+    max-width: 44ch;
+    text-align: right;
+    line-height: 1.45;
+  }
+  h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--texto-suave);
+    margin: 34px 0 14px;
+  }
+  p { max-width: 68ch; }
+
+  /* ---------- Color ---------- */
+  .paleta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 2px;
+    background: var(--borde);
+    border: 1px solid var(--borde);
+  }
+  .swatch {
+    background: var(--bg-elev);
+    display: flex;
+    flex-direction: column;
+  }
+  .swatch-color {
+    height: 96px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 10px;
+  }
+  .swatch-uso {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.88);
+    color: #21261F;
+  }
+  .swatch-oscuro .swatch-uso {
+    background: rgba(20,22,18,0.8);
+    color: #F0EDE3;
+  }
+  .swatch-datos { padding: 10px; border-top: 1px solid var(--borde); }
+  .swatch-nombre { font-weight: 600; font-size: 14px; }
+  .swatch-hex {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+  }
+  .swatch-rol { font-size: 12.5px; color: var(--texto-suave); margin-top: 3px; line-height: 1.4; }
+
+  .escala {
+    display: flex;
+    border: 1px solid var(--borde);
+    margin-top: 6px;
+    overflow-x: auto;
+  }
+  .escala > div {
+    flex: 1 0 92px;
+    padding: 30px 8px 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .semaforo { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px 5px 9px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .pill::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .pill-ok    { color: var(--ok);    border-color: color-mix(in srgb, var(--ok) 40%, transparent);    background: color-mix(in srgb, var(--ok) 10%, transparent); }
+  .pill-warn  { color: var(--warn);  border-color: color-mix(in srgb, var(--warn) 40%, transparent);  background: color-mix(in srgb, var(--warn) 10%, transparent); }
+  .pill-error { color: var(--error); border-color: color-mix(in srgb, var(--error) 40%, transparent); background: color-mix(in srgb, var(--error) 10%, transparent); }
+  .pill-neutro{ color: var(--texto-suave); border-color: var(--borde-fuerte); background: var(--bg-sunken); }
+
+  /* ---------- Tipografía ---------- */
+  .tipo-ficha {
+    border: 1px solid var(--borde);
+    background: var(--bg-elev);
+    padding: 20px 22px;
+    margin-bottom: 2px;
+  }
+  .tipo-cab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    align-items: baseline;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--borde);
+  }
+  .tipo-rol {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--acento);
+  }
+  .tipo-nombre { font-weight: 700; font-size: 16px; }
+  .tipo-detalle { font-family: var(--mono); font-size: 11.5px; color: var(--texto-suave); margin-left: auto; }
+  .muestra-display {
+    font-family: var(--display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 52px;
+    line-height: 0.98;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .muestra-cuerpo { font-size: 16px; max-width: 65ch; margin: 0; }
+  .muestra-mono { font-family: var(--mono); font-size: 14px; margin: 0; }
+
+  .escala-tipo { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .escala-tipo th {
+    text-align: left;
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    border-bottom: 1px solid var(--borde-fuerte);
+    padding: 0 12px 7px 0;
+  }
+  .escala-tipo td {
+    border-bottom: 1px solid var(--borde);
+    padding: 11px 12px 11px 0;
+    vertical-align: baseline;
+  }
+  .escala-tipo td:first-child { width: 40%; }
+  .escala-tipo .esp {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--texto-suave);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .e-h1 { font-family: var(--display); font-weight:700; text-transform:uppercase; font-size:40px; line-height:1; }
+  .e-h2 { font-family: var(--display); font-weight:600; text-transform:uppercase; font-size:28px; line-height:1.05; }
+  .e-h3 { font-family: var(--display); font-weight:600; text-transform:uppercase; font-size:20px; letter-spacing:0.04em; }
+  .e-precio { font-family: var(--display); font-weight:700; font-size:26px; font-variant-numeric: tabular-nums; }
+  .e-cuerpo { font-size:16px; }
+  .e-chico { font-size:13.5px; color: var(--texto-suave); }
+  .e-label { font-family: var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color: var(--texto-suave); }
+
+  /* ---------- Iconografía ---------- */
+  .iconos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+    gap: 2px;
+    background: var(--borde);
+    border: 1px solid var(--borde);
+  }
+  .icono {
+    margin: 0;
+    background: var(--bg-elev);
+    padding: 18px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 11px;
+    text-align: center;
+  }
+  .icono svg {
+    width: 30px;
+    height: 30px;
+    color: var(--texto);
+    flex: none;
+  }
+  .icono-marca svg { color: var(--primario); }
+  .icono figcaption {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .icono figcaption span {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--texto-suave);
+  }
+
+  .constr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    align-items: flex-start;
+    border: 1px solid var(--borde);
+    background: var(--bg-elev);
+    padding: 22px;
+  }
+  .constr-demo {
+    flex: none;
+    width: 168px;
+    height: 168px;
+    background: var(--bg-sunken);
+    border: 1px solid var(--borde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .constr-demo svg {
+    width: 132px;
+    height: 132px;
+    color: var(--primario);
+  }
+  .constr-lista {
+    flex: 1 1 320px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  .constr-lista li {
+    padding-left: 15px;
+    position: relative;
+  }
+  .constr-lista li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 1px;
+    background: var(--acento);
+  }
+
+  /* ---------- Componentes ---------- */
+  .grid-comp {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .caja {
+    border: 1px solid var(--borde);
+    background: var(--bg-elev);
+    padding: 18px;
+  }
+  .caja-tit {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--borde);
+  }
+  .fila { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+  .btn {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 9px 20px;
+    border-radius: var(--radio);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: filter .15s ease, background .15s ease;
+    line-height: 1.2;
+  }
+  .btn:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  .btn-cta { background: var(--acento); color: #FFF8F3; }
+  .btn-cta:hover { filter: brightness(1.08); }
+  .btn-prim { background: var(--primario); color: var(--sobre-prim); }
+  .btn-prim:hover { filter: brightness(1.12); }
+  .btn-sec { background: transparent; color: var(--primario); border-color: var(--borde-fuerte); }
+  .btn-sec:hover { background: var(--bg-sunken); }
+  .btn-fant { background: transparent; color: var(--texto-suave); }
+  .btn-fant:hover { color: var(--texto); }
+  .btn[disabled] { opacity: 0.42; cursor: not-allowed; }
+
+  .campo { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .campo label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+  }
+  .campo input {
+    font-family: var(--cuerpo);
+    font-size: 15px;
+    padding: 9px 11px;
+    border: 1px solid var(--borde-fuerte);
+    border-radius: var(--radio);
+    background: var(--bg);
+    color: var(--texto);
+  }
+  .campo input:focus { outline: 2px solid var(--acento); outline-offset: 0; border-color: transparent; }
+  .campo-error input { border-color: var(--error); }
+  .msg-error {
+    font-size: 12.5px;
+    color: var(--error);
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  /* Ficha de producto demo */
+  .prod {
+    border: 1px solid var(--borde);
+    background: var(--bg-elev);
+    display: flex;
+    flex-direction: column;
+    max-width: 260px;
+  }
+  .prod-img {
+    aspect-ratio: 4/3;
+    background: var(--bg-sunken);
+    border-bottom: 1px solid var(--borde);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--n-300);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .prod-badge {
+    position: absolute;
+    top: 8px; left: 8px;
+    background: var(--acento);
+    color: #FFF8F3;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 3px 7px;
+  }
+  .prod-cuerpo { padding: 12px 13px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .prod-marca { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texto-suave); }
+  .prod-nombre { font-family: var(--display); text-transform: uppercase; font-weight: 600; font-size: 19px; line-height: 1.05; }
+  .prod-precios { display: flex; align-items: baseline; gap: 9px; margin-top: 5px; }
+  .prod-antes { font-size: 13px; color: var(--texto-suave); text-decoration: line-through; font-variant-numeric: tabular-nums; }
+  .prod-ahora { font-family: var(--display); font-weight: 700; font-size: 25px; color: var(--texto); font-variant-numeric: tabular-nums; }
+
+  /* Estados de pedido / envío */
+  .ruta { display: flex; flex-wrap: wrap; align-items: center; gap: 0; font-family: var(--mono); font-size: 11px; }
+  .ruta span {
+    padding: 5px 11px;
+    border: 1px solid var(--borde-fuerte);
+    border-right: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texto-suave);
+    white-space: nowrap;
+  }
+  .ruta span:last-child { border-right: 1px solid var(--borde-fuerte); }
+  .ruta .act { background: var(--primario); color: var(--sobre-prim); border-color: var(--primario); }
+
+  /* ---------- Tabla de tokens ---------- */
+  .tabla-wrap { overflow-x: auto; border: 1px solid var(--borde); background: var(--bg-elev); }
+  table.tokens { width: 100%; border-collapse: collapse; min-width: 620px; }
+  table.tokens th {
+    text-align: left;
+    background: var(--bg-sunken);
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+  table.tokens td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--borde);
+    font-size: 14px;
+    vertical-align: top;
+  }
+  table.tokens tr:last-child td { border-bottom: none; }
+  table.tokens code, .cod {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--bg-sunken);
+    padding: 1.5px 5px;
+    border-radius: 2px;
+    color: var(--texto);
+  }
+  .ref {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--acento);
+    white-space: nowrap;
+  }
+
+  /* ---------- Espaciado ---------- */
+  .espacios { display: flex; flex-direction: column; gap: 7px; }
+  .espacio-fila { display: flex; align-items: center; gap: 14px; }
+  .espacio-barra { background: var(--oliva); height: 15px; }
+  :root[data-theme="dark"] .espacio-barra { background: var(--primario); }
+  .espacio-et { font-family: var(--mono); font-size: 11.5px; color: var(--texto-suave); font-variant-numeric: tabular-nums; }
+
+  /* ---------- Reglas ---------- */
+  ul.reglas { list-style: none; padding: 0; margin: 0; display: grid; gap: 1px; background: var(--borde); border: 1px solid var(--borde); }
+  ul.reglas li {
+    background: var(--bg-elev);
+    padding: 13px 16px;
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  ul.reglas li::before {
+    content: "";
+    flex: none;
+    width: 3px;
+    align-self: stretch;
+    background: var(--oliva);
+  }
+  ul.reglas li.no::before { background: var(--error); }
+  ul.reglas b { font-weight: 700; }
+
+  footer {
+    margin-top: 60px;
+    border-top: 1px solid var(--borde);
+    padding: 24px 0 44px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--texto-suave);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .meta-doc { text-align: left; }
+    .sec-nota { margin-left: 0; text-align: left; }
+    .sec-cab { flex-wrap: wrap; }
+    .muestra-display { font-size: 36px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<header class="cabecera">
+  <div class="cabecera-int">
+    <div>
+      <p class="marca-eyebrow">Hoja de diseño · v1.0</p>
+      <h1 class="marca-titulo">Sistema visual<br><em>Aventura 360</em></h1>
+      <p class="marca-bajada">Equipamiento para tu aventura. Tokens, tipografía y componentes derivados del logo de la marca, para el e-commerce de trekking, camping y kayak.</p>
+    </div>
+    <div class="meta-doc">
+      <div><b>Cátedra</b> Taller de Integración</div>
+      <div><b>Facultad</b> UADER · FCyT C. del Uruguay</div>
+      <div><b>Equipo</b> J. A. Olivera · D. Saipert</div>
+      <div><b>Cliente</b> Aventura 360 · Paraná, ER</div>
+      <div><b>Base</b> Requerimientos v1.0 · 2026</div>
+    </div>
+  </div>
+</header>
+
+<main class="env">
+
+  <!-- 1. COLOR -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">01</span>
+      <h2>Color</h2>
+      <p class="sec-nota">Los cinco colores de marca se muestrearon directamente del logo. Ninguno se eligió por fuera de él.</p>
+    </div>
+
+    <div class="paleta">
+      <div class="swatch">
+        <div class="swatch-color swatch-oscuro" style="background:#2D4A32"><span class="swatch-uso">Primario</span></div>
+        <div class="swatch-datos">
+          <div class="swatch-nombre">Verde bosque</div>
+          <div class="swatch-hex">#2D4A32</div>
+          <div class="swatch-rol">Encabezados, barra de navegación, acciones principales.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color swatch-oscuro" style="background:#6B7A3A"><span class="swatch-uso">Secundario</span></div>
+        <div class="swatch-datos">
+          <div class="swatch-nombre">Verde oliva</div>
+          <div class="swatch-hex">#6B7A3A</div>
+          <div class="swatch-rol">Apoyos, gráficos, separadores con peso.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color swatch-oscuro" style="background:#D4622A"><span class="swatch-uso">Acento</span></div>
+        <div class="swatch-datos">
+          <div class="swatch-nombre">Naranja atardecer</div>
+          <div class="swatch-hex">#D4622A</div>
+          <div class="swatch-rol">Un solo uso por pantalla: la acción que cierra la compra.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color swatch-oscuro" style="background:#2E3A42"><span class="swatch-uso">Texto</span></div>
+        <div class="swatch-datos">
+          <div class="swatch-nombre">Gris pizarra</div>
+          <div class="swatch-hex">#2E3A42</div>
+          <div class="swatch-rol">Texto corrido y títulos sobre fondo claro.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F7F3EC"><span class="swatch-uso">Fondo</span></div>
+        <div class="swatch-datos">
+          <div class="swatch-nombre">Crema</div>
+          <div class="swatch-hex">#F7F3EC</div>
+          <div class="swatch-rol">Lienzo del sitio. Las tarjetas van un tono más claro.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Neutros</h3>
+    <p class="e-chico" style="margin:0 0 10px">Sesgados hacia el verde de marca, no gris puro: sobre el fondo crema un gris neutro se ve sucio.</p>
+    <div class="escala">
+      <div style="background:#FFFDF9;color:#21261F">000<br>#FFFDF9</div>
+      <div style="background:#F7F3EC;color:#21261F">050<br>#F7F3EC</div>
+      <div style="background:#EBE6DC;color:#21261F">100<br>#EBE6DC</div>
+      <div style="background:#D9D4C7;color:#21261F">200<br>#D9D4C7</div>
+      <div style="background:#B8B4A6;color:#21261F">300<br>#B8B4A6</div>
+      <div style="background:#7C7F73;color:#FFFDF9">500<br>#7C7F73</div>
+      <div style="background:#454B45;color:#FFFDF9">700<br>#454B45</div>
+      <div style="background:#21261F;color:#FFFDF9">900<br>#21261F</div>
+    </div>
+
+    <h3>Color semántico</h3>
+    <p class="e-chico" style="margin:0 0 12px">Independiente del acento de marca. El naranja nunca comunica estado: comunica acción.</p>
+    <div class="semaforo">
+      <span class="pill pill-ok">Pago aprobado</span>
+      <span class="pill pill-warn">Pago pendiente</span>
+      <span class="pill pill-error">Pago rechazado</span>
+      <span class="pill pill-ok">En stock</span>
+      <span class="pill pill-warn">Últimas unidades</span>
+      <span class="pill pill-error">Sin stock</span>
+      <span class="pill pill-neutro">Kit no disponible</span>
+    </div>
+
+    <h3>Contraste</h3>
+    <p class="e-chico" style="max-width:68ch">Todo texto cumple WCAG AA (4.5:1 en cuerpo, 3:1 en títulos ≥24px). El naranja acento sobre crema alcanza 3.9:1: se usa en botones con texto ≥15px en negrita, nunca en texto corrido. En modo oscuro los dos verdes suben de luminosidad para no perder legibilidad sobre el fondo profundo.</p>
+  </section>
+
+  <!-- 2. TIPOGRAFÍA -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">02</span>
+      <h2>Tipografía</h2>
+      <p class="sec-nota">La condensada en mayúsculas repite la lógica del wordmark del logo. Es la voz de la marca.</p>
+    </div>
+
+    <div class="tipo-ficha">
+      <div class="tipo-cab">
+        <span class="tipo-rol">Display</span>
+        <span class="tipo-nombre">Barlow Condensed</span>
+        <span class="tipo-detalle">500 · 600 · 700 — siempre en versales</span>
+      </div>
+      <p class="muestra-display">Preparate · Explorá · Viví</p>
+      <p class="e-chico" style="margin:12px 0 0">Títulos, nombres de producto, botones y precios. Condensada y angulosa, aguanta cajas angostas sin romper y remite a la señalética de sendero.</p>
+    </div>
+
+    <div class="tipo-ficha">
+      <div class="tipo-cab">
+        <span class="tipo-rol">Cuerpo</span>
+        <span class="tipo-nombre">Source Sans 3</span>
+        <span class="tipo-detalle">400 · 600 · 700 · itálica</span>
+      </div>
+      <p class="muestra-cuerpo">Carpa domo para tres personas, doble techo con columna de agua de 3000 mm y piso reforzado de 5000 mm. Armado en varillas de fibra de vidrio, peso total 3,4 kg. Pensada para trekking de fin de semana en la costa del río Uruguay, donde el rocío de la madrugada no perdona.</p>
+      <p class="e-chico" style="margin:12px 0 0">Descripciones, formularios, correos y todo texto largo. Neutra, de altura de x generosa, legible a 14px en teléfono.</p>
+    </div>
+
+    <div class="tipo-ficha">
+      <div class="tipo-cab">
+        <span class="tipo-rol">Utilitaria</span>
+        <span class="tipo-nombre">JetBrains Mono</span>
+        <span class="tipo-detalle">400 · 500</span>
+      </div>
+      <p class="muestra-mono">SKU CARP-DOM3-VRD · Pedido #A360-000412 · RF14 · UC19</p>
+      <p class="e-chico" style="margin:12px 0 0">SKU, números de pedido, etiquetas de campo y referencias a requerimientos. Todo dato que se copia, se dicta o se busca.</p>
+    </div>
+
+    <h3>Escala</h3>
+    <div class="tabla-wrap">
+      <table class="escala-tipo" style="min-width:520px">
+        <thead>
+          <tr><th>Muestra</th><th>Rol</th><th>Especificación</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="e-h1">Carpas</td><td class="e-chico">Título de página</td><td class="esp">Display 700 · 40/40 · +0.01em</td></tr>
+          <tr><td class="e-h2">Kits de camping</td><td class="e-chico">Sección</td><td class="esp">Display 600 · 28/29</td></tr>
+          <tr><td class="e-h3">Domo Aconcagua 3P</td><td class="e-chico">Nombre de producto</td><td class="esp">Display 600 · 20/22 · +0.04em</td></tr>
+          <tr><td class="e-precio">$189.400</td><td class="e-chico">Precio</td><td class="esp">Display 700 · 26 · tabular</td></tr>
+          <tr><td class="e-cuerpo">Doble techo 3000 mm</td><td class="e-chico">Cuerpo</td><td class="esp">Cuerpo 400 · 16/26 · máx 65ch</td></tr>
+          <tr><td class="e-chico">Envío a todo el país</td><td class="e-chico">Secundario</td><td class="esp">Cuerpo 400 · 13,5/20</td></tr>
+          <tr><td class="e-label">Dirección de envío</td><td class="e-chico">Etiqueta</td><td class="esp">Mono 400 · 11 · +0.12em · caja alta</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. ICONOGRAFÍA -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">03</span>
+      <h2>Iconografía</h2>
+      <p class="sec-nota">Los cuatro primeros están tomados de la franja inferior del logo. Son, además, las categorías del catálogo.</p>
+    </div>
+
+    <p style="margin-top:0">El logo trae en su base una carpa, una mochila, un farol y un par de bastones. No es casual que sean exactamente las categorías que el documento pide (RF16): la marca ya declara qué vende. Se redibujaron como vectores sobre lienzo de 24 px con trazo de 1,75, en lugar de recortarlos del archivo original, para que escalen y tomen el color del tema.</p>
+
+    <h3>Categorías <span class="ref" style="font-family:var(--mono)">RF16</span></h3>
+    <div class="iconos">
+      <figure class="icono icono-marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 3.5 19h17L12 4Z"/><path d="M12 4v15"/><path d="m12 12 4 7"/><path d="m12 12-4 7"/></svg>
+        <figcaption>Carpas<span>carpa.svg</span></figcaption>
+      </figure>
+      <figure class="icono icono-marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9Z"/><path d="M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6"/><path d="M9 13h6v4H9z"/><path d="M12 9v2"/></svg>
+        <figcaption>Mochilas<span>mochila.svg</span></figcaption>
+      </figure>
+      <figure class="icono icono-marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2h6"/><path d="M12 2v3"/><path d="M7.5 8h9l1 11.5a1.5 1.5 0 0 1-1.5 1.5h-8a1.5 1.5 0 0 1-1.5-1.5L7.5 8Z"/><path d="M7 8a5 5 0 0 1 10 0"/><path d="M10.5 12h3v4h-3z"/></svg>
+        <figcaption>Linternas<span>farol.svg</span></figcaption>
+      </figure>
+      <figure class="icono icono-marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18"/><path d="M16 3v18"/><path d="M6 5h4"/><path d="M14 5h4"/><path d="M8 12h.01"/><path d="M16 12h.01"/></svg>
+        <figcaption>Bastones<span>bastones.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4v3l1.5 2.5A4 4 0 0 1 16 9.5V19a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9.5a4 4 0 0 1 .5-2L10 5V2Z"/><path d="M8 13h8"/></svg>
+        <figcaption>Botellas<span>botella.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="8" width="20" height="8" rx="2"/><path d="M7 8v8"/><path d="M12 8v8"/><path d="M17 8v8"/></svg>
+        <figcaption>Aislantes<span>aislante.svg</span></figcaption>
+      </figure>
+    </div>
+
+    <h3>Interfaz</h3>
+    <div class="iconos">
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.5 12h10L20 6H6"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+        <figcaption>Carrito<span>carrito.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-1.5A5.5 5.5 0 0 1 9.5 14h5a5.5 5.5 0 0 1 5.5 5.5V21"/><circle cx="12" cy="7.5" r="4"/></svg>
+        <figcaption>Cuenta<span>usuario.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+        <figcaption>Buscar<span>buscar.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/></svg>
+        <figcaption>Filtros<span>filtro.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8V9Z"/><circle cx="6.5" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>
+        <figcaption>Envío<span>envio.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 21 7v10l-9 4.5L3 17V7l9-4.5Z"/><path d="M3 7l9 4.5L21 7"/><path d="M12 11.5V21"/></svg>
+        <figcaption>Kit<span>kit.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12 21 3 12V3h9l8.5 9.5Z"/><circle cx="7.5" cy="7.5" r="1.3"/><path d="m9 15 5-5"/></svg>
+        <figcaption>Oferta<span>oferta.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>
+        <figcaption>Asistente<span>chat.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg>
+        <figcaption>Ocasión<span>brujula.svg</span></figcaption>
+      </figure>
+      <figure class="icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/><path d="m6 19 2.5-4.5"/></svg>
+        <figcaption>Sin resultados<span>montania.svg</span></figcaption>
+      </figure>
+    </div>
+
+    <h3>Construcción</h3>
+    <div class="constr">
+      <div class="constr-demo">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="0.5" y="0.5" width="23" height="23" fill="none" stroke="var(--acento)" stroke-width="0.4" stroke-dasharray="1.5 1.5" opacity="0.55"/>
+          <rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="var(--acento)" stroke-width="0.4" opacity="0.35"/>
+          <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4 3.5 19h17L12 4Z"/><path d="M12 4v15"/><path d="m12 12 4 7"/><path d="m12 12-4 7"/>
+          </g>
+        </svg>
+      </div>
+      <ul class="constr-lista">
+        <li><span class="cod">viewBox="0 0 24 24"</span> — lienzo único para todo el set.</li>
+        <li><span class="cod">stroke-width="1.75"</span> — el mismo peso que el trazo del wordmark.</li>
+        <li><span class="cod">stroke="currentColor"</span> y <span class="cod">fill="none"</span> — el color lo pone el contexto, así el ícono sirve en ambos temas sin duplicarse.</li>
+        <li>Margen óptico de 2 px: ningún trazo toca el borde del lienzo.</li>
+        <li>Vértices en ángulo, sin curvas blandas: acompañan las diagonales del logo.</li>
+        <li>Tamaños de uso: 16, 20 y 24 px. Por debajo de 16 px el trazo se empasta.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. COMPONENTES -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">04</span>
+      <h2>Componentes</h2>
+      <p class="sec-nota">Piezas base que viven en <span class="cod">frontend/src/components/ui/</span>.</p>
+    </div>
+
+    <div class="grid-comp">
+
+      <div class="caja">
+        <p class="caja-tit">Botones</p>
+        <div class="fila" style="margin-bottom:12px">
+          <button class="btn btn-cta">Finalizar compra</button>
+          <button class="btn btn-prim">Agregar al carrito</button>
+        </div>
+        <div class="fila">
+          <button class="btn btn-sec">Seguir comprando</button>
+          <button class="btn btn-fant">Cancelar</button>
+          <button class="btn btn-prim" disabled>Sin stock</button>
+        </div>
+        <p class="e-chico" style="margin:14px 0 0">El naranja aparece una sola vez por pantalla, en el paso que cierra la compra. Todo lo demás es verde o neutro.</p>
+      </div>
+
+      <div class="caja">
+        <p class="caja-tit">Campos y validación</p>
+        <div class="campo">
+          <label for="d-mail">Correo electrónico</label>
+          <input id="d-mail" type="email" value="julian@aventura360.com.ar">
+        </div>
+        <div class="campo campo-error">
+          <label for="d-pass">Contraseña</label>
+          <input id="d-pass" type="password" value="montania">
+          <span class="msg-error">Necesita al menos 8 caracteres, una mayúscula y un número.</span>
+        </div>
+        <p class="e-chico" style="margin:4px 0 0">El error dice qué falta y cómo resolverlo. Nunca revela si un correo está registrado.</p>
+      </div>
+
+      <div class="caja">
+        <p class="caja-tit">Tarjeta de producto</p>
+        <div class="prod">
+          <div class="prod-img">
+            <span class="prod-badge">−15%</span>
+            IMAGEN 4:3
+          </div>
+          <div class="prod-cuerpo">
+            <span class="prod-marca">Doite</span>
+            <span class="prod-nombre">Domo Aconcagua 3P</span>
+            <span class="e-chico">Carpas · Trekking</span>
+            <div class="prod-precios">
+              <span class="prod-antes">$222.800</span>
+              <span class="prod-ahora">$189.400</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="caja">
+        <p class="caja-tit">Estados de envío</p>
+        <div class="ruta" style="margin-bottom:16px">
+          <span class="act">Pendiente</span>
+          <span>En preparación</span>
+          <span>En camino</span>
+          <span>Entregado</span>
+        </div>
+        <div class="ruta">
+          <span>Pendiente</span>
+          <span>En preparación</span>
+          <span class="act">En camino</span>
+          <span>Entregado</span>
+        </div>
+        <p class="e-chico" style="margin:14px 0 0">Los cuatro estados del envío simulado. El administrador los avanza a mano y cada cambio notifica al cliente.</p>
+      </div>
+
+    </div>
+
+    <h3>Espaciado</h3>
+    <p class="e-chico" style="margin:0 0 14px">Escala de base 8. Todo alto, relleno y separación sale de acá.</p>
+    <div class="espacios">
+      <div class="espacio-fila"><div class="espacio-barra" style="width:8px"></div><span class="espacio-et">8 px — separación dentro de un mismo grupo</span></div>
+      <div class="espacio-fila"><div class="espacio-barra" style="width:16px"></div><span class="espacio-et">16 px — relleno interno de tarjetas y campos</span></div>
+      <div class="espacio-fila"><div class="espacio-barra" style="width:24px"></div><span class="espacio-et">24 px — entre elementos hermanos</span></div>
+      <div class="espacio-fila"><div class="espacio-barra" style="width:40px"></div><span class="espacio-et">40 px — entre bloques de contenido</span></div>
+      <div class="espacio-fila"><div class="espacio-barra" style="width:64px"></div><span class="espacio-et">64 px — entre secciones de página</span></div>
+    </div>
+  </section>
+
+  <!-- 5. TOKENS -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">05</span>
+      <h2>Tokens</h2>
+      <p class="sec-nota">Se escriben una sola vez en <span class="cod">frontend/src/styles/</span> y se consumen por variable, nunca por hex literal.</p>
+    </div>
+    <div class="tabla-wrap">
+      <table class="tokens">
+        <thead>
+          <tr><th>Token</th><th>Claro</th><th>Oscuro</th><th>Uso</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--bg</code></td><td><code>#F7F3EC</code></td><td><code>#171A15</code></td><td>Lienzo de la página</td></tr>
+          <tr><td><code>--bg-elev</code></td><td><code>#FFFDF9</code></td><td><code>#1F241D</code></td><td>Tarjetas y paneles sobre el lienzo</td></tr>
+          <tr><td><code>--texto</code></td><td><code>#2E3A42</code></td><td><code>#E8E4D8</code></td><td>Texto principal</td></tr>
+          <tr><td><code>--texto-suave</code></td><td><code>#7C7F73</code></td><td><code>#9A9C8E</code></td><td>Secundario, etiquetas, ayudas</td></tr>
+          <tr><td><code>--primario</code></td><td><code>#2D4A32</code></td><td><code>#7FA274</code></td><td>Navegación y acciones de marca</td></tr>
+          <tr><td><code>--acento</code></td><td><code>#D4622A</code></td><td><code>#E8814D</code></td><td>Acción de cierre de compra</td></tr>
+          <tr><td><code>--borde</code></td><td><code>#D9D4C7</code></td><td><code>#333A2F</code></td><td>Separación entre superficies</td></tr>
+          <tr><td><code>--ok</code></td><td><code>#3F7D45</code></td><td><code>#6FA872</code></td><td>Aprobado, en stock, entregado</td></tr>
+          <tr><td><code>--warn</code></td><td><code>#B8862B</code></td><td><code>#D9A84A</code></td><td>Pendiente, últimas unidades</td></tr>
+          <tr><td><code>--error</code></td><td><code>#A83A28</code></td><td><code>#D4705C</code></td><td>Rechazado, sin stock, validación</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. REGLAS -->
+  <section>
+    <div class="sec-cab">
+      <span class="sec-num">06</span>
+      <h2>Reglas de aplicación</h2>
+      <p class="sec-nota">Derivadas de los requerimientos no funcionales del documento v1.0.</p>
+    </div>
+    <ul class="reglas">
+      <li><span><b>Mobile primero.</b> Se diseña a 360 px y se expande. Los cortes son 360 / 768 / 1180. <span class="ref">RNF01</span></span></li>
+      <li><span><b>El visitante no encuentra muros.</b> Catálogo, filtros, asistente y carrito funcionan sin sesión; recién el checkout la pide. <span class="ref">RNF02 · RF01 · RF09</span></span></li>
+      <li><span><b>Un acento por pantalla.</b> Si dos botones compiten en naranja, ninguno de los dos es la acción principal.</span></li>
+      <li><span><b>El estado se ve sin leer el número.</b> Forma y color a la vez: la píldora cambia de color y de texto, nunca solo de color. <span class="ref">Accesibilidad</span></span></li>
+      <li><span><b>Foco siempre visible.</b> Contorno naranja de 2 px con 2 px de separación, en todo elemento operable por teclado.</span></li>
+      <li><span><b>Precios en cifras tabulares.</b> Alineados a la derecha en carrito, resumen y reportes, para que las columnas se lean.</span></li>
+      <li><span><b>Los dos temas se diseñan juntos.</b> Ningún color se define solo dentro del bloque oscuro.</span></li>
+      <li class="no"><span><b>No se usa.</b> Sombras difusas de más de 8 px, esquinas de más de 4 px de radio, degradados de marca, emojis como íconos de sección ni tipografías fuera de las tres declaradas.</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Aventura 360 · Hoja de diseño v1.0 · 2026</span>
+    <span>Olivera · Saipert — Taller de Integración, UADER FCyT</span>
+  </footer>
+</main>
