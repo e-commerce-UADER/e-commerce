@@ -38,9 +38,9 @@ Antes de escribir una pantalla, mirar estos dos documentos. Definen lo visual y 
 |---|---|
 | [hoja-de-diseno.html](docs/diseno/hoja-de-diseno.html) | Paleta, tipografía, iconografía, componentes, tokens y reglas de aplicación |
 | [wireframes.html](docs/diseno/wireframes.html) | Diez pantallas anotadas con sus RF y UC, más el flujo de compra completo |
-| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cuatro portadas alternativas para que el cliente elija. **Pendiente de decisión** |
+| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas para que el cliente elija. **Pendiente de decisión** |
 
-La portada todavía no está decidida: hasta que el cliente elija entre las cuatro propuestas, no construir la home. El resto de las pantallas no depende de esa elección.
+La portada todavía no está decidida: hasta que el cliente elija entre las cinco propuestas, no construir la home. El resto de las pantallas no depende de esa elección.
 
 Los íconos viven en [frontend/src/assets/icons/](frontend/src/assets/icons/): lienzo de 24 px, trazo 1,75, `stroke="currentColor"` y `fill="none"`. Los cuatro de categoría —carpa, mochila, farol y bastones— están redibujados de la franja inferior del logo.
 
@@ -102,6 +102,11 @@ No implementar, aunque parezca natural: app móvil nativa, facturación electró
 - **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español rioplatense** (voseo, igual que el logo: "Preparate, explorá, viví").
 - **Trazabilidad:** al implementar algo, referenciar el requerimiento o caso de uso en el commit y, cuando aclare la intención, en el código. Ejemplo de commit: `feat(cart): fusion de carrito anonimo al iniciar sesion (UC04, UC06)`.
 - **Commits:** en la organización de GitHub del equipo, con historial trazable por funcionalidad (RNF14).
+- **Coautoría:** el trabajo es de los dos integrantes. Cerrar los commits con la línea del compañero que no los escribió, y **nunca** atribuir coautoría a una herramienta:
+
+  ```
+  Co-Authored-By: Saipert <127798777+Saipert@users.noreply.github.com>
+  ```
 - **Prioridades MoSCoW:** el documento marca cada requerimiento como Imprescindible / Importante / Opcional. Ante falta de tiempo, se implementan primero los Imprescindibles.
 - **Navegadores objetivo:** Chrome, Firefox, Safari y Edge (RNF15). Mobile-first (RNF01).
 
