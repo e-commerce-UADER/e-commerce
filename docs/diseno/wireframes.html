@@ -1,0 +1,1915 @@
+<title>Aventura 360 Wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    /* Wireframe: grises puros a propósito. El color de marca llega en el mockup. */
+    --w-000: #FFFFFF;
+    --w-050: #FAFAFA;
+    --w-100: #F0F0F0;
+    --w-200: #E2E2E2;
+    --w-300: #C9C9C9;
+    --w-400: #A8A8A8;
+    --w-600: #6E6E6E;
+    --w-800: #3A3A3A;
+    --w-900: #1E1E1E;
+
+    /* Papel — único lugar donde asoma la marca */
+    --papel:   #F7F3EC;
+    --tinta:   #2E3A42;
+    --anota:   #D4622A;
+    --bosque:  #2D4A32;
+
+    --lienzo:      var(--papel);
+    --lienzo-elev: var(--w-000);
+    --texto:       var(--tinta);
+    --texto-suave: var(--w-600);
+    --linea:       var(--w-300);
+    --linea-suave: var(--w-200);
+    --relleno:     var(--w-100);
+    --marcador:    var(--anota);
+
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --cuerpo: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", "Consolas", monospace;
+    --ancho: 1240px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --lienzo:      #16180F;
+      --lienzo-elev: #22251C;
+      --texto:       #E8E4D8;
+      --texto-suave: #9A9C8E;
+      --linea:       #454B41;
+      --linea-suave: #333830;
+      --relleno:     #2C3128;
+      --marcador:    #E8814D;
+      --bosque:      #7FA274;
+      --w-000: #22251C;
+      --w-050: #1E211A;
+      --w-100: #2C3128;
+      --w-200: #333830;
+      --w-300: #454B41;
+      --w-400: #5E655A;
+      --w-600: #9A9C8E;
+      --w-800: #CFCCC0;
+      --w-900: #E8E4D8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --lienzo:      #16180F;
+    --lienzo-elev: #22251C;
+    --texto:       #E8E4D8;
+    --texto-suave: #9A9C8E;
+    --linea:       #454B41;
+    --linea-suave: #333830;
+    --relleno:     #2C3128;
+    --marcador:    #E8814D;
+    --bosque:      #7FA274;
+    --w-000: #22251C;
+    --w-050: #1E211A;
+    --w-100: #2C3128;
+    --w-200: #333830;
+    --w-300: #454B41;
+    --w-400: #5E655A;
+    --w-600: #9A9C8E;
+    --w-800: #CFCCC0;
+    --w-900: #E8E4D8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--lienzo);
+    color: var(--texto);
+    font-family: var(--cuerpo);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .env { max-width: var(--ancho); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Cabecera ---------- */
+  header.doc {
+    border-bottom: 1px solid var(--linea);
+    background: var(--lienzo-elev);
+  }
+  .doc-int {
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 38px 24px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .doc-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--marcador);
+    margin: 0 0 9px;
+  }
+  h1 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: clamp(34px, 5.5vw, 54px);
+    line-height: 0.95;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .doc-bajada { margin: 12px 0 0; font-size: 15px; color: var(--texto-suave); max-width: 60ch; }
+  .doc-meta {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.9;
+    color: var(--texto-suave);
+    text-align: right;
+  }
+  .doc-meta b { font-weight: 500; opacity: 0.65; }
+
+  /* ---------- Leyenda ---------- */
+  .leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    padding: 14px 0;
+    margin: 0;
+    border-bottom: 1px solid var(--linea-suave);
+    font-size: 12.5px;
+    color: var(--texto-suave);
+    align-items: center;
+  }
+  .ley { display: flex; align-items: center; gap: 8px; }
+  .ley-m { flex: none; width: 26px; height: 15px; border: 1px solid var(--linea); background: var(--relleno); }
+  .ley-m.img { background: repeating-linear-gradient(135deg, var(--w-200) 0 5px, var(--w-100) 5px 10px); }
+  .ley-m.txt { background: none; border: none; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
+  .ley-m.txt i { display: block; height: 2px; background: var(--w-400); }
+  .ley-m.txt i:last-child { width: 60%; }
+  .ley-m.act { background: var(--w-800); border-color: var(--w-800); }
+  .ley-m.ref { background: none; border: 1px dashed var(--marcador); }
+
+  /* ---------- Índice ---------- */
+  .indice {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+    gap: 1px;
+    background: var(--linea-suave);
+    border: 1px solid var(--linea-suave);
+    margin: 28px 0 8px;
+  }
+  .indice a {
+    background: var(--lienzo-elev);
+    padding: 12px 14px;
+    text-decoration: none;
+    color: var(--texto);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition: background .15s ease;
+  }
+  .indice a:hover { background: var(--relleno); }
+  .indice a:focus-visible { outline: 2px solid var(--marcador); outline-offset: -2px; }
+  .indice .i-num { font-family: var(--mono); font-size: 10.5px; color: var(--marcador); letter-spacing: 0.1em; }
+  .indice .i-nom { font-family: var(--display); text-transform: uppercase; font-weight: 600; font-size: 17px; line-height: 1.1; }
+  .indice .i-uc { font-family: var(--mono); font-size: 10.5px; color: var(--texto-suave); }
+
+  /* ---------- Pantalla ---------- */
+  .pantalla { padding: 46px 0 0; scroll-margin-top: 12px; }
+  .p-cab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: baseline;
+    border-bottom: 2px solid var(--texto);
+    padding-bottom: 9px;
+    margin-bottom: 6px;
+  }
+  .p-num { font-family: var(--mono); font-size: 12px; color: var(--marcador); font-weight: 500; }
+  .p-cab h2 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: 25px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .p-refs {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--texto-suave);
+    letter-spacing: 0.04em;
+  }
+  .p-refs b { color: var(--marcador); font-weight: 500; }
+  .p-desc { font-size: 14.5px; color: var(--texto-suave); margin: 0 0 20px; max-width: 82ch; }
+
+  .p-cuerpo { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .p-marco { flex: 1 1 620px; min-width: 0; }
+  .p-notas {
+    flex: 1 1 250px;
+    min-width: 0;
+    border-left: 2px solid var(--marcador);
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .nota { font-size: 13.5px; line-height: 1.5; }
+  .nota b {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--marcador);
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  /* ---------- Chrome del navegador ---------- */
+  .marco {
+    border: 1px solid var(--linea);
+    background: var(--lienzo-elev);
+    overflow: hidden;
+  }
+  .marco-barra {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    background: var(--relleno);
+    border-bottom: 1px solid var(--linea-suave);
+  }
+  .marco-barra i { width: 8px; height: 8px; border-radius: 50%; background: var(--w-300); flex: none; }
+  .marco-url {
+    flex: 1;
+    background: var(--lienzo-elev);
+    border: 1px solid var(--linea-suave);
+    border-radius: 3px;
+    padding: 3px 9px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--texto-suave);
+    margin-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .marco-disp {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    border: 1px solid var(--linea-suave);
+    padding: 2px 6px;
+    flex: none;
+  }
+  .lienzo { padding: 0; background: var(--lienzo-elev); }
+
+  /* ---------- Piezas del wireframe ---------- */
+  .wf-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--linea);
+    background: var(--w-050);
+    flex-wrap: wrap;
+  }
+  .wf-logo {
+    font-family: var(--display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    color: var(--texto);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+  }
+  .wf-logo svg { width: 17px; height: 17px; color: var(--texto); }
+  .wf-nav-links { display: flex; gap: 13px; flex-wrap: wrap; }
+  .wf-nav-links span { font-size: 12.5px; color: var(--texto-suave); }
+  .wf-nav-der { margin-left: auto; display: flex; align-items: center; gap: 9px; flex: none; }
+
+  .caja-b {
+    background: var(--relleno);
+    border: 1px solid var(--linea-suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    text-align: center;
+    padding: 5px;
+  }
+  .img-ph {
+    background: repeating-linear-gradient(135deg, var(--w-200) 0 6px, var(--w-100) 6px 12px);
+    border: 1px solid var(--linea-suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+  }
+  .barra-txt { height: 8px; background: var(--w-200); border-radius: 1px; }
+  .barra-txt.corta { width: 55%; }
+  .barra-txt.media { width: 78%; }
+  .barra-txt.alta { height: 11px; background: var(--w-300); }
+  .lineas { display: flex; flex-direction: column; gap: 5px; }
+
+  .btn-w {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 7px 15px;
+    border: 1px solid var(--w-400);
+    background: var(--lienzo-elev);
+    color: var(--texto);
+    border-radius: 2px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .btn-w.lleno { background: var(--w-800); color: var(--lienzo-elev); border-color: var(--w-800); }
+  .btn-w.cta {
+    background: var(--w-900);
+    color: var(--lienzo-elev);
+    border-color: var(--w-900);
+    position: relative;
+  }
+  .btn-w.cta::after {
+    content: "ACENTO";
+    position: absolute;
+    top: -7px; right: -8px;
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+    background: var(--marcador);
+    color: #FFF;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .btn-w.chico { font-size: 11.5px; padding: 5px 10px; }
+  .btn-w.gris { color: var(--texto-suave); border-color: var(--linea); }
+
+  .campo-w {
+    border: 1px solid var(--w-400);
+    background: var(--lienzo-elev);
+    padding: 8px 10px;
+    font-size: 12.5px;
+    color: var(--texto-suave);
+    border-radius: 2px;
+  }
+  .et-w {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .marca-n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    background: var(--marcador);
+    color: #FFF;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    flex: none;
+    line-height: 1;
+  }
+  .nota .marca-n { margin-right: 6px; vertical-align: 1px; }
+  .anota-abs { position: absolute; z-index: 3; }
+
+  .tag-w {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--linea);
+    padding: 2px 6px;
+    color: var(--texto-suave);
+    white-space: nowrap;
+  }
+  .tag-w.solido { background: var(--w-800); color: var(--lienzo-elev); border-color: var(--w-800); }
+
+  /* ---------- Catálogo ---------- */
+  .cat-cuerpo { display: flex; gap: 0; align-items: stretch; }
+  .cat-filtros {
+    flex: none;
+    width: 168px;
+    border-right: 1px solid var(--linea-suave);
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--w-050);
+  }
+  .filtro-gr { display: flex; flex-direction: column; gap: 6px; }
+  .filtro-tit {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--linea-suave);
+  }
+  .filtro-op { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--texto-suave); }
+  .filtro-op i { width: 10px; height: 10px; border: 1px solid var(--w-400); flex: none; }
+  .filtro-op i.on { background: var(--w-800); border-color: var(--w-800); }
+  .rango { display: flex; align-items: center; gap: 5px; }
+  .rango .campo-w { flex: 1; min-width: 0; padding: 4px 6px; font-size: 10.5px; }
+
+  .cat-res { flex: 1; padding: 13px; min-width: 0; }
+  .cat-res-cab { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-bottom: 12px; }
+  .grid-prod { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; }
+  .card-w { border: 1px solid var(--linea-suave); display: flex; flex-direction: column; }
+  .card-w .img-ph { aspect-ratio: 4/3; border: none; border-bottom: 1px solid var(--linea-suave); }
+  .card-cuerpo { padding: 9px; display: flex; flex-direction: column; gap: 6px; }
+  .card-precio { display: flex; align-items: baseline; gap: 7px; margin-top: 2px; }
+  .card-precio .p-ahora { font-family: var(--display); font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+  .card-precio .p-antes { font-size: 11px; color: var(--texto-suave); text-decoration: line-through; }
+
+  /* ---------- Layout genérico dos columnas ---------- */
+  .dos-col { display: flex; gap: 14px; padding: 14px; align-items: flex-start; }
+  .col-pral { flex: 1 1 60%; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .col-lat { flex: 1 1 34%; min-width: 0; }
+  .panel-w { border: 1px solid var(--linea-suave); padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .panel-tit {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--linea-suave);
+  }
+  .fila-w { display: flex; align-items: center; gap: 10px; }
+  .fila-w.entre { justify-content: space-between; }
+  .totales { display: flex; flex-direction: column; gap: 7px; font-size: 12.5px; }
+  .totales .t-fila { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+  .totales .t-fila.total {
+    border-top: 1px solid var(--linea);
+    padding-top: 8px;
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .t-desc { color: var(--texto-suave); }
+
+  /* ítem de carrito */
+  .item-w { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--linea-suave); }
+  .item-w:last-child { border-bottom: none; }
+  .item-w .img-ph { width: 56px; height: 46px; flex: none; }
+  .item-datos { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+  .cant-w { display: flex; align-items: center; border: 1px solid var(--w-400); flex: none; }
+  .cant-w span { padding: 3px 8px; font-size: 11px; font-family: var(--mono); }
+  .cant-w span:nth-child(2) { border-left: 1px solid var(--w-400); border-right: 1px solid var(--w-400); min-width: 26px; text-align: center; }
+
+  /* ---------- Pasos ---------- */
+  .pasos { display: flex; align-items: center; gap: 0; padding: 11px 14px; border-bottom: 1px solid var(--linea-suave); flex-wrap: wrap; }
+  .paso {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--texto-suave);
+  }
+  .paso i {
+    width: 17px; height: 17px;
+    border: 1px solid var(--w-400);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9.5px;
+    flex: none;
+  }
+  .paso.on { color: var(--texto); font-weight: 500; }
+  .paso.on i { background: var(--w-800); color: var(--lienzo-elev); border-color: var(--w-800); }
+  .paso-sep { flex: 1 1 14px; height: 1px; background: var(--linea); min-width: 12px; margin: 0 8px; }
+
+  /* ---------- Tabla admin ---------- */
+  .tabla-w { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .tabla-w th {
+    text-align: left;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    padding: 7px 9px;
+    background: var(--w-050);
+    border-bottom: 1px solid var(--linea);
+    white-space: nowrap;
+  }
+  .tabla-w td { padding: 8px 9px; border-bottom: 1px solid var(--linea-suave); vertical-align: middle; }
+  .tabla-w tr:last-child td { border-bottom: none; }
+  .tabla-w .num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 11.5px; }
+  .tabla-wrap-w { overflow-x: auto; border: 1px solid var(--linea-suave); }
+
+  /* admin shell */
+  .admin-shell { display: flex; align-items: stretch; }
+  .admin-lat {
+    flex: none;
+    width: 152px;
+    background: var(--w-050);
+    border-right: 1px solid var(--linea-suave);
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .admin-lat .a-tit {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    padding: 8px 13px 5px;
+  }
+  .admin-lat a {
+    padding: 6px 13px;
+    font-size: 12.5px;
+    color: var(--texto-suave);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .admin-lat a svg { width: 13px; height: 13px; flex: none; }
+  .admin-lat a.on { background: var(--w-800); color: var(--lienzo-elev); font-weight: 600; }
+  .admin-cont { flex: 1; padding: 13px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+  /* KPIs */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .kpi { border: 1px solid var(--linea-suave); padding: 9px 10px; display: flex; flex-direction: column; gap: 3px; }
+  .kpi .k-et { font-family: var(--mono); font-size: 9px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--texto-suave); }
+  .kpi .k-val { font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Chat asistente ---------- */
+  .chat-w { border: 1px solid var(--w-400); width: 252px; display: flex; flex-direction: column; background: var(--lienzo-elev); }
+  .chat-cab { display: flex; align-items: center; gap: 7px; padding: 8px 10px; background: var(--w-800); color: var(--lienzo-elev); }
+  .chat-cab svg { width: 14px; height: 14px; flex: none; }
+  .chat-cab span { font-family: var(--display); text-transform: uppercase; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; }
+  .chat-cuerpo { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .burb { max-width: 84%; padding: 7px 9px; font-size: 11.5px; line-height: 1.4; border: 1px solid var(--linea-suave); }
+  .burb.bot { background: var(--relleno); align-self: flex-start; }
+  .burb.yo { background: var(--lienzo-elev); border-color: var(--w-400); align-self: flex-end; }
+  .chat-sug { display: flex; flex-direction: column; gap: 6px; }
+  .sug-card { display: flex; gap: 7px; align-items: center; border: 1px solid var(--linea-suave); padding: 5px; }
+  .sug-card .img-ph { width: 34px; height: 30px; flex: none; }
+  .chat-pie { border-top: 1px solid var(--linea-suave); padding: 8px; display: flex; gap: 6px; }
+  .chat-pie .campo-w { flex: 1; font-size: 11px; padding: 5px 8px; }
+
+  /* ---------- Móvil ---------- */
+  .movil-set { display: flex; flex-wrap: wrap; gap: 20px; }
+  .movil {
+    flex: none;
+    width: 218px;
+    border: 1px solid var(--w-400);
+    border-radius: 16px;
+    padding: 7px;
+    background: var(--lienzo-elev);
+  }
+  .movil-pant {
+    border: 1px solid var(--linea-suave);
+    border-radius: 9px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 396px;
+  }
+  .movil-notch { height: 15px; display: flex; align-items: center; justify-content: center; }
+  .movil-notch i { width: 46px; height: 4px; border-radius: 3px; background: var(--w-300); }
+  .movil-cuerpo { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .movil-tit {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-top: 9px;
+  }
+  .movil-nav {
+    display: flex;
+    border-top: 1px solid var(--linea-suave);
+    background: var(--w-050);
+  }
+  .movil-nav div {
+    flex: 1;
+    padding: 7px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+  }
+  .movil-nav svg { width: 15px; height: 15px; }
+  .movil-nav div.on { color: var(--texto); font-weight: 600; }
+
+  /* ---------- Flujo ---------- */
+  .flujo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: stretch;
+    border: 1px solid var(--linea-suave);
+    background: var(--lienzo-elev);
+  }
+  .flujo-p {
+    flex: 1 1 132px;
+    min-width: 120px;
+    padding: 13px 12px;
+    border-right: 1px solid var(--linea-suave);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .flujo-p:last-child { border-right: none; }
+  .flujo-uc { font-family: var(--mono); font-size: 10px; color: var(--marcador); letter-spacing: 0.06em; }
+  .flujo-nom { font-family: var(--display); text-transform: uppercase; font-weight: 600; font-size: 15px; line-height: 1.1; }
+  .flujo-det { font-size: 11.5px; color: var(--texto-suave); line-height: 1.4; }
+  .flujo-p.sis { background: var(--w-050); }
+  .flujo-p.sis .flujo-nom { color: var(--texto-suave); }
+
+  footer {
+    margin-top: 56px;
+    border-top: 1px solid var(--linea);
+    padding: 22px 0 42px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--texto-suave);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 860px) {
+    .grid-prod { grid-template-columns: repeat(2, 1fr); }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .cat-filtros { width: 140px; }
+    .doc-meta, .p-refs { text-align: left; margin-left: 0; }
+  }
+  @media (max-width: 560px) {
+    .cat-cuerpo { flex-direction: column; }
+    .cat-filtros { width: 100%; border-right: none; border-bottom: 1px solid var(--linea-suave); }
+    .dos-col { flex-direction: column; }
+    .admin-shell { flex-direction: column; }
+    .admin-lat { width: 100%; flex-direction: row; overflow-x: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="doc">
+  <div class="doc-int">
+    <div>
+      <p class="doc-eyebrow">Wireframes · v1.0 · baja fidelidad</p>
+      <h1>Pantallas<br>Aventura 360</h1>
+      <p class="doc-bajada">Ocho pantallas que cubren los caminos principales del sistema: del catálogo abierto al pago, más el panel del administrador. Sin color de marca a propósito — acá se discute estructura y jerarquía, no estética.</p>
+    </div>
+    <div class="doc-meta">
+      <div><b>Cátedra</b> Taller de Integración</div>
+      <div><b>Facultad</b> UADER · FCyT C. del Uruguay</div>
+      <div><b>Equipo</b> J. A. Olivera · D. Saipert</div>
+      <div><b>Base</b> Requerimientos v1.0 · 2026</div>
+    </div>
+  </div>
+</header>
+
+<main class="env">
+
+  <div class="leyenda">
+    <span class="ley"><span class="ley-m img"></span> Imagen</span>
+    <span class="ley"><span class="ley-m txt"><i></i><i></i></span> Texto</span>
+    <span class="ley"><span class="ley-m"></span> Contenedor</span>
+    <span class="ley"><span class="ley-m act"></span> Acción principal</span>
+    <span class="ley"><span class="marca-n">1</span> Anotación</span>
+    <span class="ley" style="margin-left:auto"><span class="tag-w">RF00</span> Requerimiento · <span class="tag-w">UC00</span> Caso de uso</span>
+  </div>
+
+  <nav class="indice">
+    <a href="#p1"><span class="i-num">01</span><span class="i-nom">Catálogo</span><span class="i-uc">UC01 · UC02</span></a>
+    <a href="#p2"><span class="i-num">02</span><span class="i-nom">Ficha de producto</span><span class="i-uc">UC01 · UC04</span></a>
+    <a href="#p3"><span class="i-num">03</span><span class="i-nom">Carrito</span><span class="i-uc">UC04 · UC28</span></a>
+    <a href="#p4"><span class="i-num">04</span><span class="i-nom">Checkout</span><span class="i-uc">UC10 · UC11</span></a>
+    <a href="#p5"><span class="i-num">05</span><span class="i-nom">Ingreso</span><span class="i-uc">UC05 · UC06 · UC07</span></a>
+    <a href="#p6"><span class="i-num">06</span><span class="i-nom">Mis pedidos</span><span class="i-uc">UC12 · UC13</span></a>
+    <a href="#p7"><span class="i-num">07</span><span class="i-nom">Panel · Productos</span><span class="i-uc">UC19 · UC21</span></a>
+    <a href="#p8"><span class="i-num">08</span><span class="i-nom">Panel · Envíos</span><span class="i-uc">UC24 · UC25</span></a>
+    <a href="#p9"><span class="i-num">09</span><span class="i-nom">Asistente y móvil</span><span class="i-uc">UC03 · RNF01</span></a>
+    <a href="#p10"><span class="i-num">10</span><span class="i-nom">Flujo de compra</span><span class="i-uc">UC04 → UC16</span></a>
+  </nav>
+
+  <!-- 01 CATÁLOGO -->
+  <section class="pantalla" id="p1">
+    <div class="p-cab">
+      <span class="p-num">01</span>
+      <h2>Catálogo con filtros</h2>
+      <span class="p-refs"><b>UC01 · UC02</b> — RF01 · RF16 · RF17 · RF20</span>
+    </div>
+    <p class="p-desc">Puerta de entrada del visitante. Todo es accesible sin sesión: filtros combinados, precios con descuento vigente y agregado al carrito.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/catalogo?categoria=carpas</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="wf-nav">
+              <span class="wf-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                Aventura360
+              </span>
+              <span class="wf-nav-links">
+                <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits</span><span>Ofertas</span>
+              </span>
+              <span class="wf-nav-der">
+                <span class="campo-w" style="font-size:11px;padding:5px 9px">Buscar…</span>
+                <span class="tag-w">Ingresar</span>
+                <span class="tag-w solido">Carrito 2</span>
+              </span>
+            </div>
+
+            <div class="cat-cuerpo">
+              <aside class="cat-filtros">
+                <div class="filtro-gr">
+                  <span class="filtro-tit">Categoría</span>
+                  <span class="filtro-op"><i class="on"></i> Carpas (14)</span>
+                  <span class="filtro-op"><i></i> Mochilas (23)</span>
+                  <span class="filtro-op"><i></i> Accesorios (41)</span>
+                </div>
+                <div class="filtro-gr">
+                  <span class="filtro-tit">Marca</span>
+                  <span class="filtro-op"><i class="on"></i> Doite</span>
+                  <span class="filtro-op"><i></i> Waterdog</span>
+                  <span class="filtro-op"><i></i> Montagne</span>
+                </div>
+                <div class="filtro-gr">
+                  <span class="filtro-tit">Precio</span>
+                  <span class="rango">
+                    <span class="campo-w">Mín</span>
+                    <span style="color:var(--texto-suave);font-size:11px">–</span>
+                    <span class="campo-w">Máx</span>
+                  </span>
+                </div>
+                <div class="filtro-gr">
+                  <span class="filtro-tit">Ocasión</span>
+                  <span class="filtro-op"><i></i> Trekking</span>
+                  <span class="filtro-op"><i class="on"></i> Camping</span>
+                  <span class="filtro-op"><i></i> Kayak</span>
+                </div>
+                <div class="filtro-gr">
+                  <span class="filtro-tit">Estado</span>
+                  <span class="filtro-op"><i class="on"></i> Nuevo</span>
+                  <span class="filtro-op"><i></i> Reacondicionado</span>
+                </div>
+                <span class="btn-w chico gris" style="justify-content:center">Limpiar filtros</span>
+              </aside>
+
+              <div class="cat-res">
+                <div class="cat-res-cab">
+                  <span style="font-family:var(--display);text-transform:uppercase;font-weight:600;font-size:17px">Carpas</span>
+                  <span style="font-size:11.5px;color:var(--texto-suave)">9 resultados</span>
+                  <span style="margin-left:auto" class="campo-w">Ordenar: relevancia ▾</span>
+                </div>
+
+                <div class="grid-prod">
+                  <div class="card-w">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$189.400</span><span class="p-antes">$222.800</span></div>
+                      <span class="tag-w" style="align-self:flex-start">−15% hasta 30/09</span>
+                    </div>
+                  </div>
+                  <div class="card-w">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$254.900</span></div>
+                      <span class="tag-w" style="align-self:flex-start">Últimas 2</span>
+                    </div>
+                  </div>
+                  <div class="card-w" style="opacity:.55">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$142.000</span></div>
+                      <span class="tag-w" style="align-self:flex-start">Sin stock</span>
+                    </div>
+                  </div>
+                  <div class="card-w">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$310.500</span></div>
+                    </div>
+                  </div>
+                  <div class="card-w">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$97.300</span></div>
+                    </div>
+                  </div>
+                  <div class="card-w">
+                    <div class="img-ph">IMG 4:3</div>
+                    <div class="card-cuerpo">
+                      <span class="barra-txt corta"></span>
+                      <span class="barra-txt alta media"></span>
+                      <div class="card-precio"><span class="p-ahora">$168.900</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Sin muro de registro</b>Ni el catálogo ni el carrito piden sesión. Recién el checkout la exige. <span class="tag-w">RF01</span> <span class="tag-w">RNF02</span></p>
+        <p class="nota"><b>Filtros combinables</b>Categoría, marca, precio, ocasión y estado se aplican juntos, no uno por vez. Si el mínimo supera al máximo, no se ejecuta la búsqueda. <span class="tag-w">RF17</span></p>
+        <p class="nota"><b>Sin stock, visible</b>El producto agotado se muestra atenuado y sin botón de compra, no se oculta: quien lo busca tiene que encontrarlo. <span class="tag-w">RF20</span></p>
+        <p class="nota"><b>Descuento a la vista</b>Precio tachado, precio vigente y hasta cuándo. La oferta vence sola. <span class="tag-w">RF26</span> <span class="tag-w">RF27</span></p>
+        <p class="nota"><b>Cero resultados</b>Si ningún producto cumple los filtros, se informa y se ofrece quitarlos, nunca una grilla vacía.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 02 FICHA -->
+  <section class="pantalla" id="p2">
+    <div class="p-cab">
+      <span class="p-num">02</span>
+      <h2>Ficha de producto</h2>
+      <span class="p-refs"><b>UC01 · UC04</b> — RF14 · RF15 · RF20 · RF28</span>
+    </div>
+    <p class="p-desc">Los once atributos que el documento exige para cada producto, más las imágenes y el estado real de stock.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/producto/carp-dom3-vrd</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="wf-nav">
+              <span class="wf-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                Aventura360
+              </span>
+              <span class="wf-nav-der">
+                <span class="tag-w">Ingresar</span>
+                <span class="tag-w solido">Carrito 2</span>
+              </span>
+            </div>
+            <div style="padding:9px 14px;font-size:11px;color:var(--texto-suave);border-bottom:1px solid var(--linea-suave)">
+              Inicio › Carpas › Domo Aconcagua 3P
+            </div>
+
+            <div class="dos-col">
+              <div class="col-pral" style="flex:1 1 46%">
+                <div class="img-ph" style="aspect-ratio:4/3">IMAGEN PRINCIPAL</div>
+                <div style="display:flex;gap:7px">
+                  <div class="img-ph" style="width:56px;height:46px">1</div>
+                  <div class="img-ph" style="width:56px;height:46px">2</div>
+                  <div class="img-ph" style="width:56px;height:46px">3</div>
+                  <div class="img-ph" style="width:56px;height:46px">4</div>
+                </div>
+              </div>
+
+              <div class="col-lat" style="flex:1 1 50%;display:flex;flex-direction:column;gap:11px">
+                <div>
+                  <span class="et-w">Doite · SKU CARP-DOM3-VRD</span>
+                  <div style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:26px;line-height:1.03">Domo Aconcagua 3P</div>
+                </div>
+                <div class="fila-w">
+                  <span style="font-family:var(--display);font-weight:700;font-size:29px;font-variant-numeric:tabular-nums">$189.400</span>
+                  <span style="font-size:12px;color:var(--texto-suave);text-decoration:line-through">$222.800</span>
+                  <span class="tag-w">−15%</span>
+                </div>
+                <span class="tag-w" style="align-self:flex-start">7 en stock</span>
+
+                <div class="fila-w" style="margin-top:2px">
+                  <span class="cant-w"><span>−</span><span>1</span><span>+</span></span>
+                  <span class="btn-w cta">Agregar al carrito</span>
+                </div>
+
+                <div class="panel-w" style="gap:7px">
+                  <span class="panel-tit">Ficha técnica</span>
+                  <div style="display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:11.5px">
+                    <span style="color:var(--texto-suave)">Marca</span><span>Doite</span>
+                    <span style="color:var(--texto-suave)">Categoría</span><span>Carpas</span>
+                    <span style="color:var(--texto-suave)">Ocasión</span><span>Camping · Trekking</span>
+                    <span style="color:var(--texto-suave)">Estado</span><span>Nuevo</span>
+                    <span style="color:var(--texto-suave)">Dimensiones</span><span>210 × 180 × 130 cm · 3,4 kg</span>
+                    <span style="color:var(--texto-suave)">Garantía</span><span>12 meses</span>
+                  </div>
+                </div>
+
+                <div class="panel-w" style="gap:6px">
+                  <span class="panel-tit">Se arma en kit</span>
+                  <div class="fila-w entre">
+                    <div class="fila-w">
+                      <div class="img-ph" style="width:40px;height:34px"></div>
+                      <div class="lineas" style="flex:1">
+                        <span class="barra-txt media"></span>
+                        <span class="barra-txt corta"></span>
+                      </div>
+                    </div>
+                    <span class="btn-w chico">Ver kit</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:0 14px 14px">
+              <div class="panel-w">
+                <span class="panel-tit">Descripción</span>
+                <div class="lineas">
+                  <span class="barra-txt"></span>
+                  <span class="barra-txt"></span>
+                  <span class="barra-txt media"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Once atributos</b>ID, SKU, nombre, descripción, marca, categoría, precio, garantía, estado, ocasión y dimensiones. La ficha técnica los muestra todos. <span class="tag-w">RF14</span></p>
+        <p class="nota"><b>Varias imágenes</b>Una principal más miniaturas. El producto exige al menos una. <span class="tag-w">RF15</span></p>
+        <p class="nota"><b>Stock real, no promesa</b>Se muestra la cantidad disponible. Agregar al carrito no reserva: la validación firme ocurre en el checkout. <span class="tag-w">RF20</span></p>
+        <p class="nota"><b>Puerta al kit</b>Si el producto integra un combo activo, se ofrece desde acá. Solo aparece si el kit está disponible entero. <span class="tag-w">RF22</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 03 CARRITO -->
+  <section class="pantalla" id="p3">
+    <div class="p-cab">
+      <span class="p-num">03</span>
+      <h2>Carrito</h2>
+      <span class="p-refs"><b>UC04 · UC28 · UC29</b> — RF01 · RF26 · RF28 · RF29</span>
+    </div>
+    <p class="p-desc">Funciona sin sesión iniciada. Al ingresar, este carrito anónimo se fusiona con el de la cuenta en lugar de reemplazarlo.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/carrito</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="wf-nav">
+              <span class="wf-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                Aventura360
+              </span>
+              <span class="wf-nav-der"><span class="tag-w">Ingresar</span><span class="tag-w solido">Carrito 3</span></span>
+            </div>
+
+            <div style="padding:13px 14px 0">
+              <div style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:23px">Tu carrito</div>
+            </div>
+
+            <div class="dos-col">
+              <div class="col-pral">
+                <div class="panel-w" style="gap:0">
+                  <div class="item-w">
+                    <div class="img-ph">IMG</div>
+                    <div class="item-datos">
+                      <span class="barra-txt alta media"></span>
+                      <span style="font-size:11px;color:var(--texto-suave)">Carpas · Doite · SKU CARP-DOM3-VRD</span>
+                      <div class="fila-w">
+                        <span class="cant-w"><span>−</span><span>1</span><span>+</span></span>
+                        <span class="btn-w chico gris">Quitar</span>
+                      </div>
+                    </div>
+                    <div style="text-align:right;flex:none">
+                      <div style="font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">$189.400</div>
+                      <div style="font-size:10.5px;color:var(--texto-suave);text-decoration:line-through">$222.800</div>
+                    </div>
+                  </div>
+
+                  <div class="item-w">
+                    <div class="img-ph">IMG</div>
+                    <div class="item-datos">
+                      <span class="barra-txt alta media"></span>
+                      <span style="font-size:11px;color:var(--texto-suave)">Mochilas · Montagne</span>
+                      <div class="fila-w">
+                        <span class="cant-w"><span>−</span><span>2</span><span>+</span></span>
+                        <span class="btn-w chico gris">Quitar</span>
+                      </div>
+                    </div>
+                    <div style="text-align:right;flex:none">
+                      <div style="font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">$148.000</div>
+                    </div>
+                  </div>
+
+                  <div class="item-w">
+                    <div class="img-ph">KIT</div>
+                    <div class="item-datos">
+                      <div class="fila-w"><span class="tag-w solido">Kit</span><span class="barra-txt alta" style="width:52%"></span></div>
+                      <span style="font-size:11px;color:var(--texto-suave)">Carpa + 2 bolsas + aislante + farol</span>
+                      <div class="fila-w">
+                        <span class="cant-w"><span>−</span><span>1</span><span>+</span></span>
+                        <span class="btn-w chico gris">Quitar</span>
+                      </div>
+                    </div>
+                    <div style="text-align:right;flex:none">
+                      <div style="font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">$264.700</div>
+                      <div style="font-size:10.5px;color:var(--texto-suave)">Precio de kit</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-w" style="border-style:dashed;gap:5px">
+                  <div class="fila-w"><span class="marca-n">3</span><span style="font-size:12px;font-weight:600">Aviso de recálculo</span></div>
+                  <span style="font-size:11.5px;color:var(--texto-suave)">«La oferta de Domo Aconcagua 3P vence hoy a las 23:59. El precio se recalcula al confirmar.»</span>
+                </div>
+              </div>
+
+              <div class="col-lat">
+                <div class="panel-w">
+                  <span class="panel-tit">Resumen</span>
+                  <div class="totales">
+                    <div class="t-fila"><span>Subtotal</span><span>$635.500</span></div>
+                    <div class="t-fila t-desc"><span>Descuentos</span><span>−$33.400</span></div>
+                    <div class="t-fila"><span>Envío</span><span>$12.600</span></div>
+                    <div class="t-fila total"><span>Total</span><span>$614.700</span></div>
+                  </div>
+                  <span class="btn-w cta" style="justify-content:center;margin-top:4px">Finalizar compra</span>
+                  <span class="btn-w gris" style="justify-content:center">Seguir comprando</span>
+                  <span style="font-size:10.5px;color:var(--texto-suave);text-align:center;line-height:1.4">Vas a necesitar ingresar para confirmar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Carrito anónimo</b>Vive atado a la sesión del navegador. Al ingresar se fusiona con el de la cuenta; no se pisa ni se pierde. <span class="tag-w">UC04</span> <span class="tag-w">RF01</span></p>
+        <p class="nota"><b>Cuatro líneas de total</b>Subtotal, descuentos, envío y total, siempre en ese orden y en cifras tabulares. <span class="tag-w">RF29</span></p>
+        <p class="nota"><b>Una sola oferta por ítem</b>Si concurren varias, se aplica la que definió el administrador, nunca acumuladas. <span class="tag-w">UC28</span></p>
+        <p class="nota"><b><span class="marca-n">3</span>Oferta por vencer</b>Si el descuento caduca con el ítem en el carrito, se avisa y se recalcula antes de confirmar. El precio recién se congela al generar el pedido. <span class="tag-w">RF27</span></p>
+        <p class="nota"><b>El kit es una línea</b>Se muestra como una unidad con su precio propio, no como sus componentes sueltos. <span class="tag-w">RF24</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 04 CHECKOUT -->
+  <section class="pantalla" id="p4">
+    <div class="p-cab">
+      <span class="p-num">04</span>
+      <h2>Checkout y pago</h2>
+      <span class="p-refs"><b>UC10 · UC11</b> — RF09 · RF11 · RF30 · RF31 · RF34</span>
+    </div>
+    <p class="p-desc">Único punto donde el sistema exige sesión. El pago se delega por completo a Mercado Pago: acá no se pide ni un dígito de tarjeta.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/checkout</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="pasos">
+              <span class="paso on"><i>1</i> Dirección</span>
+              <span class="paso-sep"></span>
+              <span class="paso on"><i>2</i> Revisión</span>
+              <span class="paso-sep"></span>
+              <span class="paso"><i>3</i> Pago</span>
+              <span class="paso-sep"></span>
+              <span class="paso"><i>4</i> Confirmación</span>
+            </div>
+
+            <div class="dos-col">
+              <div class="col-pral">
+                <div class="panel-w">
+                  <span class="panel-tit">Dirección de envío</span>
+                  <div style="display:flex;flex-direction:column;gap:7px">
+                    <div class="fila-w" style="border:1px solid var(--w-800);padding:9px;gap:9px">
+                      <span style="width:11px;height:11px;border-radius:50%;border:3px solid var(--w-800);flex:none"></span>
+                      <div class="lineas" style="flex:1">
+                        <span class="barra-txt alta corta"></span>
+                        <span class="barra-txt media"></span>
+                      </div>
+                      <span class="tag-w">Casa</span>
+                    </div>
+                    <div class="fila-w" style="border:1px solid var(--linea-suave);padding:9px;gap:9px">
+                      <span style="width:11px;height:11px;border-radius:50%;border:1px solid var(--w-400);flex:none"></span>
+                      <div class="lineas" style="flex:1">
+                        <span class="barra-txt alta corta"></span>
+                        <span class="barra-txt media"></span>
+                      </div>
+                      <span class="tag-w">Trabajo</span>
+                    </div>
+                    <span class="btn-w chico" style="align-self:flex-start">+ Nueva dirección</span>
+                  </div>
+                </div>
+
+                <div class="panel-w">
+                  <span class="panel-tit">Revisá tu pedido</span>
+                  <div class="item-w" style="padding-top:0">
+                    <div class="img-ph" style="width:44px;height:37px">IMG</div>
+                    <div class="item-datos"><span class="barra-txt alta media"></span><span style="font-size:11px;color:var(--texto-suave)">1 unidad</span></div>
+                    <span style="font-family:var(--mono);font-size:12px;flex:none">$189.400</span>
+                  </div>
+                  <div class="item-w">
+                    <div class="img-ph" style="width:44px;height:37px">IMG</div>
+                    <div class="item-datos"><span class="barra-txt alta media"></span><span style="font-size:11px;color:var(--texto-suave)">2 unidades</span></div>
+                    <span style="font-family:var(--mono);font-size:12px;flex:none">$148.000</span>
+                  </div>
+                  <div class="item-w">
+                    <div class="img-ph" style="width:44px;height:37px">KIT</div>
+                    <div class="item-datos"><span class="barra-txt alta media"></span><span style="font-size:11px;color:var(--texto-suave)">Kit · 1 unidad</span></div>
+                    <span style="font-family:var(--mono);font-size:12px;flex:none">$264.700</span>
+                  </div>
+                </div>
+
+                <div class="panel-w" style="border-style:dashed;gap:5px">
+                  <div class="fila-w"><span class="marca-n">2</span><span style="font-size:12px;font-weight:600">Revalidación de stock</span></div>
+                  <span style="font-size:11.5px;color:var(--texto-suave)">Antes de generar el pedido se vuelve a controlar el stock de cada ítem y la disponibilidad completa de cada kit. Si algo cambió, se avisa acá y se pide revisar.</span>
+                </div>
+              </div>
+
+              <div class="col-lat">
+                <div class="panel-w">
+                  <span class="panel-tit">Total</span>
+                  <div class="totales">
+                    <div class="t-fila"><span>Subtotal</span><span>$635.500</span></div>
+                    <div class="t-fila t-desc"><span>Descuentos</span><span>−$33.400</span></div>
+                    <div class="t-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
+                    <div class="t-fila total"><span>Total</span><span>$614.700</span></div>
+                  </div>
+                  <span class="btn-w cta" style="justify-content:center;margin-top:4px">Pagar con Mercado Pago</span>
+                  <div style="display:flex;gap:6px;align-items:flex-start;font-size:10.5px;color:var(--texto-suave);line-height:1.4">
+                    <span class="marca-n">1</span>
+                    <span>Te vamos a llevar al entorno de Mercado Pago. No guardamos datos de tu tarjeta.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b><span class="marca-n">1</span>El pago se delega</b>Se redirige a Mercado Pago con la preferencia armada. El sistema no ve ni almacena datos de tarjeta. <span class="tag-w">RF31</span> <span class="tag-w">RNF09</span></p>
+        <p class="nota"><b><span class="marca-n">2</span>Última validación</b>Se revalida stock y disponibilidad de kits antes de generar el pedido. Si un ítem perdió stock, se ajusta y se pide revisar. <span class="tag-w">UC29</span></p>
+        <p class="nota"><b>Cuenta sin verificar</b>Si la cuenta local no verificó su correo, no puede confirmar: se ofrece reenviar el enlace. <span class="tag-w">RF05</span></p>
+        <p class="nota"><b>Sin direcciones</b>Si el cliente no tiene ninguna cargada, se le pide una antes de seguir. <span class="tag-w">RF11</span></p>
+        <p class="nota"><b>Precio congelado</b>Al generar el pedido, ítems, precios y dirección quedan fijos. Lo que pase después con las ofertas no lo altera.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 05 INGRESO -->
+  <section class="pantalla" id="p5">
+    <div class="p-cab">
+      <span class="p-num">05</span>
+      <h2>Ingreso y registro</h2>
+      <span class="p-refs"><b>UC05 · UC06 · UC07 · UC30</b> — RF02 · RF03 · RF04 · RF08</span>
+    </div>
+    <p class="p-desc">Los dos métodos conviven en la misma pantalla, sin jerarquía forzada. Si el correo coincide, terminan en un solo usuario.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/ingresar</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo" style="padding:22px 14px">
+            <div style="max-width:340px;margin:0 auto;display:flex;flex-direction:column;gap:13px">
+              <div style="text-align:center">
+                <span class="wf-logo" style="justify-content:center;font-size:20px">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                  Aventura360
+                </span>
+              </div>
+
+              <div style="display:flex;border:1px solid var(--w-400)">
+                <span style="flex:1;text-align:center;padding:7px;font-family:var(--display);text-transform:uppercase;font-weight:600;font-size:13px;background:var(--w-800);color:var(--lienzo-elev)">Ingresar</span>
+                <span style="flex:1;text-align:center;padding:7px;font-family:var(--display);text-transform:uppercase;font-weight:600;font-size:13px;color:var(--texto-suave)">Crear cuenta</span>
+              </div>
+
+              <span class="btn-w" style="justify-content:center;padding:10px">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+                Continuar con Google
+              </span>
+
+              <div style="display:flex;align-items:center;gap:9px;color:var(--texto-suave);font-size:10.5px;font-family:var(--mono)">
+                <span style="flex:1;height:1px;background:var(--linea)"></span> O CON TU CORREO <span style="flex:1;height:1px;background:var(--linea)"></span>
+              </div>
+
+              <div>
+                <span class="et-w">Correo electrónico</span>
+                <div class="campo-w">julian@ejemplo.com.ar</div>
+              </div>
+              <div>
+                <span class="et-w">Contraseña</span>
+                <div class="campo-w">••••••••</div>
+              </div>
+
+              <div class="fila-w entre" style="font-size:11.5px">
+                <span style="color:var(--texto-suave)">☐ Mantener sesión</span>
+                <span style="text-decoration:underline;color:var(--texto-suave)">¿Olvidaste tu contraseña?</span>
+              </div>
+
+              <span class="btn-w lleno" style="justify-content:center;padding:10px">Ingresar</span>
+
+              <div class="panel-w" style="border-style:dashed;gap:5px">
+                <div class="fila-w"><span class="marca-n">1</span><span style="font-size:11.5px;font-weight:600">Mensaje genérico ante error</span></div>
+                <span style="font-size:11px;color:var(--texto-suave)">«El correo o la contraseña no coinciden.» Nunca se aclara cuál de los dos, ni si la dirección existe.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Dos caminos, un usuario</b>Si el correo verificado de Google coincide con una cuenta local, se vinculan los dos métodos al mismo usuario. Nunca se duplica la cuenta. <span class="tag-w">RF08</span> <span class="tag-w">UC30</span></p>
+        <p class="nota"><b><span class="marca-n">1</span>Sin filtrar identidades</b>El error de ingreso y el de recuperación son siempre iguales, exista o no la dirección. <span class="tag-w">RNF07</span></p>
+        <p class="nota"><b>Bloqueo por intentos</b>Superado el límite de fallos, la cuenta se bloquea temporalmente. <span class="tag-w">RNF06</span></p>
+        <p class="nota"><b>Cuenta solo de Google</b>Si esa dirección no tiene contraseña local, se sugiere ingresar con Google en lugar de rechazar sin explicar.</p>
+        <p class="nota"><b>Al ingresar</b>Se fusiona el carrito anónimo y se vuelve a la página desde la que se pidió autenticar, no al inicio.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 06 PEDIDOS -->
+  <section class="pantalla" id="p6">
+    <div class="p-cab">
+      <span class="p-num">06</span>
+      <h2>Mis pedidos</h2>
+      <span class="p-refs"><b>UC12 · UC13 · UC17</b> — RF36 · RF37 · RF39 · RF40</span>
+    </div>
+    <p class="p-desc">Historial del cliente, estado del envío simulado, comprobante de la operación y puerta de entrada a la devolución.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/mi-cuenta/pedidos</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="wf-nav">
+              <span class="wf-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                Aventura360
+              </span>
+              <span class="wf-nav-der"><span class="tag-w">Mi cuenta</span><span class="tag-w">Carrito</span></span>
+            </div>
+
+            <div style="display:flex;gap:16px;padding:14px">
+              <aside style="flex:none;width:132px;display:flex;flex-direction:column;gap:2px">
+                <span style="padding:6px 9px;font-size:12.5px;background:var(--w-800);color:var(--lienzo-elev);font-weight:600">Pedidos</span>
+                <span style="padding:6px 9px;font-size:12.5px;color:var(--texto-suave)">Mis datos</span>
+                <span style="padding:6px 9px;font-size:12.5px;color:var(--texto-suave)">Direcciones</span>
+                <span style="padding:6px 9px;font-size:12.5px;color:var(--texto-suave)">Seguridad</span>
+                <span style="padding:6px 9px;font-size:12.5px;color:var(--texto-suave)">Devoluciones</span>
+              </aside>
+
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:11px">
+                <div class="panel-w">
+                  <div class="fila-w entre" style="border-bottom:1px solid var(--linea-suave);padding-bottom:8px">
+                    <div>
+                      <span style="font-family:var(--mono);font-size:11.5px">#A360-000412</span>
+                      <span style="font-size:11px;color:var(--texto-suave);margin-left:8px">28/08/2026</span>
+                    </div>
+                    <div class="fila-w">
+                      <span class="tag-w solido">Pagado</span>
+                      <span style="font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">$614.700</span>
+                    </div>
+                  </div>
+
+                  <div style="display:flex;gap:8px">
+                    <div class="img-ph" style="width:44px;height:37px">IMG</div>
+                    <div class="img-ph" style="width:44px;height:37px">IMG</div>
+                    <div class="img-ph" style="width:44px;height:37px">KIT</div>
+                    <span style="font-size:11px;color:var(--texto-suave);align-self:center">3 productos</span>
+                  </div>
+
+                  <div>
+                    <span class="et-w">Estado del envío</span>
+                    <div style="display:flex;flex-wrap:wrap;font-family:var(--mono);font-size:10px">
+                      <span style="padding:4px 9px;border:1px solid var(--w-400);border-right:none;color:var(--texto-suave);text-transform:uppercase">Pendiente</span>
+                      <span style="padding:4px 9px;border:1px solid var(--w-800);background:var(--w-800);color:var(--lienzo-elev);text-transform:uppercase;font-weight:500">En preparación</span>
+                      <span style="padding:4px 9px;border:1px solid var(--w-400);border-left:none;border-right:none;color:var(--texto-suave);text-transform:uppercase">En camino</span>
+                      <span style="padding:4px 9px;border:1px solid var(--w-400);color:var(--texto-suave);text-transform:uppercase">Entregado</span>
+                    </div>
+                  </div>
+
+                  <div class="fila-w">
+                    <span class="btn-w chico">Ver detalle</span>
+                    <span class="btn-w chico">Descargar comprobante</span>
+                    <span class="btn-w chico gris">Solicitar devolución</span>
+                  </div>
+                </div>
+
+                <div class="panel-w">
+                  <div class="fila-w entre" style="border-bottom:1px solid var(--linea-suave);padding-bottom:8px">
+                    <div>
+                      <span style="font-family:var(--mono);font-size:11.5px">#A360-000388</span>
+                      <span style="font-size:11px;color:var(--texto-suave);margin-left:8px">02/08/2026</span>
+                    </div>
+                    <div class="fila-w">
+                      <span class="tag-w">Entregado</span>
+                      <span style="font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">$97.300</span>
+                    </div>
+                  </div>
+                  <div class="fila-w entre">
+                    <span style="font-size:11.5px;color:var(--texto-suave)">Devolución solicitada el 06/08 · en revisión</span>
+                    <span class="btn-w chico">Ver estado</span>
+                  </div>
+                </div>
+
+                <div class="panel-w">
+                  <div class="fila-w entre">
+                    <div>
+                      <span style="font-family:var(--mono);font-size:11.5px">#A360-000351</span>
+                      <span style="font-size:11px;color:var(--texto-suave);margin-left:8px">19/07/2026</span>
+                    </div>
+                    <div class="fila-w">
+                      <span class="tag-w">Pago rechazado</span>
+                      <span class="btn-w chico">Reintentar pago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Cuatro estados de envío</b>Los del documento, ni uno más: pendiente, en preparación, en camino y entregado. Los mueve el administrador a mano. <span class="tag-w">RF35</span></p>
+        <p class="nota"><b>Comprobante de la operación</b>Ítems, descuentos, envío y total. El comprobante fiscal lo emite Mercado Pago, no el sistema. <span class="tag-w">RF37</span></p>
+        <p class="nota"><b>Devolución con condiciones</b>El botón aparece solo en pedidos pagados y dentro del plazo. Si ya hay una en curso, se muestra su estado en vez de abrir otra. <span class="tag-w">RF40</span></p>
+        <p class="nota"><b>Pago rechazado</b>El pedido queda registrado y se ofrece reintentar. No se descontó stock. <span class="tag-w">RF32</span></p>
+        <p class="nota"><b>Sin compras</b>Si no hay pedidos, se informa y se ofrece ir al catálogo.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 07 ADMIN PRODUCTOS -->
+  <section class="pantalla" id="p7">
+    <div class="p-cab">
+      <span class="p-num">07</span>
+      <h2>Panel · Productos y stock</h2>
+      <span class="p-refs"><b>UC19 · UC21 · UC26</b> — RF13 · RF18 · RF19 · RF46 · RF47</span>
+    </div>
+    <p class="p-desc">El administrador opera el negocio entero sin tocar código. Toda acción sobre stock o precio queda en el log de auditoría.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/admin/productos</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="admin-shell">
+              <aside class="admin-lat">
+                <span class="a-tit">Catálogo</span>
+                <a class="on" href="#p7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 3.5 19h17L12 4Z"/><path d="M12 4v15"/></svg> Productos</a>
+                <a href="#p7">Categorías</a>
+                <a href="#p7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 21 7v10l-9 4.5L3 17V7l9-4.5Z"/><path d="M3 7l9 4.5L21 7"/></svg> Kits</a>
+                <a href="#p7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12 21 3 12V3h9l8.5 9.5Z"/></svg> Ofertas</a>
+                <span class="a-tit">Operación</span>
+                <a href="#p8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8V9Z"/></svg> Envíos</a>
+                <a href="#p8">Devoluciones</a>
+                <a href="#p7">Compras</a>
+                <a href="#p7">Reportes</a>
+              </aside>
+
+              <div class="admin-cont">
+                <div class="kpis">
+                  <div class="kpi"><span class="k-et">Ventas del mes</span><span class="k-val">$4,2 M</span></div>
+                  <div class="kpi"><span class="k-et">Pedidos</span><span class="k-val">38</span></div>
+                  <div class="kpi"><span class="k-et">Bajo mínimo</span><span class="k-val">6</span></div>
+                  <div class="kpi"><span class="k-et">Devoluciones</span><span class="k-val">2</span></div>
+                </div>
+
+                <div class="fila-w entre">
+                  <span style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:19px">Productos</span>
+                  <div class="fila-w">
+                    <span class="campo-w" style="font-size:11px">Buscar SKU o nombre…</span>
+                    <span class="btn-w chico">Registrar compra</span>
+                    <span class="btn-w lleno chico">+ Nuevo producto</span>
+                  </div>
+                </div>
+
+                <div class="tabla-wrap-w">
+                  <table class="tabla-w">
+                    <thead>
+                      <tr>
+                        <th>SKU</th><th>Producto</th><th>Categoría</th><th>Marca</th>
+                        <th class="num">Precio</th><th class="num">Stock</th><th>Estado</th><th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">CARP-DOM3-VRD</td>
+                        <td><span class="barra-txt alta" style="width:96px"></span></td>
+                        <td>Carpas</td><td>Doite</td>
+                        <td class="num">189.400</td><td class="num">7</td>
+                        <td><span class="tag-w">Publicado</span></td>
+                        <td><span class="btn-w chico gris">Editar</span></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">MOCH-TRK50-GRS</td>
+                        <td><span class="barra-txt alta" style="width:112px"></span></td>
+                        <td>Mochilas</td><td>Montagne</td>
+                        <td class="num">74.000</td><td class="num">2</td>
+                        <td><span class="tag-w">Bajo mínimo</span></td>
+                        <td><span class="btn-w chico gris">Editar</span></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">LINT-FAR6-NGR</td>
+                        <td><span class="barra-txt alta" style="width:88px"></span></td>
+                        <td>Accesorios</td><td>Waterdog</td>
+                        <td class="num">23.500</td><td class="num">0</td>
+                        <td><span class="tag-w">Sin stock</span></td>
+                        <td><span class="btn-w chico gris">Editar</span></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">BAST-ALU2-AZL</td>
+                        <td><span class="barra-txt alta" style="width:104px"></span></td>
+                        <td>Accesorios</td><td>Doite</td>
+                        <td class="num">41.900</td><td class="num">18</td>
+                        <td><span class="tag-w">Publicado</span></td>
+                        <td><span class="btn-w chico gris">Editar</span></td>
+                      </tr>
+                      <tr style="opacity:.55">
+                        <td style="font-family:var(--mono);font-size:11px">AISL-ESP1-VRD</td>
+                        <td><span class="barra-txt alta" style="width:92px"></span></td>
+                        <td>Accesorios</td><td>Montagne</td>
+                        <td class="num">15.200</td><td class="num">4</td>
+                        <td><span class="tag-w">Baja lógica</span></td>
+                        <td><span class="btn-w chico gris">Ver</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="panel-w" style="border-style:dashed;gap:5px">
+                  <div class="fila-w"><span class="marca-n">2</span><span style="font-size:12px;font-weight:600">Log de auditoría</span></div>
+                  <span style="font-size:11.5px;color:var(--texto-suave);font-family:var(--mono)">03/09 14:22 · admin@aventura360 · precio CARP-DOM3-VRD 222.800 → 189.400</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Sin tocar código</b>Productos, categorías, kits, ofertas, envíos y devoluciones se gestionan desde acá. Es el requisito central del panel. <span class="tag-w">RF46</span></p>
+        <p class="nota"><b>SKU único</b>Si se repite, el alta se rechaza indicando qué producto lo usa. <span class="tag-w">UC19</span></p>
+        <p class="nota"><b>Baja lógica</b>Un producto con pedidos históricos no se borra: se da de baja conservando el historial. Si integra un kit activo, primero hay que resolver el kit.</p>
+        <p class="nota"><b>El stock entra por compras</b>No se edita a mano: se registra la compra al proveedor y el stock se incrementa con el movimiento trazado. <span class="tag-w">RF18</span></p>
+        <p class="nota"><b><span class="marca-n">2</span>Todo queda registrado</b>Cambios de stock, precio, estado de envío y de devolución van al log de auditoría. <span class="tag-w">RNF10</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 08 ADMIN ENVÍOS -->
+  <section class="pantalla" id="p8">
+    <div class="p-cab">
+      <span class="p-num">08</span>
+      <h2>Panel · Envíos y devoluciones</h2>
+      <span class="p-refs"><b>UC24 · UC25</b> — RF35 · RF36 · RF41 · RF42</span>
+    </div>
+    <p class="p-desc">El envío es simulado: no hay integración logística. Cada cambio de estado dispara la notificación al cliente.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco">
+        <div class="marco">
+          <div class="marco-barra">
+            <i></i><i></i><i></i>
+            <span class="marco-url">aventura360.com.ar/admin/envios</span>
+            <span class="marco-disp">1180 px</span>
+          </div>
+          <div class="lienzo">
+            <div class="admin-shell">
+              <aside class="admin-lat">
+                <span class="a-tit">Catálogo</span>
+                <a href="#p7">Productos</a>
+                <a href="#p7">Kits</a>
+                <a href="#p7">Ofertas</a>
+                <span class="a-tit">Operación</span>
+                <a class="on" href="#p8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8V9Z"/></svg> Envíos</a>
+                <a href="#p8">Devoluciones</a>
+                <a href="#p7">Reportes</a>
+              </aside>
+
+              <div class="admin-cont">
+                <span style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:19px">Envíos</span>
+
+                <div class="tabla-wrap-w">
+                  <table class="tabla-w">
+                    <thead>
+                      <tr><th>Pedido</th><th>Cliente</th><th>Destino</th><th>Estado actual</th><th>Cambiar a</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">#A360-000412</td>
+                        <td><span class="barra-txt alta" style="width:74px"></span></td>
+                        <td>Paraná, ER</td>
+                        <td><span class="tag-w solido">En preparación</span></td>
+                        <td><span class="campo-w" style="font-size:11px;padding:4px 8px">En camino ▾</span></td>
+                        <td><span class="btn-w chico lleno">Actualizar</span></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">#A360-000410</td>
+                        <td><span class="barra-txt alta" style="width:66px"></span></td>
+                        <td>Rosario, SF</td>
+                        <td><span class="tag-w">Pendiente</span></td>
+                        <td><span class="campo-w" style="font-size:11px;padding:4px 8px">En preparación ▾</span></td>
+                        <td><span class="btn-w chico lleno">Actualizar</span></td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:var(--mono);font-size:11px">#A360-000404</td>
+                        <td><span class="barra-txt alta" style="width:80px"></span></td>
+                        <td>C. del Uruguay, ER</td>
+                        <td><span class="tag-w">Entregado</span></td>
+                        <td><span class="campo-w" style="font-size:11px;padding:4px 8px;color:var(--texto-suave)">—</span></td>
+                        <td><span class="btn-w chico gris">Ver</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="panel-w" style="border-style:dashed;gap:5px">
+                  <div class="fila-w"><span class="marca-n">1</span><span style="font-size:12px;font-weight:600">Retroceso de estado</span></div>
+                  <span style="font-size:11.5px;color:var(--texto-suave)">Pasar de «entregado» a «en camino» pide confirmación y motivo, que queda asentado.</span>
+                </div>
+
+                <span style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:19px;margin-top:4px">Devoluciones</span>
+
+                <div class="panel-w">
+                  <div class="fila-w entre" style="border-bottom:1px solid var(--linea-suave);padding-bottom:8px">
+                    <div class="fila-w">
+                      <span style="font-family:var(--mono);font-size:11.5px">#A360-000388</span>
+                      <span class="tag-w">Solicitada</span>
+                    </div>
+                    <span style="font-size:11px;color:var(--texto-suave)">06/08/2026</span>
+                  </div>
+                  <div style="display:flex;gap:9px;align-items:flex-start">
+                    <div class="img-ph" style="width:44px;height:37px">IMG</div>
+                    <div class="lineas" style="flex:1">
+                      <span class="et-w">Motivo declarado</span>
+                      <span class="barra-txt"></span>
+                      <span class="barra-txt media"></span>
+                    </div>
+                  </div>
+                  <div class="fila-w entre">
+                    <span style="font-size:11.5px;color:var(--texto-suave)">1 de 2 ítems · devolución parcial</span>
+                    <div class="fila-w">
+                      <span class="btn-w chico gris">Rechazar</span>
+                      <span class="btn-w chico lleno">Aprobar</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-w" style="border-style:dashed;gap:5px">
+                  <div class="fila-w"><span class="marca-n">2</span><span style="font-size:12px;font-weight:600">Reingreso de stock</span></div>
+                  <span style="font-size:11.5px;color:var(--texto-suave)">Aprobar no devuelve el stock: el reingreso ocurre al recibir la mercadería, y solo por los ítems efectivamente devueltos.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="p-notas">
+        <p class="nota"><b>Envío simulado</b>Sin API de operadores logísticos. El administrador avanza el estado y el sistema notifica al cliente por correo y en su panel. <span class="tag-w">RF35</span> <span class="tag-w">UC17</span></p>
+        <p class="nota"><b><span class="marca-n">1</span>Retroceder cuesta</b>Volver a un estado anterior exige confirmación y motivo asentado. <span class="tag-w">UC24</span></p>
+        <p class="nota"><b>Cuatro estados de devolución</b>Solicitada, aprobada, rechazada y reembolsada. Cada cambio notifica al cliente. <span class="tag-w">RF42</span></p>
+        <p class="nota"><b><span class="marca-n">2</span>El stock vuelve tarde</b>No al solicitar ni al aprobar: al recibir la mercadería. Admite devolución parcial. <span class="tag-w">UC25</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 09 ASISTENTE + MÓVIL -->
+  <section class="pantalla" id="p9">
+    <div class="p-cab">
+      <span class="p-num">09</span>
+      <h2>Asistente y vista móvil</h2>
+      <span class="p-refs"><b>UC03</b> — RF43 · RF44 · RF45 · RF48 · RNF01</span>
+    </div>
+    <p class="p-desc">El asistente recomienda por criterios de catálogo, no conversa de cualquier cosa. A la derecha, las mismas pantallas a 360 px.</p>
+
+    <div class="p-cuerpo">
+      <div class="p-marco" style="flex:1 1 100%">
+        <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+          <div style="flex:0 0 auto">
+            <p style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:0 0 10px">Asistente · ventana flotante</p>
+            <div class="chat-w">
+              <div class="chat-cab">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>
+                <span>Asistente</span>
+                <span style="margin-left:auto;font-size:13px">×</span>
+              </div>
+              <div class="chat-cuerpo">
+                <div class="burb bot">Contame qué actividad vas a hacer y te sugiero equipo.</div>
+                <div class="burb yo">Acampo dos noches en la costa, somos tres.</div>
+                <div class="burb bot">Para camping de tres personas te sirve esto:</div>
+                <div class="chat-sug">
+                  <div class="sug-card">
+                    <div class="img-ph">IMG</div>
+                    <div class="lineas" style="flex:1">
+                      <span class="barra-txt alta media"></span>
+                      <span class="barra-txt corta"></span>
+                    </div>
+                  </div>
+                  <div class="sug-card">
+                    <div class="img-ph">KIT</div>
+                    <div class="lineas" style="flex:1">
+                      <span class="barra-txt alta media"></span>
+                      <span class="barra-txt corta"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="burb bot" style="font-size:10.5px">¿Preferís algo más liviano o más resistente al agua?</div>
+              </div>
+              <div class="chat-pie">
+                <span class="campo-w">Escribí tu consulta…</span>
+                <span class="btn-w chico lleno">→</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="flex:1 1 380px;min-width:0">
+            <p style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);margin:0 0 10px">Móvil · 360 px</p>
+            <div class="movil-set">
+
+              <div class="movil">
+                <div class="movil-pant">
+                  <div class="movil-notch"><i></i></div>
+                  <div class="movil-cuerpo">
+                    <div style="padding:0 9px 8px;border-bottom:1px solid var(--linea-suave);display:flex;gap:7px;align-items:center">
+                      <span class="campo-w" style="flex:1;font-size:10px;padding:5px 8px">Buscar…</span>
+                      <span class="btn-w chico" style="padding:4px 7px;font-size:10px">Filtros</span>
+                    </div>
+                    <div style="padding:9px;display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;align-content:start">
+                      <div class="card-w">
+                        <div class="img-ph" style="aspect-ratio:1/1;border:none">IMG</div>
+                        <div class="card-cuerpo" style="padding:6px;gap:4px">
+                          <span class="barra-txt corta"></span>
+                          <span style="font-family:var(--display);font-weight:700;font-size:13px">$189.400</span>
+                        </div>
+                      </div>
+                      <div class="card-w">
+                        <div class="img-ph" style="aspect-ratio:1/1;border:none">IMG</div>
+                        <div class="card-cuerpo" style="padding:6px;gap:4px">
+                          <span class="barra-txt corta"></span>
+                          <span style="font-family:var(--display);font-weight:700;font-size:13px">$254.900</span>
+                        </div>
+                      </div>
+                      <div class="card-w">
+                        <div class="img-ph" style="aspect-ratio:1/1;border:none">IMG</div>
+                        <div class="card-cuerpo" style="padding:6px;gap:4px">
+                          <span class="barra-txt corta"></span>
+                          <span style="font-family:var(--display);font-weight:700;font-size:13px">$97.300</span>
+                        </div>
+                      </div>
+                      <div class="card-w">
+                        <div class="img-ph" style="aspect-ratio:1/1;border:none">IMG</div>
+                        <div class="card-cuerpo" style="padding:6px;gap:4px">
+                          <span class="barra-txt corta"></span>
+                          <span style="font-family:var(--display);font-weight:700;font-size:13px">$41.900</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="movil-nav">
+                      <div class="on">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 19 6.5-12L13 15l2.5-4L22 19H2Z"/></svg>
+                        Catálogo
+                      </div>
+                      <div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+                        Buscar
+                      </div>
+                      <div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+                        Asistente
+                      </div>
+                      <div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.5 12h10L20 6H6"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+                        Carrito
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="movil-tit">Catálogo</p>
+              </div>
+
+              <div class="movil">
+                <div class="movil-pant">
+                  <div class="movil-notch"><i></i></div>
+                  <div class="movil-cuerpo">
+                    <div class="img-ph" style="height:132px;border:none;border-bottom:1px solid var(--linea-suave)">IMAGEN</div>
+                    <div style="padding:9px;display:flex;flex-direction:column;gap:7px;flex:1">
+                      <span class="et-w">Doite · CARP-DOM3-VRD</span>
+                      <span style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:17px;line-height:1.05">Domo Aconcagua 3P</span>
+                      <div class="fila-w">
+                        <span style="font-family:var(--display);font-weight:700;font-size:20px">$189.400</span>
+                        <span class="tag-w">−15%</span>
+                      </div>
+                      <span class="tag-w" style="align-self:flex-start">7 en stock</span>
+                      <div class="lineas" style="margin-top:2px">
+                        <span class="barra-txt"></span>
+                        <span class="barra-txt media"></span>
+                      </div>
+                    </div>
+                    <div style="padding:9px;border-top:1px solid var(--linea-suave);display:flex;gap:7px;align-items:center">
+                      <span class="cant-w"><span>−</span><span>1</span><span>+</span></span>
+                      <span class="btn-w cta" style="flex:1;justify-content:center;font-size:12px">Agregar</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="movil-tit">Ficha</p>
+              </div>
+
+              <div class="movil">
+                <div class="movil-pant">
+                  <div class="movil-notch"><i></i></div>
+                  <div class="movil-cuerpo">
+                    <div style="padding:9px;border-bottom:1px solid var(--linea-suave)">
+                      <span style="font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:16px">Checkout</span>
+                    </div>
+                    <div style="padding:9px;display:flex;flex-direction:column;gap:9px;flex:1;overflow:hidden">
+                      <div style="display:flex;gap:4px;font-family:var(--mono);font-size:8px;text-transform:uppercase">
+                        <span style="padding:3px 5px;background:var(--w-800);color:var(--lienzo-elev)">1 Dirección</span>
+                        <span style="padding:3px 5px;border:1px solid var(--linea)">2 Revisión</span>
+                        <span style="padding:3px 5px;border:1px solid var(--linea)">3 Pago</span>
+                      </div>
+                      <div>
+                        <span class="et-w">Enviar a</span>
+                        <div style="border:1px solid var(--w-800);padding:7px;display:flex;gap:7px;align-items:center">
+                          <span style="width:9px;height:9px;border-radius:50%;border:3px solid var(--w-800);flex:none"></span>
+                          <div class="lineas" style="flex:1">
+                            <span class="barra-txt corta"></span>
+                            <span class="barra-txt media"></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="totales" style="font-size:11px">
+                        <div class="t-fila"><span>Subtotal</span><span>$635.500</span></div>
+                        <div class="t-fila t-desc"><span>Descuentos</span><span>−$33.400</span></div>
+                        <div class="t-fila"><span>Envío</span><span>$12.600</span></div>
+                        <div class="t-fila total" style="font-size:15px"><span>Total</span><span>$614.700</span></div>
+                      </div>
+                    </div>
+                    <div style="padding:9px;border-top:1px solid var(--linea-suave)">
+                      <span class="btn-w cta" style="width:100%;justify-content:center;font-size:12px">Pagar con Mercado Pago</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="movil-tit">Checkout</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-cuerpo" style="margin-top:20px">
+      <aside class="p-notas" style="flex:1 1 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px">
+        <p class="nota"><b>Semiautomatizado</b>Recomienda por ID, SKU, marca, categoría, estado y ocasión sobre el catálogo. No es un chat de propósito general. <span class="tag-w">RF43</span> <span class="tag-w">RF45</span></p>
+        <p class="nota"><b>Recomienda kits</b>También combos, no solo productos sueltos. Un kit sin stock completo no se ofrece. <span class="tag-w">RF44</span></p>
+        <p class="nota"><b>Fuera de dominio</b>Si la consulta excede el catálogo, lo aclara y muestra el número de contacto. <span class="tag-w">RF48</span></p>
+        <p class="nota"><b>No genera pedidos</b>La conversación no modifica el carrito por sí sola: solo enlaza a las fichas.</p>
+        <p class="nota"><b>Móvil primero</b>Se diseña a 360 px y se expande. Navegación inferior de cuatro destinos y una sola columna de contenido. <span class="tag-w">RNF01</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 10 FLUJO -->
+  <section class="pantalla" id="p10">
+    <div class="p-cab">
+      <span class="p-num">10</span>
+      <h2>Flujo de compra</h2>
+      <span class="p-refs"><b>UC04 → UC16</b> — recorrido completo</span>
+    </div>
+    <p class="p-desc">De agregar al carrito hasta el correo de confirmación. Los tramos grises son procesos automáticos: no los inicia ninguna persona.</p>
+
+    <div class="flujo">
+      <div class="flujo-p">
+        <span class="flujo-uc">UC04</span>
+        <span class="flujo-nom">Arma el carrito</span>
+        <span class="flujo-det">Sin sesión. No reserva stock.</span>
+      </div>
+      <div class="flujo-p sis">
+        <span class="flujo-uc">UC28 · sistema</span>
+        <span class="flujo-nom">Aplica ofertas</span>
+        <span class="flujo-det">Una sola por ítem, según vigencia.</span>
+      </div>
+      <div class="flujo-p">
+        <span class="flujo-uc">UC06 / UC07</span>
+        <span class="flujo-nom">Ingresa</span>
+        <span class="flujo-det">Local o Google. Fusiona el carrito.</span>
+      </div>
+      <div class="flujo-p">
+        <span class="flujo-uc">UC10</span>
+        <span class="flujo-nom">Confirma</span>
+        <span class="flujo-det">Dirección, revalidación y pedido pendiente.</span>
+      </div>
+      <div class="flujo-p sis">
+        <span class="flujo-uc">UC29 · sistema</span>
+        <span class="flujo-nom">Valida kits</span>
+        <span class="flujo-det">Stock de todos los componentes.</span>
+      </div>
+      <div class="flujo-p">
+        <span class="flujo-uc">UC11</span>
+        <span class="flujo-nom">Paga</span>
+        <span class="flujo-det">Mercado Pago. Webhook validado.</span>
+      </div>
+      <div class="flujo-p sis">
+        <span class="flujo-uc">UC27 · sistema</span>
+        <span class="flujo-nom">Descuenta stock</span>
+        <span class="flujo-det">Solo si el pago fue aprobado. Transacción única.</span>
+      </div>
+      <div class="flujo-p sis">
+        <span class="flujo-uc">UC16 · sistema</span>
+        <span class="flujo-nom">Notifica</span>
+        <span class="flujo-det">Comprobante por correo y en el historial.</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;margin-top:18px">
+      <p class="nota" style="border-left:2px solid var(--marcador);padding-left:14px"><b>El punto de no retorno</b>El stock se descuenta recién con el pago aprobado, nunca antes. Si una venta simultánea deja un ítem corto, la transacción se revierte entera y el pedido pasa a revisión manual. <span class="tag-w">UC27</span> <span class="tag-w">RNF16</span></p>
+      <p class="nota" style="border-left:2px solid var(--marcador);padding-left:14px"><b>Webhook idempotente</b>Mercado Pago puede notificar el mismo pago más de una vez. Se procesa una sola. Una notificación que no valida se descarta sin tocar el pedido. <span class="tag-w">RF33</span></p>
+      <p class="nota" style="border-left:2px solid var(--marcador);padding-left:14px"><b>Pago rechazado o pendiente</b>El pedido queda en ese estado, no se descuenta stock y se ofrece reintentar. <span class="tag-w">RF32</span></p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Aventura 360 · Wireframes v1.0 · 2026</span>
+    <span>Olivera · Saipert — Taller de Integración, UADER FCyT</span>
+  </footer>
+</main>

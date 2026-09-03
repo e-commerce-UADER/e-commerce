@@ -1,0 +1,1 @@
+Middlewares transversales: requireAuth, requireRole, validate, errorHandler, auditLog (RNF10).
