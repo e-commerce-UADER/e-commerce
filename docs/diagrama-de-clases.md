@@ -11,192 +11,113 @@ Criterio: sin separar por responsabilidades, sin normalizar y solo con entidades
 ```mermaid
 classDiagram
     class Usuario {
-        +int id
-        +string nombre
-        +string apellido
-        +string email
-        +boolean emailVerificado
-        +string passwordHash
-        +string telefono
-        +string rol
-        +boolean activo
-        +string direccionCalle
-        +string direccionNumero
-        +string direccionPiso
-        +string direccionDepartamento
-        +string direccionCiudad
-        +string direccionProvincia
-        +string direccionCodigoPostal
-        +Date fechaRegistro
-        +registrarse()
-        +iniciarSesion()
-        +cerrarSesion()
-        +cambiarPassword()
-        +recuperarPassword()
-        +actualizarPerfil()
-        +actualizarDireccion()
+        id : int
+        nombre : string
+        apellido : string
+        email : string
+        telefono : string
+        direccion : string
+        rol : string
+        activo : boolean
+        fechaRegistro : Date
     }
 
     class Producto {
-        +int id
-        +string sku
-        +string nombre
-        +string descripcion
-        +string marca
-        +decimal precio
-        +int stock
-        +int stockMinimo
-        +string garantia
-        +string estado
-        +string ocasion
-        +decimal alto
-        +decimal ancho
-        +decimal profundidad
-        +decimal peso
-        +string imagenes
-        +boolean activo
-        +Date fechaAlta
-        +darDeAlta()
-        +modificar()
-        +darDeBaja()
-        +hayStock()
-        +descontarStock()
-        +reingresarStock()
-        +precioConDescuento()
+        id : int
+        sku : string
+        nombre : string
+        descripcion : string
+        marca : string
+        precio : decimal
+        stock : int
+        garantia : string
+        estado : string
+        ocasion : string
+        dimensiones : string
+        imagenes : string
+        activo : boolean
     }
 
     class Categoria {
-        +int id
-        +string nombre
-        +string descripcion
-        +boolean activa
-        +crear()
-        +renombrar()
-        +darDeBaja()
+        id : int
+        nombre : string
+        descripcion : string
+        activa : boolean
     }
 
     class Kit {
-        +int id
-        +string nombre
-        +string descripcion
-        +decimal precio
-        +decimal descuento
-        +string imagen
-        +boolean disponible
-        +boolean activo
-        +Date fechaAlta
-        +armar()
-        +modificar()
-        +validarDisponibilidad()
-        +calcularPrecio()
-        +descontarStockComponentes()
+        id : int
+        nombre : string
+        descripcion : string
+        precio : decimal
+        descuento : decimal
+        imagen : string
+        disponible : boolean
+        activo : boolean
     }
 
     class Oferta {
-        +int id
-        +string nombre
-        +decimal porcentaje
-        +string alcance
-        +Date fechaInicio
-        +Date fechaFin
-        +boolean activa
-        +crear()
-        +modificar()
-        +estaVigente()
-        +aplicarDescuento()
+        id : int
+        nombre : string
+        porcentaje : decimal
+        alcance : string
+        fechaInicio : Date
+        fechaFin : Date
+        activa : boolean
     }
 
     class Carrito {
-        +int id
-        +string sesionNavegador
-        +int cantidad
-        +decimal subtotal
-        +decimal descuentos
-        +decimal total
-        +Date fechaCreacion
-        +Date fechaActualizacion
-        +agregarItem()
-        +quitarItem()
-        +modificarCantidad()
-        +calcularTotales()
-        +aplicarOfertas()
-        +fusionarConCarritoUsuario()
-        +vaciar()
+        id : int
+        cantidad : int
+        subtotal : decimal
+        descuentos : decimal
+        total : decimal
+        fechaActualizacion : Date
     }
 
     class Pedido {
-        +int id
-        +string numero
-        +Date fecha
-        +string estado
-        +int cantidad
-        +decimal precioUnitario
-        +decimal subtotal
-        +decimal descuentos
-        +decimal costoEnvio
-        +decimal total
-        +string envioCalle
-        +string envioNumero
-        +string envioPiso
-        +string envioDepartamento
-        +string envioCiudad
-        +string envioProvincia
-        +string envioCodigoPostal
-        +string pagoIdMercadoPago
-        +string pagoEstado
-        +string pagoMetodo
-        +Date pagoFecha
-        +string comprobanteNumero
-        +string comprobanteUrl
-        +generar()
-        +confirmarPago()
-        +rechazarPago()
-        +calcularTotales()
-        +congelarPrecios()
-        +descontarStock()
-        +generarComprobante()
-        +notificarCliente()
+        id : int
+        numero : string
+        fecha : Date
+        estado : string
+        cantidad : int
+        precioUnitario : decimal
+        subtotal : decimal
+        descuentos : decimal
+        costoEnvio : decimal
+        total : decimal
+        direccionEnvio : string
+        pagoIdMercadoPago : string
+        pagoEstado : string
+        comprobanteNumero : string
     }
 
     class Envio {
-        +int id
-        +string estado
-        +Date fechaPendiente
-        +Date fechaEnPreparacion
-        +Date fechaEnCamino
-        +Date fechaEntregado
-        +string observaciones
-        +actualizarEstado()
-        +notificarCambio()
+        id : int
+        estado : string
+        fechaActualizacion : Date
+        observaciones : string
     }
 
     class Devolucion {
-        +int id
-        +Date fechaSolicitud
-        +string estado
-        +string motivo
-        +int cantidad
-        +boolean recibido
-        +string motivoRechazo
-        +Date fechaResolucion
-        +decimal montoReembolso
-        +solicitar()
-        +aprobar()
-        +rechazar()
-        +reembolsar()
-        +reingresarStock()
+        id : int
+        fechaSolicitud : Date
+        estado : string
+        motivo : string
+        cantidad : int
+        recibido : boolean
+        fechaResolucion : Date
+        montoReembolso : decimal
     }
 
     class CompraProveedor {
-        +int id
-        +string proveedor
-        +Date fecha
-        +string comprobante
-        +int cantidad
-        +decimal costoUnitario
-        +decimal total
-        +registrar()
-        +incrementarStock()
+        id : int
+        proveedor : string
+        fecha : Date
+        comprobante : string
+        cantidad : int
+        costoUnitario : decimal
+        total : decimal
     }
 
     Usuario "1" --> "0..*" Pedido : realiza
@@ -231,18 +152,13 @@ classDiagram
 
 ### Usuario
 
-Un único registro para los dos métodos de acceso (RF08, UC30): `passwordHash` queda vacío cuando la cuenta se creó con Google, y el correo verificado unifica la identidad.
+Un único registro para los dos métodos de acceso (RF08, UC30): el correo verificado unifica la identidad y evita cuentas duplicadas. El `rol` distingue Cliente de Administrador (RF10).
 
-| Atributo | Descripción | Trazabilidad |
-|---|---|---|
-| `email`, `emailVerificado` | La cuenta no confirma compras sin verificar | RF05, UC09 |
-| `passwordHash` | Hash con salt, nunca texto plano | RNF05 |
-| `rol` | Cliente o Administrador | RF10 |
-| `direccion*` | Dirección de envío, dentro del usuario | RF11, UC14 |
+La dirección de envío queda como un atributo del usuario (RF11, UC14). Las credenciales locales no se modelan acá: al implementar, la contraseña se guarda exclusivamente como hash con salt (RNF05).
 
 ### Producto
 
-Los atributos que exige RF14 —ID, SKU, nombre, descripción, marca, categoría, precio, garantía, estado, ocasión y dimensiones— más el stock, que gobierna la disponibilidad. Las dimensiones y las imágenes quedan como atributos, no como clases aparte.
+Los atributos que exige RF14 —ID, SKU, nombre, descripción, marca, categoría, precio, garantía, estado, ocasión y dimensiones— más el stock, que gobierna la disponibilidad.
 
 | Atributo | Descripción | Trazabilidad |
 |---|---|---|
@@ -271,13 +187,11 @@ Porcentaje con vigencia que se activa y vence sola (RF27). El `alcance` dice a q
 
 ### Carrito
 
-`sesionNavegador` lo ata al navegador del visitante y `Usuario` queda nulo hasta que inicia sesión, momento en que ambos carritos se fusionan (RF01, UC04, UC06, UC07).
-
-Los precios son los vigentes al momento de la consulta, no congelados. Agregar al carrito **no reserva stock**.
+Funciona sin sesión iniciada y se fusiona con el del usuario al ingresar (RF01, UC04, UC06, UC07). Los precios son los vigentes al momento de la consulta, no congelados. Agregar al carrito **no reserva stock**.
 
 ### Pedido
 
-Donde los precios se congelan (UC10). Ni el pago ni el comprobante son clases aparte: los datos que devuelve Mercado Pago y los del comprobante de la operación (RF37) viven como atributos, igual que la dirección de envío copiada al confirmar.
+Donde los precios se congelan (UC10). El pago y el comprobante no son clases aparte: el identificador y el estado que devuelve Mercado Pago viven como atributos, igual que la dirección copiada al confirmar.
 
 | Estado | Cuándo | Trazabilidad |
 |---|---|---|
@@ -290,7 +204,7 @@ No se almacenan datos de tarjeta (RNF09): solo el identificador de Mercado Pago.
 
 ### Envío
 
-Simulado: el administrador mueve el estado a mano y cada cambio notifica al cliente (RF35, UC17, UC24). El historial es una fecha por estado dentro de la clase.
+Simulado: el administrador mueve el estado a mano y cada cambio notifica al cliente (RF35, UC17, UC24).
 
 `pendiente → en preparación → en camino → entregado`
 
