@@ -32,15 +32,19 @@ e-commerce/
 
 ## Diseño
 
-Antes de escribir una pantalla, mirar estos dos documentos. Definen lo visual y lo estructural, y evitan discutir de nuevo lo ya resuelto.
+Antes de escribir una pantalla, mirar estos documentos. Definen lo visual y lo estructural, y evitan discutir de nuevo lo ya resuelto.
 
 | Documento | Qué define |
 |---|---|
 | [hoja-de-diseno.html](docs/diseno/hoja-de-diseno.html) | Paleta, tipografía, iconografía, componentes, tokens y reglas de aplicación |
-| [wireframes.html](docs/diseno/wireframes.html) | Diez pantallas anotadas con sus RF y UC, más el flujo de compra completo |
-| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas para que el cliente elija. **Pendiente de decisión** |
+| [mockups.html](docs/diseno/mockups.html) | Prototipo navegable: 21 pantallas en alta fidelidad a 1180 px —siete de tienda, cuatro de Mi cuenta y diez del panel— más 21 ventanas de alta y edición. **Referencia para implementar** |
+| [tablero.html](docs/diseno/tablero.html) | Las mismas 21 pantallas a la vez sobre un lienzo con zoom, agrupadas por flujo. Monta `mockups.html` en iframes, así que nunca se desactualiza. Sirve para presentar |
+| [wireframes.html](docs/diseno/wireframes.html) | Las mismas pantallas en baja fidelidad, anotadas con sus RF y UC, más el flujo de compra completo |
+| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas. **Decidida: propuesta E** |
 
-La portada todavía no está decidida: hasta que el cliente elija entre las cinco propuestas, no construir la home. El resto de las pantallas no depende de esa elección.
+La portada es la **propuesta E**: búsqueda como lupa en la barra, franja de foto con el lema y enseguida categorías y ofertas. La versión a construir es la de `mockups.html`, sección 00.
+
+El sitio se diseña y se construye **para escritorio**, sobre un lienzo de 1180 px. No hay vistas móviles ni diseño mobile-first en esta versión.
 
 Los íconos viven en [frontend/src/assets/icons/](frontend/src/assets/icons/): lienzo de 24 px, trazo 1,75, `stroke="currentColor"` y `fill="none"`. Los cuatro de categoría —carpa, mochila, farol y bastones— están redibujados de la franja inferior del logo.
 
@@ -81,6 +85,9 @@ Estas concentran el riesgo del sistema. Cambiarlas sin releer el caso de uso cor
 9. **El comprobante fiscal lo emite Mercado Pago** (RF37). El sistema genera únicamente el comprobante de la operación (ítems, descuentos, envío y total) y lo publica en el historial del cliente.
 10. **La devolución no toca el stock al solicitarse** (UC13). El reingreso ocurre recién cuando el administrador aprueba y se recibe la mercadería, y admite devolución parcial (UC25).
 11. **El asistente es semiautomatizado** (RF43, apartado 1.4). Recomienda a partir de criterios de búsqueda sobre el catálogo —ID, SKU, marca, categoría, estado y ocasión (RF45)—, no es un agente conversacional general. Fuera de ese dominio, deriva al número de contacto (RF48).
+12. **El correo no se cambia** (RF08, decisión del equipo). Es la llave que une la cuenta local con la de Google y de la que cuelga el historial de pedidos: se muestra en «Mis datos» como dato fijo, sin botón de edición. Para operar con otro correo hay que abrir otra cuenta.
+13. **Las categorías son tres y son fijas** (RF13, decisión del equipo): **Carpas, Mochilas y Accesorios**. No se crean ni se borran desde el panel; el administrador solo edita su nombre visible y su descripción. Lo que el negocio necesite abrir se agrega como **subcategoría** dentro de una de las tres, y ahí sí hay alta, baja y edición. Un producto pertenece a una categoría y, opcionalmente, a una subcategoría de esa misma categoría. Una subcategoría con productos no se elimina: se oculta. Los kits y las ofertas **no son categorías**: son secciones propias del catálogo.
+14. **Marcas y proveedores son datos del negocio, no constantes del código** (RF13, RF19). Ambos se dan de alta desde el panel y tienen su propia pantalla. Un proveedor puede distribuir varias marcas. Ninguno de los dos se elimina si tiene productos o compras asociadas: se archiva, deja de ofrecerse en los formularios y los registros que lo usan lo conservan.
 
 ## Seguridad (no negociable)
 
@@ -97,9 +104,11 @@ Estas concentran el riesgo del sistema. Cambiarlas sin releer el caso de uso cor
 
 No implementar, aunque parezca natural: app móvil nativa, facturación electrónica ARCA/AFIP, medios de pago distintos de Mercado Pago, integración con API de operadores logísticos, programa de fidelización, cupones nominales y lista de deseos (apartado 2.13).
 
+Se suma a la lista, por decisión del equipo: **vista móvil y diseño mobile-first**. El documento lo pide en RNF01; en esta versión no se hace.
+
 ## Convenciones
 
-- **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español rioplatense** (voseo, igual que el logo: "Preparate, explorá, viví").
+- **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español neutro** (tuteo: "elige", "puedes", "guarda"). Nada de voseo. La única excepción es el lema de marca —*"Preparate · Explorá · Viví"*—, que está impreso en el logo y se usa tal cual.
 - **Trazabilidad:** al implementar algo, referenciar el requerimiento o caso de uso en el commit y, cuando aclare la intención, en el código. Ejemplo de commit: `feat(cart): fusion de carrito anonimo al iniciar sesion (UC04, UC06)`.
 - **Commits:** en la organización de GitHub del equipo, con historial trazable por funcionalidad (RNF14).
 - **Coautoría:** el trabajo es de los dos integrantes. Cerrar los commits con la línea del compañero que no los escribió, y **nunca** atribuir coautoría a una herramienta:
@@ -108,7 +117,7 @@ No implementar, aunque parezca natural: app móvil nativa, facturación electró
   Co-Authored-By: Saipert <127798777+Saipert@users.noreply.github.com>
   ```
 - **Prioridades MoSCoW:** el documento marca cada requerimiento como Imprescindible / Importante / Opcional. Ante falta de tiempo, se implementan primero los Imprescindibles.
-- **Navegadores objetivo:** Chrome, Firefox, Safari y Edge (RNF15). Mobile-first (RNF01).
+- **Navegadores objetivo:** Chrome, Firefox, Safari y Edge (RNF15), en escritorio.
 
 ## Identidad de marca
 
@@ -122,5 +131,7 @@ Paleta tomada del logo:
 | Naranja atardecer (acento / CTA) | `#D4622A` |
 | Gris pizarra (texto) | `#2E3A42` |
 | Crema (fondo) | `#F7F3EC` |
+
+Foto de portada en [hero-portada.jpg](assets/hero-portada.jpg) (Unsplash, licencia libre para uso comercial). El toldo que se ve lleva la marca de otro fabricante: si el cliente aporta una foto propia, se reemplaza sin tocar nada más.
 
 Bajada de marca: *"Equipamiento para tu aventura — Preparate · Explorá · Viví"*.
