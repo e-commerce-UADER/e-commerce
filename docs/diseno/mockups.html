@@ -69,6 +69,17 @@
   html.fija .asis,
   html.fija .asis-burbuja,
   html.fija .toast { display:none !important; }
+
+  /* Una ventana sola, sin la pantalla de fondo ni el telón */
+  html.suelta body { background:transparent; }
+  html.suelta .pant { display:none !important; }
+  html.suelta .telon {
+    position:static; display:block; padding:0; background:none;
+    opacity:1; pointer-events:auto; transition:none;
+  }
+  html.suelta .telon:not(.abierto) { display:none; }
+  html.suelta .modal { max-height:none; box-shadow:none; transform:none; }
+  html.suelta .modal-cuerpo { overflow:visible; }
   .tema {
     position: fixed; left: 18px; bottom: 18px; z-index: 60;
     font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
@@ -4144,8 +4155,10 @@
   /* ---------- modo tablero ---------- */
   var params = new URLSearchParams(location.search);
   var fija = params.get('vista') === 'fija';
-  if (fija) {
+  var suelta = params.get('vista') === 'ventana';
+  if (fija || suelta) {
     raiz.classList.add('fija');
+    if (suelta) raiz.classList.add('suelta');
     if (params.get('tema')) raiz.setAttribute('data-theme', params.get('tema'));
   }
 
@@ -4372,6 +4385,9 @@
 
   window.addEventListener('hashchange', function () { mostrar(location.hash.slice(1)); });
   mostrar(location.hash.slice(1) || 'portada');
+
+  /* modo ventana suelta: se abre la que pida la URL */
+  if (suelta) abrirVentana(params.get('v'));
 })();
 </script>
 </body>

@@ -100,7 +100,7 @@
     box-shadow:0 14px 38px rgba(20,26,18,.14); overflow:hidden; flex:none;
   }
   :root[data-theme="dark"] .marco { box-shadow:0 14px 38px rgba(0,0,0,.5); }
-  .marco iframe { border:0; display:block; transform-origin:0 0; width:1180px; }
+  .marco iframe { border:0; display:block; transform-origin:0 0; }
   .marco .tapa { position:absolute; inset:0; }
   .marco .abrir {
     position:absolute; right:9px; bottom:9px; z-index:3; opacity:0;
@@ -120,6 +120,22 @@
   .flecha span { font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--texto-suave); white-space:nowrap; }
 
   .rejilla { display:grid; grid-template-columns:repeat(5, max-content); gap:46px 40px; align-items:start; }
+
+  /* Ventanas: se muestran sueltas, sin la pantalla de fondo */
+  .rejilla-vent { display:flex; flex-wrap:wrap; gap:40px 34px; align-items:flex-start; max-width:2180px; }
+  .tabla.vent .tabla-cab h3 { font-size:18px; }
+  .tabla.vent .marco { background:var(--bg-elev); }
+  .tabla.vent .marco::before {
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    box-shadow:inset 0 0 0 1px var(--borde);
+  }
+  .sub-grupo {
+    width:100%; display:flex; align-items:center; gap:14px; margin:14px 0 -10px;
+    font-family:var(--display); font-size:19px; letter-spacing:.06em; text-transform:uppercase;
+    font-weight:600; color:var(--texto-suave);
+  }
+  .sub-grupo:first-child { margin-top:0; }
+  .sub-grupo::after { content:""; flex:1; height:1px; background:var(--borde); }
 
   /* ---------------- Ayuda ---------------- */
   .ayuda {
@@ -151,7 +167,7 @@
       <span class="zoom-val" id="zoom-val">35 %</span>
       <button id="mas" title="Acercar">+</button>
     </span>
-    <button class="bt" id="ajustar">Ver todo</button>
+    <button class="bt" id="ajustar">Encuadrar</button>
     <button class="bt" id="tema">Tema oscuro</button>
     <a class="bt acento" href="mockups.html" target="_blank" rel="noopener">Abrir el prototipo ↗</a>
   </span>
@@ -273,13 +289,91 @@
       </div>
     </section>
 
+
+    <!-- ================= VENTANAS ================= -->
+    <section class="flujo">
+      <div class="flujo-cab">
+        <span class="flujo-num">05</span>
+        <h2>Ventanas</h2>
+        <span class="cuenta">21 ventanas</span>
+      </div>
+      <div class="rejilla-vent">
+        <div class="sub-grupo">Catálogo</div>
+        <div class="tabla vent" data-vent="producto" data-ancho="880" data-alto="1042">
+          <div class="tabla-cab"><span class="tabla-num">22</span><h3>Nuevo producto</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="subcategoria" data-ancho="460" data-alto="545">
+          <div class="tabla-cab"><span class="tabla-num">23</span><h3>Nueva subcategoría</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="categoria" data-ancho="460" data-alto="482">
+          <div class="tabla-cab"><span class="tabla-num">24</span><h3>Editar categoría</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="marca" data-ancho="460" data-alto="448">
+          <div class="tabla-cab"><span class="tabla-num">25</span><h3>Nueva marca</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="kit" data-ancho="640" data-alto="901">
+          <div class="tabla-cab"><span class="tabla-num">26</span><h3>Nuevo kit</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="oferta" data-ancho="640" data-alto="852">
+          <div class="tabla-cab"><span class="tabla-num">27</span><h3>Nueva oferta</h3></div>
+        </div>
+        <div class="sub-grupo">Operación</div>
+        <div class="tabla vent" data-vent="envio" data-ancho="460" data-alto="412">
+          <div class="tabla-cab"><span class="tabla-num">28</span><h3>Cambiar estado del envío</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="dev-aprobar" data-ancho="640" data-alto="662">
+          <div class="tabla-cab"><span class="tabla-num">29</span><h3>Aprobar devolución</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="dev-rechazar" data-ancho="460" data-alto="586">
+          <div class="tabla-cab"><span class="tabla-num">30</span><h3>Rechazar devolución</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="recepcion" data-ancho="640" data-alto="671">
+          <div class="tabla-cab"><span class="tabla-num">31</span><h3>Registrar recepción</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="compra" data-ancho="640" data-alto="747">
+          <div class="tabla-cab"><span class="tabla-num">32</span><h3>Registrar compra</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="proveedor" data-ancho="640" data-alto="576">
+          <div class="tabla-cab"><span class="tabla-num">33</span><h3>Nuevo proveedor</h3></div>
+        </div>
+        <div class="sub-grupo">Cliente</div>
+        <div class="tabla vent" data-vent="pedido-detalle" data-ancho="640" data-alto="952">
+          <div class="tabla-cab"><span class="tabla-num">34</span><h3>Detalle del pedido</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-devolucion" data-ancho="640" data-alto="716">
+          <div class="tabla-cab"><span class="tabla-num">35</span><h3>Detalle de la devolución</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-etiqueta" data-ancho="460" data-alto="639">
+          <div class="tabla-cab"><span class="tabla-num">36</span><h3>Instrucciones de envío</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-datos" data-ancho="460" data-alto="465">
+          <div class="tabla-cab"><span class="tabla-num">37</span><h3>Editar mis datos</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-direccion" data-ancho="640" data-alto="541">
+          <div class="tabla-cab"><span class="tabla-num">38</span><h3>Nueva dirección</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-borrar-dir" data-ancho="460" data-alto="454">
+          <div class="tabla-cab"><span class="tabla-num">39</span><h3>Eliminar dirección</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-clave" data-ancho="460" data-alto="525">
+          <div class="tabla-cab"><span class="tabla-num">40</span><h3>Cambiar contraseña</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-google" data-ancho="460" data-alto="418">
+          <div class="tabla-cab"><span class="tabla-num">41</span><h3>Desvincular Google</h3></div>
+        </div>
+        <div class="tabla vent" data-vent="cta-avisos" data-ancho="460" data-alto="495">
+          <div class="tabla-cab"><span class="tabla-num">42</span><h3>Avisos por correo</h3></div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
 <div class="ayuda" id="ayuda">
   <span><kbd>Arrastrar</kbd> mover</span>
   <span><kbd>Ctrl</kbd> + <kbd>rueda</kbd> zoom</span>
-  <span><kbd>0</kbd> ver todo</span>
+  <span><kbd>0</kbd> encuadrar</span>
   <span>Doble clic en una pantalla la abre</span>
   <button id="cerrar-ayuda" title="Ocultar">×</button>
 </div>
@@ -290,12 +384,19 @@
   var visor = document.getElementById('visor');
   var mundo = document.getElementById('mundo');
 
-  var ESCALA_TABLA = 0.35;   // cuánto se reduce cada pantalla de 1180 px
+  var ESCALA_TABLA   = 0.35;  // cuánto se reduce cada pantalla de 1180 px
+  var ESCALA_VENTANA = 0.52;  // las ventanas son más chicas, se reducen menos
   var MIN = 0.15, MAX = 1.6;
 
   /* -------- monta un iframe por pantalla, sin duplicar el HTML -------- */
-  function fuente(id) {
-    return 'mockups.html?vista=fija&tema=' + (oscuro() ? 'dark' : 'light') + '#' + id;
+  function fuente(t) {
+    var tema = oscuro() ? 'dark' : 'light';
+    return t.dataset.vent
+      ? 'mockups.html?vista=ventana&tema=' + tema + '&v=' + t.dataset.vent
+      : 'mockups.html?vista=fija&tema=' + tema + '#' + t.dataset.pant;
+  }
+  function destino(t) {
+    return t.dataset.vent ? 'mockups.html?vista=ventana&v=' + t.dataset.vent : 'mockups.html#' + t.dataset.pant;
   }
 
   /* de a poco, para no ahogar al navegador con veintiún documentos de golpe */
@@ -309,29 +410,45 @@
 
   function montar() {
     document.querySelectorAll('.tabla').forEach(function (t) {
-      var id   = t.dataset.pant;
-      var alto = parseInt(t.dataset.alto, 10);
+      var id     = t.dataset.pant || t.dataset.vent;
+      var alto   = parseInt(t.dataset.alto, 10);
+      var ancho  = parseInt(t.dataset.ancho, 10) || 1180;
+      /* las ventanas son mucho más chicas que una pantalla: se muestran más grandes */
+      var escala = t.dataset.vent ? ESCALA_VENTANA : ESCALA_TABLA;
+
       var m = document.createElement('div');
       m.className = 'marco cargando';
-      m.style.width  = Math.round(1180 * ESCALA_TABLA) + 'px';
-      m.style.height = Math.round(alto * ESCALA_TABLA) + 'px';
+      m.style.width  = Math.round(ancho * escala) + 'px';
+      m.style.height = Math.round(alto * escala) + 'px';
 
       var f = document.createElement('iframe');
       f.setAttribute('title', id);
       f.setAttribute('scrolling', 'no');
+      f.style.width  = ancho + 'px';
       f.style.height = alto + 'px';
-      f.style.transform = 'scale(' + ESCALA_TABLA + ')';
-      f.addEventListener('load', function () { m.classList.remove('cargando'); });
-      cola.push(function () { f.src = fuente(id); });
+      f.style.transform = 'scale(' + escala + ')';
+      f.addEventListener('load', function () {
+        m.classList.remove('cargando');
+        /* Chrome difiere el pintado de un iframe escalado hasta la primera
+           interaccion; este toque del transform lo obliga a dibujarlo ya. */
+        requestAnimationFrame(function () {
+          var t = f.style.transform;
+          f.style.transform = 'none';
+          void f.offsetHeight;
+          f.style.transform = t;
+        });
+      });
+      cola.push(function () { f.src = fuente(t); });
 
+      var url = destino(t);
       var tapa = document.createElement('div');
       tapa.className = 'tapa';
-      tapa.addEventListener('dblclick', function () { window.open('mockups.html#' + id, '_blank'); });
+      tapa.addEventListener('dblclick', function () { window.open(url, '_blank'); });
 
       var abrir = document.createElement('a');
       abrir.className = 'abrir';
       abrir.textContent = 'Abrir ↗';
-      abrir.href = 'mockups.html#' + id;
+      abrir.href = url;
       abrir.target = '_blank';
       abrir.rel = 'noopener';
 
@@ -351,8 +468,8 @@
     document.querySelectorAll('.marco').forEach(function (m) { m.classList.add('cargando'); });
     cola = [];
     document.querySelectorAll('.tabla').forEach(function (t) {
-      var f = t.querySelector('iframe'), id = t.dataset.pant;
-      cola.push(function () { f.src = fuente(id); });
+      var f = t.querySelector('iframe');
+      cola.push(function () { f.src = fuente(t); });
     });
     vaciarCola();
   });
@@ -385,11 +502,9 @@
   }
   function ajustar() {
     var r = visor.getBoundingClientRect(), m = medir();
-    z = Math.min((r.width - 24) / m.ancho, (r.height - 24) / m.alto);
-    z = Math.min(MAX, Math.max(MIN, z));
+    z = Math.min(MAX, Math.max(MIN, (r.width - 24) / m.ancho));
     x = (r.width - m.ancho * z) / 2;
-    y = (r.height - m.alto * z) / 2;
-    if (y < 12) y = 12;
+    y = m.alto * z < r.height ? (r.height - m.alto * z) / 2 : 12;
     pintar();
   }
 
