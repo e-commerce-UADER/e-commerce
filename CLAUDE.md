@@ -32,15 +32,18 @@ e-commerce/
 
 ## Diseño
 
-Antes de escribir una pantalla, mirar estos dos documentos. Definen lo visual y lo estructural, y evitan discutir de nuevo lo ya resuelto.
+Antes de escribir una pantalla, mirar estos documentos. Definen lo visual y lo estructural, y evitan discutir de nuevo lo ya resuelto.
 
 | Documento | Qué define |
 |---|---|
 | [hoja-de-diseno.html](docs/diseno/hoja-de-diseno.html) | Paleta, tipografía, iconografía, componentes, tokens y reglas de aplicación |
-| [wireframes.html](docs/diseno/wireframes.html) | Diez pantallas anotadas con sus RF y UC, más el flujo de compra completo |
-| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas para que el cliente elija. **Pendiente de decisión** |
+| [mockups.html](docs/diseno/mockups.html) | Prototipo navegable: nueve pantallas en alta fidelidad a 1180 px, con la portada resuelta y los botones cableados. **Referencia para implementar** |
+| [wireframes.html](docs/diseno/wireframes.html) | Las mismas pantallas en baja fidelidad, anotadas con sus RF y UC, más el flujo de compra completo |
+| [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas. **Decidida: propuesta E** |
 
-La portada todavía no está decidida: hasta que el cliente elija entre las cinco propuestas, no construir la home. El resto de las pantallas no depende de esa elección.
+La portada es la **propuesta E**: búsqueda como lupa en la barra, franja de foto con el lema y enseguida categorías y ofertas. La versión a construir es la de `mockups.html`, sección 00.
+
+El sitio se diseña y se construye **para escritorio**, sobre un lienzo de 1180 px. No hay vistas móviles ni diseño mobile-first en esta versión.
 
 Los íconos viven en [frontend/src/assets/icons/](frontend/src/assets/icons/): lienzo de 24 px, trazo 1,75, `stroke="currentColor"` y `fill="none"`. Los cuatro de categoría —carpa, mochila, farol y bastones— están redibujados de la franja inferior del logo.
 
@@ -97,6 +100,8 @@ Estas concentran el riesgo del sistema. Cambiarlas sin releer el caso de uso cor
 
 No implementar, aunque parezca natural: app móvil nativa, facturación electrónica ARCA/AFIP, medios de pago distintos de Mercado Pago, integración con API de operadores logísticos, programa de fidelización, cupones nominales y lista de deseos (apartado 2.13).
 
+Se suma a la lista, por decisión del equipo: **vista móvil y diseño mobile-first**. El documento lo pide en RNF01; en esta versión no se hace.
+
 ## Convenciones
 
 - **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español rioplatense** (voseo, igual que el logo: "Preparate, explorá, viví").
@@ -108,7 +113,7 @@ No implementar, aunque parezca natural: app móvil nativa, facturación electró
   Co-Authored-By: Saipert <127798777+Saipert@users.noreply.github.com>
   ```
 - **Prioridades MoSCoW:** el documento marca cada requerimiento como Imprescindible / Importante / Opcional. Ante falta de tiempo, se implementan primero los Imprescindibles.
-- **Navegadores objetivo:** Chrome, Firefox, Safari y Edge (RNF15). Mobile-first (RNF01).
+- **Navegadores objetivo:** Chrome, Firefox, Safari y Edge (RNF15), en escritorio.
 
 ## Identidad de marca
 
@@ -122,5 +127,7 @@ Paleta tomada del logo:
 | Naranja atardecer (acento / CTA) | `#D4622A` |
 | Gris pizarra (texto) | `#2E3A42` |
 | Crema (fondo) | `#F7F3EC` |
+
+Foto de portada en [hero-portada.jpg](assets/hero-portada.jpg) (Unsplash, licencia libre para uso comercial). El toldo que se ve lleva la marca de otro fabricante: si el cliente aporta una foto propia, se reemplaza sin tocar nada más.
 
 Bajada de marca: *"Equipamiento para tu aventura — Preparate · Explorá · Viví"*.
