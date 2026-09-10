@@ -66,7 +66,7 @@
   .barra svg { width:15px; height:15px; }
 
   /* ---------------- Lienzo ---------------- */
-  .visor { position:absolute; inset:58px 0 0 0; overflow:hidden; cursor:grab; }
+  .visor { position:absolute; inset:58px 0 0 0; overflow:hidden; cursor:grab; user-select:none; -webkit-user-select:none; }
   .visor.arrastrando { cursor:grabbing; }
   .mundo { position:absolute; top:0; left:0; transform-origin:0 0; padding:54px 60px 90px; }
 
@@ -80,7 +80,6 @@
     font-size:40px; line-height:1; margin:0; letter-spacing:.01em;
   }
   .flujo-cab .cuenta { font-family:var(--mono); font-size:12px; color:var(--texto-suave); }
-  .flujo-cab .nota { font-size:15px; color:var(--texto-suave); max-width:640px; }
 
   .fila { display:flex; align-items:flex-start; gap:46px; }
   .flujo-cab { flex-wrap:wrap; }
@@ -95,8 +94,6 @@
     font-family:var(--display); text-transform:uppercase; font-weight:600;
     font-size:22px; line-height:1; margin:0; letter-spacing:.02em;
   }
-  .tabla-refs { font-family:var(--mono); font-size:10.5px; color:var(--texto-suave); letter-spacing:.05em; }
-  .tabla-nota { font-size:13.5px; color:var(--texto-suave); max-width:413px; line-height:1.45; }
 
   .marco {
     position:relative; border:1px solid var(--borde-fuerte); background:var(--bg-elev);
@@ -169,46 +166,34 @@
         <span class="flujo-num">01</span>
         <h2>Flujo de compra</h2>
         <span class="cuenta">7 pantallas</span>
-        <span class="nota">De la portada al pedido pagado. La sesión se exige recién en el checkout: el catálogo y el carrito funcionan sin cuenta.</span>
       </div>
       <div class="fila" data-fila>
         <div class="tabla" data-pant="portada" data-alto="1837">
           <div class="tabla-cab"><span class="tabla-num">01</span><h3>Portada</h3></div>
-          <div class="tabla-refs">RF01 · RF16 · RF25 · RF26</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Ver catálogo</span></div>
         <div class="tabla" data-pant="catalogo" data-alto="1429">
           <div class="tabla-cab"><span class="tabla-num">02</span><h3>Catálogo</h3></div>
-          <div class="tabla-refs">UC01 · UC02 — RF17 · RF20</div>
-          <div class="tabla-nota">Filtros combinables. El producto agotado se muestra atenuado y sin botón de compra, nunca se oculta.</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Elegir producto</span></div>
         <div class="tabla" data-pant="ficha" data-alto="1837">
           <div class="tabla-cab"><span class="tabla-num">03</span><h3>Ficha de producto</h3></div>
-          <div class="tabla-refs">UC01 · UC04 — RF14 · RF15 · RF22</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Agregar</span></div>
         <div class="tabla" data-pant="carrito" data-alto="982">
           <div class="tabla-cab"><span class="tabla-num">04</span><h3>Carrito</h3></div>
-          <div class="tabla-refs">UC04 · UC28 — RF28 · RF29</div>
-          <div class="tabla-nota">Funciona sin sesión. Al ingresar se fusiona con el carrito de la cuenta en lugar de reemplazarlo.</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Finalizar</span></div>
         <div class="tabla" data-pant="ingreso" data-alto="1161">
           <div class="tabla-cab"><span class="tabla-num">05</span><h3>Ingreso y registro</h3></div>
-          <div class="tabla-refs">UC05 · UC06 · UC30 — RF08</div>
-          <div class="tabla-nota">Único muro de la compra. Si el correo de Google coincide con una cuenta local, se vinculan en un solo usuario.</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Con sesión</span></div>
         <div class="tabla" data-pant="checkout" data-alto="885">
           <div class="tabla-cab"><span class="tabla-num">06</span><h3>Checkout y pago</h3></div>
-          <div class="tabla-refs">UC10 · UC11 — RF30 · RF34</div>
-          <div class="tabla-nota">Revalida stock antes de generar el pedido. El pago se delega entero a Mercado Pago.</div>
         </div>
         <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Pagado</span></div>
         <div class="tabla" data-pant="pedidos" data-alto="1099">
           <div class="tabla-cab"><span class="tabla-num">07</span><h3>Mis pedidos</h3></div>
-          <div class="tabla-refs">UC12 · UC17 — RF36 · RF37</div>
         </div>
       </div>
     </section>
@@ -219,24 +204,19 @@
         <span class="flujo-num">02</span>
         <h2>Mi cuenta</h2>
         <span class="cuenta">4 pantallas</span>
-        <span class="nota">Lo que el cliente administra de sí mismo. El correo se muestra como dato fijo: es la llave que une el acceso local con el de Google.</span>
       </div>
       <div class="fila" data-fila>
         <div class="tabla" data-pant="mis-datos" data-alto="1078">
           <div class="tabla-cab"><span class="tabla-num">08</span><h3>Mis datos</h3></div>
-          <div class="tabla-refs">RF05 · RF08 — RNF08</div>
         </div>
         <div class="tabla" data-pant="direcciones" data-alto="933">
           <div class="tabla-cab"><span class="tabla-num">09</span><h3>Direcciones</h3></div>
-          <div class="tabla-refs">RF30 · RF31</div>
         </div>
         <div class="tabla" data-pant="seguridad" data-alto="858">
           <div class="tabla-cab"><span class="tabla-num">10</span><h3>Seguridad</h3></div>
-          <div class="tabla-refs">RF06 · RF07 — RNF05 · RNF07</div>
         </div>
         <div class="tabla" data-pant="mis-devoluciones" data-alto="1254">
           <div class="tabla-cab"><span class="tabla-num">11</span><h3>Mis devoluciones</h3></div>
-          <div class="tabla-refs">UC13 — RF39 · RF40</div>
         </div>
       </div>
     </section>
@@ -247,28 +227,22 @@
         <span class="flujo-num">03</span>
         <h2>Panel · Catálogo</h2>
         <span class="cuenta">5 pantallas</span>
-        <span class="nota">Lo que el administrador publica. Las categorías son tres y fijas; todo lo demás se abre como subcategoría.</span>
       </div>
       <div class="rejilla" data-fila>
         <div class="tabla" data-pant="admin-productos" data-alto="811">
           <div class="tabla-cab"><span class="tabla-num">12</span><h3>Productos y stock</h3></div>
-          <div class="tabla-refs">UC19 · UC21 — RF18 · RF46 · RNF10</div>
         </div>
         <div class="tabla" data-pant="admin-categorias" data-alto="1903">
           <div class="tabla-cab"><span class="tabla-num">13</span><h3>Categorías</h3></div>
-          <div class="tabla-refs">RF13</div>
         </div>
         <div class="tabla" data-pant="admin-marcas" data-alto="584">
           <div class="tabla-cab"><span class="tabla-num">14</span><h3>Marcas</h3></div>
-          <div class="tabla-refs">RF13 · RF14</div>
         </div>
         <div class="tabla" data-pant="admin-kits" data-alto="584">
           <div class="tabla-cab"><span class="tabla-num">15</span><h3>Kits</h3></div>
-          <div class="tabla-refs">UC29 — RF21 · RF22 · RF23</div>
         </div>
         <div class="tabla" data-pant="admin-ofertas" data-alto="584">
           <div class="tabla-cab"><span class="tabla-num">16</span><h3>Ofertas</h3></div>
-          <div class="tabla-refs">UC23 — RF25 · RF26 · RF27</div>
         </div>
       </div>
     </section>
@@ -279,30 +253,22 @@
         <span class="flujo-num">04</span>
         <h2>Panel · Operación</h2>
         <span class="cuenta">5 pantallas</span>
-        <span class="nota">El día a día del negocio: mover envíos, resolver devoluciones, reponer stock y mirar los números.</span>
       </div>
       <div class="rejilla" data-fila>
         <div class="tabla" data-pant="admin-envios" data-alto="721">
           <div class="tabla-cab"><span class="tabla-num">17</span><h3>Envíos</h3></div>
-          <div class="tabla-refs">UC24 — RF35 · RF36</div>
-          <div class="tabla-nota">Envío simulado. Cada cambio de estado notifica al cliente y el retroceso exige motivo.</div>
         </div>
         <div class="tabla" data-pant="admin-devoluciones" data-alto="881">
           <div class="tabla-cab"><span class="tabla-num">18</span><h3>Devoluciones</h3></div>
-          <div class="tabla-refs">UC25 — RF41 · RF42</div>
-          <div class="tabla-nota">Aprobar no reingresa stock: eso ocurre al registrar la recepción, y solo por lo recibido.</div>
         </div>
         <div class="tabla" data-pant="admin-compras" data-alto="730">
           <div class="tabla-cab"><span class="tabla-num">19</span><h3>Compras</h3></div>
-          <div class="tabla-refs">UC26 — RF19</div>
         </div>
         <div class="tabla" data-pant="admin-proveedores" data-alto="584">
           <div class="tabla-cab"><span class="tabla-num">20</span><h3>Proveedores</h3></div>
-          <div class="tabla-refs">RF19</div>
         </div>
         <div class="tabla" data-pant="admin-reportes" data-alto="818">
           <div class="tabla-cab"><span class="tabla-num">21</span><h3>Reportes</h3></div>
-          <div class="tabla-refs">RF47</div>
         </div>
       </div>
     </section>
@@ -445,6 +411,7 @@
   var arrastrando = false, px = 0, py = 0;
   visor.addEventListener('pointerdown', function (e) {
     if (e.target.closest('.abrir')) return;
+    e.preventDefault();
     arrastrando = true; px = e.clientX; py = e.clientY;
     visor.classList.add('arrastrando');
     visor.setPointerCapture(e.pointerId);
