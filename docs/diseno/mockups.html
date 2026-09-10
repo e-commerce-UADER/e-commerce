@@ -52,9 +52,10 @@
 
   /* ---------- Prototipo ---------- */
   .pant { display: none; }
-  .pant.act { display: block; }
+  .pant.act { display: block; animation: aparecer .18s ease-out; }
+  @keyframes aparecer { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
   .lienzo {
-    width: 1180px; margin: 0 auto; min-height: 100vh;
+    width: 1180px; margin: 0 auto; min-height: 100vh; display:flex; flex-direction:column;
     background: var(--bg); color: var(--texto);
     box-shadow: 0 0 44px rgba(20,26,18,.10);
   }
@@ -76,19 +77,39 @@
   .nav-logo svg { width:23px; height:23px; }
   .nav-logo i { font-style:normal; opacity:.72; }
   .nav-links { display:flex; gap:22px; font-family:var(--display); text-transform:uppercase; font-weight:500; font-size:15px; letter-spacing:.05em; }
-  .nav-links span { opacity:.84; padding:21px 0 19px; border-bottom:3px solid transparent; }
+  .nav-links span { opacity:.84; padding:21px 0 19px; border-bottom:3px solid transparent; transition:opacity .15s ease; }
+  .nav-links span:hover { opacity:1; }
   .nav-links span.act { opacity:1; border-bottom-color:var(--acento); }
   .nav-der { margin-left:auto; display:flex; align-items:center; gap:12px; }
   .nav-ico { width:34px; height:34px; border:1px solid rgba(244,247,242,.32); border-radius:var(--radio); display:grid; place-items:center; }
   .nav-ico svg { width:18px; height:18px; }
+  .nav-ico:hover, .nav-chip:hover { background:rgba(0,0,0,.14); }
+  .nav-ico, .nav-chip { transition:background .15s ease; }
+  .nav-campo { display:flex; align-items:center; }
+  .nav-campo input {
+    width:270px; height:34px; padding:0 12px; border-radius:var(--radio); outline:none;
+    border:1px solid color-mix(in srgb, currentColor 45%, transparent); background:rgba(0,0,0,.16);
+    color:inherit; font:14px var(--cuerpo);
+  }
+  .nav-campo input::placeholder { color:inherit; opacity:.6; }
+  .nav-campo input:focus { border-color:var(--acento); }
   .nav-chip { font-family:var(--display); text-transform:uppercase; font-size:14px; letter-spacing:.05em; border:1px solid currentColor; border-radius:var(--radio); padding:7px 14px; display:flex; align-items:center; gap:8px; }
   .nav-chip svg { width:16px; height:16px; }
   .nav-chip.solido { background:var(--acento); border-color:var(--acento); color:#FFF8F3; }
-  .nav-num { font-family:var(--mono); font-size:11px; }
+  .nav-num { font-family:var(--mono); font-size:11px; display:inline-block; }
+  .nav-num.pulso { animation:pulso .45s ease; }
+  @keyframes pulso { 30% { transform:scale(1.6); color:var(--acento); } }
 
   /* ---------- Piezas comunes ---------- */
   .btn { font-family:var(--display); text-transform:uppercase; letter-spacing:.05em; font-weight:600; font-size:15px; padding:10px 22px; border-radius:var(--radio); border:1px solid transparent; line-height:1.2; display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; }
   .btn svg { width:17px; height:17px; }
+  .btn { transition:filter .15s ease, background .15s ease, color .15s ease, border-color .15s ease; }
+  .btn-cta:hover { filter:brightness(1.08); }
+  .btn-prim:hover { filter:brightness(1.12); }
+  .btn-sec:hover { background:var(--bg-sunken); }
+  .btn-fant:hover { color:var(--texto); }
+  .btn-borde:hover { background:rgba(255,255,255,.12); }
+  .btn.listo { background:var(--ok); color:#FFF8F3; border-color:var(--ok); }
   .btn-cta { background:var(--acento); color:#FFF8F3; }
   .btn-prim { background:var(--primario); color:var(--sobre-prim); }
   .btn-sec { background:transparent; color:var(--primario); border-color:var(--borde-fuerte); }
@@ -148,7 +169,8 @@
 
   .sec-tit { font-family:var(--display); text-transform:uppercase; font-weight:600; font-size:22px; letter-spacing:.02em; }
   .sec-cab { display:flex; align-items:center; gap:12px; }
-  .ver-todo { margin-left:auto; font-family:var(--display); text-transform:uppercase; font-size:14px; letter-spacing:.05em; color:var(--primario); }
+  .ver-todo { margin-left:auto; font-family:var(--display); text-transform:uppercase; font-size:14px; letter-spacing:.05em; color:var(--primario); transition:color .15s ease; }
+  .ver-todo:hover { color:var(--acento); }
 
   .stepper { display:inline-flex; align-items:center; border:1px solid var(--borde-fuerte); border-radius:var(--radio); background:var(--bg-elev); }
   .stepper b { width:30px; height:30px; display:grid; place-items:center; font-family:var(--mono); font-size:14px; font-weight:400; color:var(--texto-suave); }
@@ -165,8 +187,15 @@
   .resumen-fila.total b { font-size:27px; font-weight:700; }
   .desc { color:var(--ok); }
 
-  .pie { display:flex; flex-wrap:wrap; gap:16px; align-items:center; padding:18px 26px; background:var(--primario); color:var(--sobre-prim); font-size:12.5px; }
-  .pie .tel { font-family:var(--mono); font-size:12.5px; border:1px solid currentColor; padding:4px 11px; margin-left:auto; }
+  .pie { background:var(--primario); color:var(--sobre-prim); padding:30px 26px 18px; margin-top:auto; }
+  .pie-cols { display:grid; grid-template-columns:1.5fr 1fr 1fr 1.1fr; gap:26px; padding-bottom:22px; border-bottom:1px solid rgba(0,0,0,.18); }
+  .pie-col { display:flex; flex-direction:column; gap:7px; font-size:13.5px; align-items:flex-start; }
+  .pie-col b { font-family:var(--display); text-transform:uppercase; font-size:15px; letter-spacing:.06em; margin-bottom:4px; }
+  .pie-col span { opacity:.82; transition:opacity .15s ease; }
+  .pie-col span:hover { opacity:1; }
+  .pie-marca p { margin:8px 0 0; font-size:13.5px; opacity:.82; max-width:300px; line-height:1.5; }
+  .pie .tel { font-family:var(--mono); font-size:12.5px; border:1px solid currentColor; padding:4px 11px; opacity:1; }
+  .pie-base { display:flex; justify-content:space-between; gap:16px; padding-top:16px; font-size:12px; opacity:.72; }
 
   table.tbl { width:100%; border-collapse:collapse; font-size:13.5px; }
   table.tbl th { text-align:left; background:var(--bg-sunken); font-family:var(--mono); font-weight:500; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--texto-suave); padding:10px 14px; border-bottom:1px solid var(--borde); }
@@ -193,6 +222,7 @@
   .franja { display:flex; gap:34px; padding:15px 26px; background:var(--primario); color:var(--sobre-prim); align-items:center; font-size:13.5px; }
   .franja span { display:flex; align-items:center; gap:9px; }
   .franja svg { width:17px; height:17px; opacity:.85; }
+  .franja.lisa { padding:0; height:14px; }
 
   .kit-comps { display:flex; align-items:center; gap:7px; padding:3px 0; }
   .kit-comps i { width:26px; height:26px; border:1px solid var(--borde); display:grid; place-items:center; }
@@ -212,6 +242,8 @@
   .f-op i.on { background:var(--primario); border-color:var(--primario); position:relative; }
   .f-op i.on::after { content:""; position:absolute; left:4px; top:1px; width:5px; height:9px; border:solid var(--sobre-prim); border-width:0 2px 2px 0; transform:rotate(43deg); }
   .f-op em { font-style:normal; color:var(--texto-suave); font-family:var(--mono); font-size:11.5px; margin-left:auto; }
+  .f-op.f-hija { padding-left:16px; font-size:13.5px; position:relative; }
+  .f-op.f-hija::before { content:""; position:absolute; left:5px; top:50%; width:6px; height:1px; background:var(--borde-fuerte); }
   .rango { display:flex; align-items:center; gap:8px; }
   .rango .input { flex:1; border:1px solid var(--borde-fuerte); border-radius:var(--radio); padding:7px 10px; font-size:13.5px; color:var(--texto-suave); background:var(--bg-elev); }
   .res-cab { display:flex; align-items:baseline; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
@@ -223,6 +255,9 @@
   .paginador { display:flex; gap:6px; justify-content:center; margin-top:24px; font-family:var(--mono); font-size:12.5px; }
   .paginador span { border:1px solid var(--borde-fuerte); padding:6px 12px; color:var(--texto-suave); }
   .paginador span.act { background:var(--primario); color:var(--sobre-prim); border-color:var(--primario); }
+  .paginador span:not(.act):hover { border-color:var(--primario); color:var(--texto); cursor:pointer; }
+  .aplicado { cursor:pointer; } .aplicado:hover b { color:var(--error); }
+  .f-op { cursor:pointer; } .f-op:hover { color:var(--primario); }
 
   /* ---------- Ficha ---------- */
   .ficha { display:grid; grid-template-columns:600px 1fr; gap:34px; padding:24px 26px 32px; }
@@ -287,9 +322,10 @@
   /* ---------- Mi cuenta ---------- */
   .cuenta { display:grid; grid-template-columns:210px 1fr; gap:26px; padding:24px 26px 34px; align-items:start; }
   .menu-lat { display:flex; flex-direction:column; border:1px solid var(--borde); background:var(--bg-elev); }
-  .menu-lat span { padding:11px 15px; font-size:14px; border-bottom:1px solid var(--borde); color:var(--texto-suave); }
-  .menu-lat span:last-child { border-bottom:none; }
-  .menu-lat span.act { color:var(--texto); background:var(--bg-sunken); box-shadow:inset 3px 0 0 var(--acento); font-weight:600; }
+  .menu-lat a { padding:11px 15px; font-size:14px; border-bottom:1px solid var(--borde); color:var(--texto-suave); text-decoration:none; }
+  .menu-lat a:last-child { border-bottom:none; }
+  .menu-lat a.act { color:var(--texto); background:var(--bg-sunken); box-shadow:inset 3px 0 0 var(--acento); font-weight:600; }
+  .menu-lat a:not(.act):hover { color:var(--texto); background:var(--bg-sunken); }
   .pedido { border:1px solid var(--borde); background:var(--bg-elev); margin-bottom:16px; }
   .pedido-cab { display:flex; align-items:center; gap:16px; padding:13px 17px; border-bottom:1px solid var(--borde); background:var(--bg-sunken); }
   .pedido-cab .cod { font-size:13px; font-weight:500; }
@@ -301,7 +337,7 @@
   .pedido-acc { display:flex; gap:10px; padding:0 17px 15px; flex-wrap:wrap; }
 
   /* ---------- Panel ---------- */
-  .panel { display:grid; grid-template-columns:216px 1fr; min-height:640px; }
+  .panel { display:grid; grid-template-columns:216px 1fr; min-height:640px; flex:1; }
   .panel-lat { background:var(--primario); color:var(--sobre-prim); padding:20px 0; }
   .panel-marca { font-family:var(--display); text-transform:uppercase; font-weight:700; font-size:19px; letter-spacing:.02em; padding:0 18px 18px; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(244,247,242,.18); }
   .panel-marca .emblema { width:30px; height:30px; border-radius:50%; overflow:hidden; background:#F7F3EC; flex:none; position:relative; }
@@ -309,6 +345,7 @@
   .panel-gr { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; padding:18px 18px 7px; }
   .panel-lat a { display:flex; align-items:center; gap:10px; padding:9px 18px; font-size:14.5px; color:inherit; text-decoration:none; opacity:.86; }
   .panel-lat a.act { opacity:1; background:rgba(0,0,0,.18); box-shadow:inset 3px 0 0 var(--acento); font-weight:600; }
+  .panel-lat a:not(.act):hover { opacity:1; background:rgba(0,0,0,.10); }
   .panel-lat a svg { width:16px; height:16px; }
   .panel-cont { padding:22px 24px 28px; background:var(--bg); }
   .panel-cab { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
@@ -325,12 +362,97 @@
   .auditoria div:last-child { border-bottom:none; }
   .auditoria b { color:var(--texto); font-weight:500; }
 
-  .dev { border:1px solid var(--borde); background:var(--bg-elev); }
+  .dev { border:1px solid var(--borde); background:var(--bg-elev); margin-bottom:16px; }
   .dev-cuerpo { padding:16px 17px; display:grid; grid-template-columns:1fr 300px; gap:24px; }
   .dev-item { display:flex; gap:12px; align-items:center; padding:9px 0; border-bottom:1px solid var(--borde); font-size:13.5px; }
   .dev-item:last-child { border-bottom:none; }
   .dev-item .ph-cuad { width:46px; height:46px; }
   .motivo { font-size:13.5px; background:var(--bg-sunken); border:1px solid var(--borde); padding:11px 13px; font-style:italic; color:var(--texto); }
+
+  /* ---------- Panel · piezas ---------- */
+  .panel-cab .sub { font-size:13.5px; color:var(--texto-suave); }
+  .tabs-panel { display:flex; gap:0; border-bottom:1px solid var(--borde); margin-bottom:18px; }
+  .tabs-panel span { font-family:var(--display); text-transform:uppercase; font-size:15px; letter-spacing:.05em; padding:0 0 10px; margin-right:24px; color:var(--texto-suave); border-bottom:3px solid transparent; margin-bottom:-1px; cursor:pointer; }
+  .tabs-panel span.act { color:var(--texto); border-bottom-color:var(--acento); }
+  .tabs-panel span em { font-style:normal; font-family:var(--mono); font-size:11px; margin-left:6px; opacity:.7; }
+
+  .comps-mini { display:flex; align-items:center; gap:5px; }
+  .comps-mini i { width:24px; height:24px; border:1px solid var(--borde); display:grid; place-items:center; }
+  .comps-mini svg { width:14px; height:14px; color:var(--texto-suave); }
+  .comps-mini i.falta { border-color:var(--error); color:var(--error); }
+  .comps-mini i.falta svg { color:var(--error); }
+
+  .barra-fecha { display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11.5px; color:var(--texto-suave); white-space:nowrap; }
+  .barra-fecha .riel { flex:1; min-width:90px; height:5px; background:var(--bg-sunken); border:1px solid var(--borde); position:relative; }
+  .barra-fecha .riel i { position:absolute; top:0; bottom:0; background:var(--acento); }
+  .barra-fecha .riel.gastado i { background:var(--borde-fuerte); }
+  .barra-fecha .riel.futuro i { background:var(--texto-suave); opacity:.45; }
+
+  /* ---------- Mi cuenta ---------- */
+  .cuenta-cab { display:flex; align-items:baseline; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+  .cuenta-cab .sub { font-size:13.5px; color:var(--texto-suave); }
+  .ficha-datos-caja { border:1px solid var(--borde); background:var(--bg-elev); padding:20px 22px; }
+  .dato { display:grid; grid-template-columns:170px 1fr auto; gap:14px; align-items:baseline; padding:13px 0; border-bottom:1px solid var(--borde); font-size:14.5px; }
+  .dato:last-child { border-bottom:none; }
+  .dato .rot { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--texto-suave); }
+  .dato .val { font-weight:600; }
+  .dato .val small { display:block; font-weight:400; font-size:12.5px; color:var(--texto-suave); }
+
+  .dirs { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .dir-caja { border:1px solid var(--borde); background:var(--bg-elev); padding:16px 18px; display:flex; flex-direction:column; gap:6px; }
+  .dir-caja.preferida { box-shadow:inset 3px 0 0 var(--primario); }
+  .dir-caja b { font-family:var(--display); text-transform:uppercase; font-size:17px; letter-spacing:.04em; }
+  .dir-caja .linea-dir { font-size:14px; color:var(--texto); }
+  .dir-caja .acc { display:flex; gap:8px; margin-top:8px; }
+  .dir-nueva { border:1px dashed var(--borde-fuerte); background:transparent; display:grid; place-items:center; min-height:132px; cursor:pointer; }
+  .dir-nueva:hover { border-color:var(--acento); }
+
+  .seg-item { display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--borde); background:var(--bg-elev); margin-bottom:12px; }
+  .seg-item .ico { width:38px; height:38px; border:1px solid var(--borde-fuerte); display:grid; place-items:center; flex:none; }
+  .seg-item .ico svg { width:20px; height:20px; color:var(--primario); }
+  .seg-item .txt { flex:1; }
+  .seg-item b { font-family:var(--display); text-transform:uppercase; font-size:16px; letter-spacing:.04em; display:block; }
+  .seg-item .pista { font-size:13px; color:var(--texto-suave); }
+
+  .sesion .cod { color:var(--texto-suave); }
+
+  /* ---------- Panel · categorías ---------- */
+  .cat-grupo { border:1px solid var(--borde); background:var(--bg-elev); margin-bottom:16px; }
+  .cat-grupo-cab { display:flex; align-items:center; gap:12px; padding:14px 17px; border-bottom:1px solid var(--borde); background:var(--bg-sunken); }
+  .cat-grupo-cab .ico { width:34px; height:34px; border:1px solid var(--borde-fuerte); display:grid; place-items:center; flex:none; }
+  .cat-grupo-cab .ico svg { width:19px; height:19px; color:var(--primario); }
+  .cat-grupo-cab h2 { font-family:var(--display); text-transform:uppercase; font-weight:600; font-size:21px; letter-spacing:.02em; margin:0; }
+  .cat-grupo-cab .desc { font-size:13px; color:var(--texto-suave); }
+  .cat-grupo-cab .cuenta { margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--texto-suave); }
+  .subcat { display:flex; align-items:center; gap:12px; padding:8px 17px 8px 34px; border-bottom:1px solid var(--borde); font-size:14px; position:relative; }
+  .subcat::before { content:""; position:absolute; left:22px; top:0; bottom:0; width:1px; background:var(--borde-fuerte); }
+  .subcat:last-of-type::before { bottom:auto; height:50%; }
+  .subcat::after { content:""; position:absolute; left:22px; top:50%; width:8px; height:1px; background:var(--borde-fuerte); }
+  .subcat b { font-weight:600; min-width:210px; }
+  .subcat .cuenta { font-family:var(--mono); font-size:11.5px; color:var(--texto-suave); margin-left:auto; }
+  .subcat .pill { font-size:11.5px; padding:3px 9px 3px 7px; }
+  .subcat:hover { background:var(--bg-sunken); }
+  .cat-grupo-pie { padding:11px 17px; }
+
+  /* ---------- Panel · reportes ---------- */
+  .rep-cols { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .rep-caja { border:1px solid var(--borde); background:var(--bg-elev); }
+  .rep-caja > .caja-tit { display:flex; align-items:center; gap:10px; }
+  .rep-caja > .caja-tit .select { margin-left:auto; font-size:12px; padding:3px 9px; }
+  .rep-cuerpo { padding:16px 17px 18px; }
+  .columnas { display:flex; align-items:flex-end; gap:12px; height:170px; }
+  .columna { flex:1; display:flex; flex-direction:column; align-items:center; gap:7px; height:100%; justify-content:flex-end; }
+  .columna .valor { font-family:var(--mono); font-size:10.5px; color:var(--texto-suave); }
+  .columna .caño { width:100%; background:var(--primario); border-radius:2px 2px 0 0; min-height:3px; }
+  .columna.pico .caño { background:var(--acento); }
+  .columna .mes { font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--texto-suave); }
+  .ranking { display:flex; flex-direction:column; gap:11px; }
+  .rank { display:grid; grid-template-columns:1fr auto; gap:4px 12px; align-items:baseline; }
+  .rank b { font-family:var(--display); text-transform:uppercase; font-weight:600; font-size:15px; letter-spacing:.02em; }
+  .rank span { font-family:var(--mono); font-size:11.5px; color:var(--texto-suave); font-variant-numeric:tabular-nums; }
+  .rank .riel { grid-column:1 / -1; height:6px; background:var(--bg-sunken); border:1px solid var(--borde); }
+  .rank .riel i { display:block; height:100%; background:var(--oliva); }
+  .rank:first-child .riel i { background:var(--acento); }
 
   /* ---------- Asistente ---------- */
   .asis-fondo { position:relative; }
@@ -346,7 +468,8 @@
   .asis-rec .ph-cuad { width:58px; height:58px; }
   .asis-rec .nombre { font-size:16px; }
   .asis-chips { display:flex; gap:7px; flex-wrap:wrap; }
-  .asis-chip { border:1px solid var(--borde-fuerte); border-radius:999px; padding:5px 12px; font-size:12.5px; color:var(--primario); }
+  .asis-chip { border:1px solid var(--borde-fuerte); border-radius:999px; padding:5px 12px; font-size:12.5px; color:var(--primario); cursor:pointer; }
+  .asis-chip:hover { background:var(--bg-sunken); }
   .asis-input { display:flex; align-items:center; gap:10px; border-top:1px solid var(--borde); padding:11px 13px; background:var(--bg); }
   .asis-input > span:first-child { flex:1; font-size:13.5px; color:var(--texto-suave); }
   .asis-env { flex:none; width:30px; height:30px; background:var(--acento); color:#FFF8F3; display:grid; place-items:center; border-radius:var(--radio); }
@@ -355,7 +478,114 @@
   .asis-burbuja svg { width:25px; height:25px; }
 
   .asis[hidden], .asis-burbuja[hidden] { display:none; }
-  .no-usar { max-width:1240px; margin:0 auto; padding:34px 24px 54px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; font-family:var(--mono); font-size:11px; color:var(--texto-suave); border-top:1px solid var(--borde); margin-top:34px; }
+
+  /* ---------- Ventanas ---------- */
+  .telon {
+    position:fixed; inset:0; z-index:80; background:rgba(16,22,15,.55);
+    display:flex; align-items:center; justify-content:center; padding:28px;
+    opacity:0; pointer-events:none; transition:opacity .18s ease;
+  }
+  .telon.abierto { opacity:1; pointer-events:auto; }
+  .modal {
+    width:640px; max-width:100%; max-height:100%; background:var(--bg-elev);
+    border:1px solid var(--borde-fuerte); box-shadow:0 26px 60px rgba(12,18,12,.4);
+    display:flex; flex-direction:column; transform:translateY(10px) scale(.99);
+    transition:transform .18s ease;
+  }
+  .telon.abierto .modal { transform:none; }
+  .modal.chico { width:460px; }
+  .modal.grande { width:880px; }
+  .modal-cab {
+    display:flex; align-items:center; gap:12px; padding:16px 20px;
+    border-bottom:1px solid var(--borde); background:var(--bg-sunken);
+  }
+  .modal-cab h2 { font-family:var(--display); text-transform:uppercase; font-weight:600; font-size:22px; letter-spacing:.02em; margin:0; }
+  .modal-cab .sub { font-size:13px; color:var(--texto-suave); }
+  .modal-x {
+    margin-left:auto; width:30px; height:30px; flex:none; display:grid; place-items:center;
+    border:1px solid var(--borde-fuerte); background:transparent; color:var(--texto-suave);
+    font-size:18px; line-height:1; cursor:pointer; border-radius:var(--radio); font-family:var(--cuerpo);
+  }
+  .modal-x:hover { color:var(--texto); border-color:var(--acento); }
+  .modal-cuerpo { padding:20px; overflow-y:auto; min-height:0; }
+  .modal-pie {
+    display:flex; align-items:center; gap:10px; padding:14px 20px;
+    border-top:1px solid var(--borde); background:var(--bg-sunken);
+  }
+  .modal-pie .btn:first-of-type { margin-left:auto; }
+  .modal-pie .obliga { font-family:var(--mono); font-size:11px; color:var(--texto-suave); }
+
+  .form { display:grid; grid-template-columns:repeat(4,1fr); gap:14px 16px; }
+  .form .campo { margin-bottom:0; }
+  .form .c2 { grid-column:span 2; }
+  .form .c3 { grid-column:span 3; }
+  .form .c4 { grid-column:span 4; }
+  .form-sep {
+    grid-column:1 / -1; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--texto-suave); border-bottom:1px solid var(--borde);
+    padding-bottom:7px; margin-top:6px;
+  }
+  .modal input[type=text], .modal input[type=number], .modal input[type=date], .modal select, .modal textarea {
+    font-family:var(--cuerpo); font-size:14.5px; padding:9px 11px; width:100%;
+    border:1px solid var(--borde-fuerte); border-radius:var(--radio);
+    background:var(--bg); color:var(--texto); outline:none;
+  }
+  .modal textarea { resize:vertical; min-height:74px; line-height:1.5; }
+  .modal select { appearance:none; padding-right:28px;
+    background-image:linear-gradient(45deg,transparent 50%,var(--texto-suave) 50%),linear-gradient(135deg,var(--texto-suave) 50%,transparent 50%);
+    background-position:calc(100% - 15px) 50%, calc(100% - 10px) 50%;
+    background-size:5px 5px, 5px 5px; background-repeat:no-repeat; }
+  .modal input:focus, .modal select:focus, .modal textarea:focus { border-color:var(--acento); }
+  .modal .pista { font-size:12px; color:var(--texto-suave); }
+  .con-mas { display:flex; gap:8px; align-items:stretch; }
+  .con-mas select, .con-mas input { flex:1; }
+  .con-mas .btn { flex:none; padding:0 14px; font-size:20px; line-height:1; }
+  .peligro { border-color:color-mix(in srgb,var(--error) 45%,transparent) !important; background:color-mix(in srgb,var(--error) 8%,transparent) !important; }
+  .peligro svg { color:var(--error) !important; }
+  .btn-peligro { background:var(--error); color:#FFF8F3; }
+  .linea-pedido { display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--borde); align-items:center; }
+  .linea-pedido:last-child { border-bottom:none; }
+  .linea-pedido .ph-cuad { width:56px; height:44px; }
+  .linea-pedido .dat { flex:1; font-size:14px; }
+  .linea-pedido .dat small { display:block; color:var(--texto-suave); font-size:12.5px; }
+
+  .opciones { display:flex; flex-wrap:wrap; gap:8px; }
+  .opcion { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--borde-fuerte); border-radius:var(--radio); padding:7px 12px; font-size:13.5px; cursor:pointer; background:var(--bg); }
+  .opcion i { width:14px; height:14px; border:1px solid var(--borde-fuerte); border-radius:2px; flex:none; position:relative; background:var(--bg-elev); }
+  .opcion.redonda i { border-radius:50%; }
+  .opcion.on { border-color:var(--primario); background:color-mix(in srgb,var(--primario) 8%,transparent); }
+  .opcion.on i { background:var(--primario); border-color:var(--primario); }
+  .opcion.on.redonda i { background:var(--bg-elev); border-width:4px; }
+  .opcion.on:not(.redonda) i::after { content:""; position:absolute; left:4px; top:1px; width:4px; height:8px; border:solid var(--sobre-prim); border-width:0 2px 2px 0; transform:rotate(43deg); }
+
+  .zona-img { display:flex; align-items:center; gap:12px; border:1px dashed var(--borde-fuerte); background:var(--bg); padding:14px 16px; font-size:13.5px; color:var(--texto-suave); }
+  .zona-img svg { width:22px; height:22px; flex:none; }
+
+  .tabla-modal { width:100%; border-collapse:collapse; font-size:13.5px; border:1px solid var(--borde); }
+  .tabla-modal th { text-align:left; background:var(--bg-sunken); font-family:var(--mono); font-weight:500; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--texto-suave); padding:8px 11px; border-bottom:1px solid var(--borde); }
+  .tabla-modal td { padding:8px 11px; border-bottom:1px solid var(--borde); }
+  .tabla-modal tr:last-child td { border-bottom:none; }
+  .tabla-modal input { padding:5px 8px !important; font-size:13px !important; }
+  .quitar { color:var(--texto-suave); cursor:pointer; font-size:15px; }
+  .quitar:hover { color:var(--error); }
+
+  .cuentas { border:1px solid var(--borde); background:var(--bg-sunken); padding:12px 15px; }
+  .cuentas .resumen-fila { padding:5px 0; font-size:14px; }
+  .cuentas .resumen-fila.total { font-size:17px; margin-top:4px; padding-top:10px; }
+  .cuentas .resumen-fila.total b { font-size:22px; }
+
+  /* ---------- Aviso de agregado ---------- */
+  .toast {
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(14px); z-index:70;
+    display:flex; align-items:center; gap:14px; padding:12px 16px 12px 14px;
+    background:var(--primario); color:var(--sobre-prim); border-radius:var(--radio);
+    box-shadow:0 14px 34px rgba(20,26,18,.28); font-size:14px; opacity:0; pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .toast.visible { opacity:1; transform:translateX(-50%); pointer-events:auto; }
+  .toast svg { width:18px; height:18px; color:var(--acento); flex:none; }
+  .toast b { font-weight:600; }
+  .toast .btn { font-size:13px; padding:6px 12px; background:var(--acento); color:#FFF8F3; }
 </style>
 
 <body>
@@ -419,6 +649,12 @@
               <span class="btn btn-borde" style="color:#F4F7F2">Kits armados</span>
             </div>
           </div>
+        </div>
+
+        <div class="franja">
+          <span><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos a todo el país</span>
+          <span><svg viewBox="0 0 24 24"><use href="#ico-brujula"/></svg>Asesoramiento por chat</span>
+          <span><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Mercado Pago en cuotas</span>
         </div>
 
         <div style="padding:24px 26px 0">
@@ -495,11 +731,7 @@
           </div>
         </div>
 
-        <div class="franja">
-          <span><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos a todo el país</span>
-          <span><svg viewBox="0 0 24 24"><use href="#ico-brujula"/></svg>Asesoramiento por chat</span>
-          <span><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Mercado Pago en cuotas</span>
-        </div>
+        <div class="franja lisa"></div>
 
         <div style="padding:24px 26px 0">
           <div class="sec-cab">
@@ -516,9 +748,9 @@
             <div class="card-cuerpo">
               <span class="marca">Kit · KIT-CAMP-FDS</span>
               <span class="nombre">Kit Camping Fin de Semana</span>
-              <div class="kit-comps"><i><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-aislante"/></svg></i><b>+2</b></div>
-              <div class="precios"><span class="p-ahora">$264.700</span></div>
-              <span class="ahorro">Ahorrás $38.900</span>
+              <div class="kit-comps"><i><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i><b>×2</b></div>
+              <div class="precios"><span class="p-ahora">$328.300</span></div>
+              <span class="ahorro">Ahorras $38.900</span>
               <div class="card-pie">
                 <span class="pill pill-ok">Disponible</span>
                 <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar el kit</span>
@@ -534,9 +766,9 @@
               <span class="nombre">Kit Trekking de Día</span>
               <div class="kit-comps"><i><svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-botella"/></svg></i></div>
               <div class="precios"><span class="p-ahora">$138.200</span></div>
-              <span class="ahorro">Ahorrás $17.400</span>
+              <span class="ahorro">Ahorras $17.400</span>
               <div class="card-pie">
-                <span class="pill pill-ok">Disponible</span>
+                <span class="pill pill-warn">Últimas 2</span>
                 <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar el kit</span>
               </div>
             </div>
@@ -548,9 +780,9 @@
             <div class="card-cuerpo">
               <span class="marca">Kit · KIT-NOCHE</span>
               <span class="nombre">Kit Noche en Carpa</span>
-              <div class="kit-comps"><i><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-aislante"/></svg></i></div>
-              <div class="precios"><span class="p-ahora">$61.400</span></div>
-              <span class="ahorro">Ahorrás $9.100</span>
+              <div class="kit-comps"><i><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i></div>
+              <div class="precios"><span class="p-ahora">$153.800</span></div>
+              <span class="ahorro">Ahorras $9.100</span>
               <div class="card-pie">
                 <span class="pill pill-warn">Últimas 2</span>
                 <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar el kit</span>
@@ -559,11 +791,32 @@
           </div>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
-        </div>
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
@@ -588,9 +841,11 @@
             <div class="f-grupo">
               <span class="f-tit">Categoría</span>
               <span class="f-op"><i class="on"></i> Carpas <em>14</em></span>
+              <span class="f-op f-hija"><i class="on"></i> Domo <em>8</em></span>
+              <span class="f-op f-hija"><i></i> Iglú <em>4</em></span>
+              <span class="f-op f-hija"><i></i> Autoportante <em>2</em></span>
               <span class="f-op"><i></i> Mochilas <em>23</em></span>
               <span class="f-op"><i></i> Accesorios <em>41</em></span>
-              <span class="f-op"><i></i> Kits <em>6</em></span>
             </div>
             <div class="f-grupo">
               <span class="f-tit">Marca</span>
@@ -726,11 +981,32 @@
           </div>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
-        </div>
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
@@ -792,7 +1068,7 @@
 
             <div class="ficha-kit">
               <svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>
-              <div style="flex:1;font-size:14px">Se arma en <b>Kit Camping Fin de Semana</b> — ahorrás $38.900</div>
+              <div style="flex:1;font-size:14px">Se arma en <b>Kit Camping Fin de Semana</b> — ahorras $38.900</div>
               <span class="btn btn-sec btn-chico">Ver kit</span>
             </div>
           </div>
@@ -803,11 +1079,104 @@
           <p>Carpa domo de armado rápido para tres personas, pensada para las salidas de fin de semana por la costa del Paraná. Doble techo con caída completa, ábside para dejar las mochilas afuera y varillas de fibra de vidrio que aguantan el viento del río. Entra armada en la bolsa de compresión que viene incluida.</p>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
+        <div style="padding:0 26px">
+          <div class="sec-cab">
+            <span class="sec-tit">También te puede servir</span>
+          </div>
         </div>
+
+        <div class="grid4">
+          <div class="card agotada">
+            <div class="ph-img">
+              <span class="badge">−25%</span>
+              <svg viewBox="0 0 24 24"><use href="#ico-aislante"/></svg>
+            </div>
+            <div class="card-cuerpo">
+              <span class="marca">Montagne · AISL-ESP1-VRD</span>
+              <span class="nombre">Aislante Espuma 1P</span>
+              <div class="card-ocasion"><span class="chip">Camping</span></div>
+              <div class="precios"><span class="p-ahora">$17.625</span><span class="p-antes">$23.500</span></div>
+              <div class="card-pie">
+                <span class="pill pill-error">Sin stock</span>
+                <span class="btn btn-sec btn-chico btn-agregar btn-off">Sin stock</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph-img">
+              <span class="badge">−20%</span>
+              <svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg>
+            </div>
+            <div class="card-cuerpo">
+              <span class="marca">Waterdog · LINT-FAR6-NGR</span>
+              <span class="nombre">Farol Litoral 600 lm</span>
+              <div class="card-ocasion"><span class="chip">Camping</span></div>
+              <div class="precios"><span class="p-ahora">$59.200</span><span class="p-antes">$74.000</span></div>
+              <div class="card-pie">
+                <span class="pill pill-warn">Últimas 2</span>
+                <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph-img">
+              <svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg>
+            </div>
+            <div class="card-cuerpo">
+              <span class="marca">Montagne · BOLS-PAT5-AZL</span>
+              <span class="nombre">Bolsa de Dormir Patagonia −5°</span>
+              <div class="card-ocasion"><span class="chip">Camping</span><span class="chip">Trekking</span></div>
+              <div class="precios"><span class="p-ahora">$88.900</span></div>
+              <div class="card-pie">
+                <span class="pill pill-ok">6 en stock</span>
+                <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph-img">
+              <span class="badge">−10%</span>
+              <svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg>
+            </div>
+            <div class="card-cuerpo">
+              <span class="marca">Doite · BAST-ALU2-AZL</span>
+              <span class="nombre">Bastones Aluminio Par</span>
+              <div class="card-ocasion"><span class="chip">Trekking</span></div>
+              <div class="precios"><span class="p-ahora">$37.710</span><span class="p-antes">$41.900</span></div>
+              <div class="card-pie">
+                <span class="pill pill-ok">18 en stock</span>
+                <span class="btn btn-prim btn-chico btn-agregar"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Agregar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
@@ -868,14 +1237,14 @@
               <div class="linea-info">
                 <span class="marca">Kit · KIT-CAMP-FDS</span>
                 <span class="nombre">Kit Camping Fin de Semana</span>
-                <span style="font-size:13px;color:var(--texto-suave)">Carpa + 2 bolsas de dormir + aislante + farol</span>
+                <span style="font-size:13px;color:var(--texto-suave)">Carpa Domo Aconcagua 3P + 2 bolsas de dormir</span>
                 <div class="linea-acc">
                   <span class="stepper"><b>−</b><i>1</i><b>+</b></span>
                   <span class="btn btn-fant btn-chico" style="padding-left:0">Quitar</span>
                 </div>
               </div>
               <div class="linea-precio">
-                <span class="p-ahora" style="font-size:21px">$264.700</span>
+                <span class="p-ahora" style="font-size:21px">$328.300</span>
                 <span class="chip prim">Precio de kit</span>
               </div>
             </div>
@@ -884,7 +1253,7 @@
               <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
               <div>
                 <b>Aviso de recálculo</b>
-                La oferta de Domo Aconcagua 3P vence hoy a las 23:59. Si seguís después de esa hora, el precio se recalcula y te lo mostramos antes de confirmar.
+                La oferta de Domo Aconcagua 3P vence el 30/09 a las 23:59. Si confirmas el pedido después de esa fecha, el precio se recalcula y te lo mostramos antes de pagar.
               </div>
             </div>
           </div>
@@ -892,27 +1261,48 @@
           <div class="caja" style="position:sticky;top:16px">
             <div class="caja-tit">Resumen</div>
             <div style="padding:6px 17px 17px">
-              <div class="resumen-fila"><span>Subtotal</span><span>$635.500</span></div>
+              <div class="resumen-fila"><span>Subtotal</span><span>$699.100</span></div>
               <div class="resumen-fila"><span>Descuentos</span><span class="desc">−$33.400</span></div>
               <div class="resumen-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
-              <div class="resumen-fila total"><span>Total</span><b>$614.700</b></div>
+              <div class="resumen-fila total"><span>Total</span><b>$678.300</b></div>
               <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
                 <span class="btn btn-cta btn-ancho">Finalizar compra</span>
                 <span class="btn btn-sec btn-ancho">Seguir comprando</span>
               </div>
               <div class="nota-legal">
                 <svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>
-                Vas a necesitar ingresar para confirmar el pedido.
+                Necesitas iniciar sesión para confirmar el pedido.
               </div>
             </div>
           </div>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
-        </div>
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
@@ -955,7 +1345,7 @@
             </div>
             <span class="btn btn-sec btn-chico">+ Nueva dirección</span>
 
-            <h1 class="titulo-pant" style="font-size:24px;margin-top:26px">Revisá tu pedido</h1>
+            <h1 class="titulo-pant" style="font-size:24px;margin-top:26px">Revisa tu pedido</h1>
             <div class="caja">
               <div style="padding:4px 17px">
                 <div class="linea" style="padding:13px 0">
@@ -978,9 +1368,9 @@
                   <div class="ph-cuad" style="width:70px;height:56px"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg></div>
                   <div class="linea-info">
                     <span class="nombre" style="font-size:17px">Kit Camping Fin de Semana</span>
-                    <span style="font-size:13px;color:var(--texto-suave)">1 unidad · 5 componentes</span>
+                    <span style="font-size:13px;color:var(--texto-suave)">1 unidad · 2 productos, 3 piezas</span>
                   </div>
-                  <span class="p-ahora" style="font-size:19px">$264.700</span>
+                  <span class="p-ahora" style="font-size:19px">$328.300</span>
                 </div>
               </div>
             </div>
@@ -989,7 +1379,7 @@
               <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
               <div>
                 <b>Revalidación de stock</b>
-                Antes de generar el pedido controlamos de nuevo el stock de cada ítem y la disponibilidad completa de cada kit. Si algo cambió, te avisamos acá.
+                Antes de generar el pedido controlamos de nuevo el stock de cada ítem y la disponibilidad completa de cada kit. Si algo cambió, te avisamos aquí.
               </div>
             </div>
           </div>
@@ -997,10 +1387,10 @@
           <div class="caja" style="position:sticky;top:16px">
             <div class="caja-tit">Total</div>
             <div style="padding:6px 17px 17px">
-              <div class="resumen-fila"><span>Subtotal</span><span>$635.500</span></div>
+              <div class="resumen-fila"><span>Subtotal</span><span>$699.100</span></div>
               <div class="resumen-fila"><span>Descuentos</span><span class="desc">−$33.400</span></div>
               <div class="resumen-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
-              <div class="resumen-fila total"><span>Total</span><b>$614.700</b></div>
+              <div class="resumen-fila total"><span>Total</span><b>$678.300</b></div>
               <div style="margin-top:16px">
                 <span class="btn btn-cta btn-ancho">Pagar con Mercado Pago</span>
               </div>
@@ -1067,11 +1457,32 @@
           </div>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
-        </div>
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
@@ -1092,11 +1503,11 @@
 
         <div class="cuenta">
           <aside class="menu-lat">
-            <span class="act">Pedidos</span>
-            <span>Mis datos</span>
-            <span>Direcciones</span>
-            <span>Seguridad</span>
-            <span>Devoluciones</span>
+            <a class="act" href="#pedidos">Pedidos</a>
+            <a href="#mis-datos">Mis datos</a>
+            <a href="#direcciones">Direcciones</a>
+            <a href="#seguridad">Seguridad</a>
+            <a href="#mis-devoluciones">Devoluciones</a>
           </aside>
 
           <div>
@@ -1107,7 +1518,7 @@
                 <span class="cod">#A360-000412</span>
                 <span class="fecha">28/08/2026</span>
                 <span class="pill pill-ok">Pagado</span>
-                <span class="monto">$614.700</span>
+                <span class="monto">$678.300</span>
               </div>
               <div class="pedido-cuerpo">
                 <div class="pedido-thumbs">
@@ -1127,7 +1538,7 @@
                 </div>
               </div>
               <div class="pedido-acc">
-                <span class="btn btn-sec btn-chico">Ver detalle</span>
+                <span data-ventana="pedido-detalle" class="btn btn-sec btn-chico">Ver detalle</span>
                 <span class="btn btn-sec btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Descargar comprobante</span>
               </div>
             </div>
@@ -1137,7 +1548,7 @@
                 <span class="cod">#A360-000388</span>
                 <span class="fecha">02/08/2026</span>
                 <span class="pill pill-neutro">Entregado</span>
-                <span class="monto">$97.300</span>
+                <span class="monto">$156.500</span>
               </div>
               <div class="pedido-cuerpo">
                 <div class="pedido-thumbs">
@@ -1148,9 +1559,9 @@
                 <span class="pill pill-warn" style="margin-left:auto">Devolución solicitada el 06/08 · en revisión</span>
               </div>
               <div class="pedido-acc">
-                <span class="btn btn-sec btn-chico">Ver detalle</span>
+                <span data-ventana="pedido-detalle" class="btn btn-sec btn-chico">Ver detalle</span>
                 <span class="btn btn-sec btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Descargar comprobante</span>
-                <span class="btn btn-sec btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Ver estado de la devolución</span>
+                <a href="#mis-devoluciones" class="btn btn-sec btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Ver estado de la devolución</a>
               </div>
             </div>
 
@@ -1169,51 +1580,526 @@
               </div>
               <div class="pedido-acc">
                 <span class="btn btn-cta btn-chico">Reintentar pago</span>
-                <span class="btn btn-fant btn-chico">Ver detalle</span>
+                <span data-ventana="pedido-detalle" data-titulo="Pedido #A360-000351" class="btn btn-fant btn-chico">Ver detalle</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="pie">
-          <span>Aventura 360 · Paraná, Entre Ríos</span>
-          <span>Términos · Política de devoluciones</span>
-          <span class="tel">343 000-0000</span>
-        </div>
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
 
       </div>
 </section>
 
+<section class="pant" id="mis-datos">
+  <div class="lienzo">
+        <div class="nav">
+          <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+          <span class="nav-links"><span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits</span><span>Ofertas</span></span>
+          <span class="nav-der">
+            <span class="nav-ico"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg></span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Panel</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Julián O.</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Carrito <b class="nav-num">0</b></span>
+          </span>
+        </div>
+
+        <div class="cuenta">
+          <aside class="menu-lat">
+            <a href="#pedidos">Pedidos</a>
+            <a class="act" href="#mis-datos">Mis datos</a>
+            <a href="#direcciones">Direcciones</a>
+            <a href="#seguridad">Seguridad</a>
+            <a href="#mis-devoluciones">Devoluciones</a>
+          </aside>
+
+          <div>
+            <div class="cuenta-cab">
+              <h1 class="titulo-pant">Mis datos</h1>
+              <span class="sub">Los datos con los que emitimos el comprobante</span>
+              <span data-ventana="cta-datos" class="btn btn-sec btn-chico" style="margin-left:auto">Editar mis datos</span>
+            </div>
+            <div class="ficha-datos-caja">
+              <div class="dato">
+                <span class="rot">Nombre</span>
+                <span class="val">Julián Agustín Olivera</span>
+              </div>
+              <div class="dato">
+                <span class="rot">Correo</span>
+                <span class="val">julian@ejemplo.com.ar <small>Verificado el 12/03/2026 · identifica la cuenta y no se modifica</small></span>
+                <span class="pill pill-neutro">Fijo</span>
+              </div>
+              <div class="dato">
+                <span class="rot">Teléfono</span>
+                <span class="val">343 512-4488</span>
+              </div>
+              <div class="dato">
+                <span class="rot">Documento</span>
+                <span class="val">DNI 40.221.556 <small>Se usa solo para el comprobante de compra</small></span>
+              </div>
+              <div class="dato">
+                <span class="rot">Cuenta creada</span>
+                <span class="val">12 de marzo de 2026</span>
+              </div>
+            </div>
+
+            <div class="cuenta-cab" style="margin-top:26px">
+              <h1 class="titulo-pant" style="font-size:22px">Métodos de acceso</h1>
+            </div>
+
+            <div class="seg-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg></span>
+              <div class="txt">
+                <b>Correo y contraseña</b>
+                <span class="pista">julian@ejemplo.com.ar</span>
+              </div>
+              <span class="pill pill-ok">Activo</span>
+            </div>
+
+            <div class="seg-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg></span>
+              <div class="txt">
+                <b>Google</b>
+                <span class="pista">Vinculado al mismo correo el 04/05/2026</span>
+              </div>
+              <span class="pill pill-ok">Vinculado</span>
+              <span data-ventana="cta-google" class="btn btn-sec btn-chico">Desvincular</span>
+            </div>
+
+
+          </div>
+        </div>
+
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
+      </div>
+</section>
+<section class="pant" id="direcciones">
+  <div class="lienzo">
+        <div class="nav">
+          <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+          <span class="nav-links"><span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits</span><span>Ofertas</span></span>
+          <span class="nav-der">
+            <span class="nav-ico"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg></span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Panel</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Julián O.</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Carrito <b class="nav-num">0</b></span>
+          </span>
+        </div>
+
+        <div class="cuenta">
+          <aside class="menu-lat">
+            <a href="#pedidos">Pedidos</a>
+            <a href="#mis-datos">Mis datos</a>
+            <a class="act" href="#direcciones">Direcciones</a>
+            <a href="#seguridad">Seguridad</a>
+            <a href="#mis-devoluciones">Devoluciones</a>
+          </aside>
+
+          <div>
+            <div class="cuenta-cab">
+              <h1 class="titulo-pant">Direcciones</h1>
+              <span class="sub">Las que aparecen para elegir en el checkout</span>
+            </div>
+            <div class="dirs">
+              <div class="dir-caja preferida">
+                <b>Casa</b>
+                <span class="pill pill-ok" style="align-self:flex-start">Preferida para envíos</span>
+                <span class="linea-dir">Av. Almafuerte 1234, piso 2 depto B</span>
+                <span class="linea-dir">Paraná, Entre Ríos · CP 3100</span>
+                <span class="linea-dir" style="color:var(--texto-suave);font-size:13px">Julián Olivera · 343 512-4488</span>
+                <div class="acc">
+                  <span data-ventana="cta-direccion" data-titulo="Editar dirección" class="btn btn-sec btn-chico">Editar</span>
+                  <span data-ventana="cta-borrar-dir" class="btn btn-fant btn-chico">Eliminar</span>
+                </div>
+              </div>
+
+              <div class="dir-caja">
+                <b>Trabajo</b>
+                <span class="linea-dir">San Martín 780</span>
+                <span class="linea-dir">Paraná, Entre Ríos · CP 3100</span>
+                <span class="linea-dir" style="color:var(--texto-suave);font-size:13px">Julián Olivera · 343 512-4488</span>
+                <div class="acc">
+                  <span data-ventana="cta-direccion" data-titulo="Editar dirección" class="btn btn-sec btn-chico">Editar</span>
+                  <span class="btn btn-fant btn-chico">Hacer preferida</span>
+                  <span data-ventana="cta-borrar-dir" class="btn btn-fant btn-chico">Eliminar</span>
+                </div>
+              </div>
+
+              <div class="dir-caja dir-nueva" data-ventana="cta-direccion">
+                <div style="text-align:center;color:var(--texto-suave)">
+                  <div style="font-family:var(--display);text-transform:uppercase;font-size:17px;letter-spacing:.04em">+ Nueva dirección</div>
+                  <div style="font-size:13px;margin-top:4px">Puedes guardar todas las que uses</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="aviso" style="margin-top:18px">
+              <svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>
+              <div>
+                <b>El costo del envío depende del destino</b>
+                Se calcula al elegir la dirección en el checkout, antes de pagar. La dirección preferida viene seleccionada de entrada.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
+      </div>
+</section>
+<section class="pant" id="seguridad">
+  <div class="lienzo">
+        <div class="nav">
+          <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+          <span class="nav-links"><span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits</span><span>Ofertas</span></span>
+          <span class="nav-der">
+            <span class="nav-ico"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg></span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Panel</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Julián O.</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Carrito <b class="nav-num">0</b></span>
+          </span>
+        </div>
+
+        <div class="cuenta">
+          <aside class="menu-lat">
+            <a href="#pedidos">Pedidos</a>
+            <a href="#mis-datos">Mis datos</a>
+            <a href="#direcciones">Direcciones</a>
+            <a class="act" href="#seguridad">Seguridad</a>
+            <a href="#mis-devoluciones">Devoluciones</a>
+          </aside>
+
+          <div>
+            <div class="cuenta-cab">
+              <h1 class="titulo-pant">Seguridad</h1>
+              <span class="sub">Contraseña y métodos de acceso</span>
+            </div>
+            <div class="seg-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg></span>
+              <div class="txt">
+                <b>Contraseña</b>
+                <span class="pista">Cambiada por última vez el 18/06/2026</span>
+              </div>
+              <span data-ventana="cta-clave" class="btn btn-prim btn-chico">Cambiar contraseña</span>
+            </div>
+
+            <div class="seg-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg></span>
+              <div class="txt">
+                <b>Acceso con Google</b>
+                <span class="pista">Puedes entrar con Google al mismo usuario</span>
+              </div>
+              <span class="pill pill-ok">Vinculado</span>
+              <span data-ventana="cta-google" class="btn btn-sec btn-chico">Desvincular</span>
+            </div>
+
+            <div class="seg-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-chat"/></svg></span>
+              <div class="txt">
+                <b>Avisos por correo</b>
+                <span class="pista">Estado del pedido, ofertas y novedades</span>
+              </div>
+              <span data-ventana="cta-avisos" class="btn btn-sec btn-chico">Configurar</span>
+            </div>
+
+            <div class="aviso" style="margin-top:16px">
+              <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
+              <div>
+                <b>Qué hacemos con tu contraseña</b>
+                Se guarda cifrada y no se puede recuperar: si la olvidas, se genera una nueva con un enlace de un solo uso que vence a la hora. Nadie del equipo puede verla.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
+      </div>
+</section>
+<section class="pant" id="mis-devoluciones">
+  <div class="lienzo">
+        <div class="nav">
+          <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+          <span class="nav-links"><span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits</span><span>Ofertas</span></span>
+          <span class="nav-der">
+            <span class="nav-ico"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg></span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Panel</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Julián O.</span>
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>Carrito <b class="nav-num">0</b></span>
+          </span>
+        </div>
+
+        <div class="cuenta">
+          <aside class="menu-lat">
+            <a href="#pedidos">Pedidos</a>
+            <a href="#mis-datos">Mis datos</a>
+            <a href="#direcciones">Direcciones</a>
+            <a href="#seguridad">Seguridad</a>
+            <a class="act" href="#mis-devoluciones">Devoluciones</a>
+          </aside>
+
+          <div>
+            <div class="cuenta-cab">
+              <h1 class="titulo-pant">Mis devoluciones</h1>
+              <span class="sub">Estado de cada solicitud</span>
+            </div>
+            <div class="tabs-panel">
+              <span class="act">Todas <em>3</em></span>
+              <span>En revisión <em>1</em></span>
+              <span>Aprobadas <em>1</em></span>
+              <span>Cerradas <em>1</em></span>
+            </div>
+
+            <div class="pedido">
+              <div class="pedido-cab">
+                <span class="cod">#A360-000388</span>
+                <span class="fecha">Solicitada el 06/08/2026</span>
+                <span class="pill pill-warn">En revisión</span>
+                <span class="monto">$59.200</span>
+              </div>
+              <div class="pedido-cuerpo">
+                <div class="pedido-thumbs">
+                  <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></div>
+                </div>
+                <div style="flex:1">
+                  <b>Farol Litoral 600 lm</b>
+                  <div style="font-size:13px;color:var(--texto-suave)">1 unidad · «Llegó con la tapa del compartimento de pilas rota»</div>
+                </div>
+                <div>
+                  <span class="marca" style="display:block;margin-bottom:6px">Estado</span>
+                  <div class="ruta">
+                    <span class="hecho">Solicitada</span>
+                    <span class="act">En revisión</span>
+                    <span>Aprobada</span>
+                    <span>Reintegrada</span>
+                  </div>
+                </div>
+              </div>
+              <div class="pedido-acc">
+                <span data-ventana="cta-devolucion" class="btn btn-sec btn-chico">Ver detalle</span>
+              </div>
+            </div>
+
+            <div class="pedido">
+              <div class="pedido-cab">
+                <span class="cod">#A360-000371</span>
+                <span class="fecha">Solicitada el 02/08/2026</span>
+                <span class="pill pill-ok">Aprobada</span>
+                <span class="monto">$41.900</span>
+              </div>
+              <div class="pedido-cuerpo">
+                <div class="pedido-thumbs">
+                  <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg></div>
+                </div>
+                <div style="flex:1">
+                  <b>Bastones Aluminio Par</b>
+                  <div style="font-size:13px;color:var(--texto-suave)">1 unidad · «Me quedaron cortos para mi altura»</div>
+                </div>
+                <div>
+                  <span class="marca" style="display:block;margin-bottom:6px">Estado</span>
+                  <div class="ruta">
+                    <span class="hecho">Solicitada</span>
+                    <span class="hecho">En revisión</span>
+                    <span class="act">Aprobada</span>
+                    <span>Reintegrada</span>
+                  </div>
+                </div>
+              </div>
+              <div class="pedido-acc">
+                <span data-ventana="cta-devolucion" class="btn btn-sec btn-chico">Ver detalle</span>
+                <span data-ventana="cta-etiqueta" class="btn btn-prim btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Ver instrucciones de envío</span>
+              </div>
+            </div>
+
+            <div class="pedido">
+              <div class="pedido-cab">
+                <span class="cod">#A360-000352</span>
+                <span class="fecha">Solicitada el 24/07/2026</span>
+                <span class="pill pill-neutro">Reintegrada</span>
+                <span class="monto">$37.710</span>
+              </div>
+              <div class="pedido-cuerpo">
+                <div class="pedido-thumbs">
+                  <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg></div>
+                </div>
+                <div style="flex:1">
+                  <b>Bastones Aluminio Par</b>
+                  <div style="font-size:13px;color:var(--texto-suave)">1 unidad · reintegrado el 28/07 por Mercado Pago</div>
+                </div>
+              </div>
+              <div class="pedido-acc">
+                <span data-ventana="cta-devolucion" class="btn btn-sec btn-chico">Ver detalle</span>
+              </div>
+            </div>
+
+            <div class="aviso" style="margin-top:16px">
+              <svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>
+              <div>
+                <b>Cómo sigue una devolución</b>
+                Después de aprobarla te enviamos las instrucciones para despachar el producto. El dinero vuelve por el mismo medio de pago cuando la mercadería llega y se controla.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="pie">
+          <div class="pie-cols">
+            <div class="pie-col pie-marca">
+              <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
+              <p>Equipamiento para trekking, camping y kayak. Preparate, explorá, viví.</p>
+            </div>
+            <div class="pie-col pie-tienda">
+              <b>Tienda</b>
+              <span>Carpas</span><span>Mochilas</span><span>Accesorios</span><span>Kits armados</span><span>Ofertas</span>
+            </div>
+            <div class="pie-col">
+              <b>Ayuda</b>
+              <span>Cómo comprar</span><span>Envíos</span><span>Cambios y devoluciones</span><span>Términos y condiciones</span>
+            </div>
+            <div class="pie-col">
+              <b>Contacto</b>
+              <span class="tel">343 000-0000</span>
+              <span>Paraná, Entre Ríos</span>
+              <span>Lunes a sábado, 9 a 19 h</span>
+            </div>
+          </div>
+          <div class="pie-base">
+            <span>© 2026 Aventura 360</span>
+            <span>Pagos con Mercado Pago · Datos protegidos según Ley 25.326</span>
+          </div>
+        </footer>
+      </div>
+</section>
 <section class="pant" id="admin-productos">
   <div class="lienzo">
         <div class="panel">
           <aside class="panel-lat">
             <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
             <div class="panel-gr">Catálogo</div>
-            <a class="act" href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Ofertas</a>
+            <a class="act" href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
             <div class="panel-gr">Operación</div>
-            <a href="#m8"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
-            <a href="#m8"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
           </aside>
 
           <div class="panel-cont">
             <div class="kpis">
               <div class="kpi"><span>Ventas del mes</span><b>$4,2 M</b></div>
               <div class="kpi"><span>Pedidos</span><b>38</b></div>
-              <div class="kpi alerta"><span>Bajo mínimo</span><b>6</b></div>
+              <div class="kpi alerta"><span>Bajo mínimo</span><b>3</b></div>
               <div class="kpi"><span>Devoluciones</span><b>2</b></div>
             </div>
 
             <div class="panel-cab">
               <h1>Productos</h1>
               <span class="buscador" style="margin-left:auto"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg>Buscar SKU o nombre…</span>
-              <span class="btn btn-sec btn-chico">Registrar compra</span>
-              <span class="btn btn-prim btn-chico">+ Nuevo producto</span>
+              <span data-ventana="compra" class="btn btn-sec btn-chico">Registrar compra</span>
+              <span data-ventana="producto" class="btn btn-prim btn-chico">+ Nuevo producto</span>
             </div>
 
             <div class="caja">
@@ -1226,9 +2112,9 @@
                   <td class="cod">CARP-DOM3-VRD</td>
                   <td><b>Domo Aconcagua 3P</b></td>
                   <td>Carpas</td><td>Doite</td>
-                  <td class="num">189.400</td><td class="num">7</td>
+                  <td class="num">222.800</td><td class="num">7</td>
                   <td><span class="pill pill-ok">Publicado</span></td>
-                  <td><span class="btn btn-fant btn-chico">Editar</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">MOCH-TRK50-GRS</td>
@@ -1236,15 +2122,15 @@
                   <td>Mochilas</td><td>Montagne</td>
                   <td class="num">74.000</td><td class="num">2</td>
                   <td><span class="pill pill-warn">Bajo mínimo</span></td>
-                  <td><span class="btn btn-fant btn-chico">Editar</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">LINT-FAR6-NGR</td>
                   <td><b>Farol Litoral 600 lm</b></td>
                   <td>Accesorios</td><td>Waterdog</td>
-                  <td class="num">23.500</td><td class="num">0</td>
-                  <td><span class="pill pill-error">Sin stock</span></td>
-                  <td><span class="btn btn-fant btn-chico">Editar</span></td>
+                  <td class="num">74.000</td><td class="num">2</td>
+                  <td><span class="pill pill-warn">Bajo mínimo</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">BAST-ALU2-AZL</td>
@@ -1252,85 +2138,434 @@
                   <td>Accesorios</td><td>Doite</td>
                   <td class="num">41.900</td><td class="num">18</td>
                   <td><span class="pill pill-ok">Publicado</span></td>
-                  <td><span class="btn btn-fant btn-chico">Editar</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">AISL-ESP1-VRD</td>
                   <td><b>Aislante Espuma 1P</b></td>
                   <td>Accesorios</td><td>Montagne</td>
-                  <td class="num">15.200</td><td class="num">4</td>
-                  <td><span class="pill pill-neutro">Baja lógica</span></td>
-                  <td><span class="btn btn-fant btn-chico">Ver</span></td>
+                  <td class="num">23.500</td><td class="num">0</td>
+                  <td><span class="pill pill-error">Sin stock</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
                 <tr>
-                  <td class="cod">KIT-CAMP-FDS</td>
-                  <td><b>Kit Camping Fin de Semana</b></td>
-                  <td>Kits</td><td>—</td>
-                  <td class="num">264.700</td><td class="num">3</td>
-                  <td><span class="pill pill-ok">Disponible</span></td>
-                  <td><span class="btn btn-fant btn-chico">Editar</span></td>
+                  <td class="cod">BOTE-ALU1-VRD</td>
+                  <td><b>Botella Aluminio 1 L</b></td>
+                  <td>Accesorios</td><td>Waterdog</td>
+                  <td class="num">39.700</td><td class="num">5</td>
+                  <td><span class="pill pill-ok">Publicado</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">BOLS-PAT5-AZL</td>
+                  <td><b>Bolsa de Dormir Patagonia −5°</b></td>
+                  <td>Accesorios</td><td>Montagne</td>
+                  <td class="num">88.900</td><td class="num">6</td>
+                  <td><span class="pill pill-ok">Publicado</span></td>
+                  <td><span data-ventana="producto" data-titulo="Editar producto" class="btn btn-fant btn-chico">Editar</span></td>
                 </tr>
               </table>
             </div>
 
             <div class="auditoria">
               <div><b>Log de auditoría</b></div>
-              <div>03/09 14:22 · admin@aventura360 · precio CARP-DOM3-VRD 222.800 → 189.400</div>
+              <div>03/09 14:22 · admin@aventura360 · alta de oferta −15% sobre CARP-DOM3-VRD · queda en 189.400</div>
               <div>03/09 11:05 · admin@aventura360 · stock MOCH-TRK50-GRS 6 → 2 (venta #A360-000412)</div>
-              <div>02/09 18:40 · admin@aventura360 · alta de oferta −15% CARP-DOM3-VRD hasta 30/09</div>
+              <div>02/09 18:40 · admin@aventura360 · stock LINT-FAR6-NGR 9 → 2 (ventas del fin de semana)</div>
             </div>
           </div>
         </div>
       </div>
 </section>
+<section class="pant" id="admin-categorias">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a class="act" href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
 
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Categorías</h1>
+              <span class="sub">Tres categorías fijas · las subcategorías las administra el equipo</span>
+            </div>
+
+            <div class="aviso" style="margin-bottom:18px">
+              <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
+              <div>
+                <b>Las tres categorías no se crean ni se borran</b>
+                Carpas, Mochilas y Accesorios son la estructura del catálogo: se les puede cambiar el nombre visible y la descripción, nada más. Todo lo demás se organiza como subcategoría dentro de una de ellas.
+              </div>
+            </div>
+
+            <div class="cat-grupo">
+              <div class="cat-grupo-cab">
+                <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></span>
+                <div>
+                  <h2>Carpas</h2>
+                  <div class="desc">Refugio para dormir afuera</div>
+                </div>
+                <span class="chip">Categoría fija</span>
+                <span class="cuenta">14 productos · 3 subcategorías</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Domo</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">8 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Iglú</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">4 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Autoportante</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">2 productos</span>
+                <span data-ventana="subcategoria" data-titulo="Editar subcategoría" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="cat-grupo-pie">
+                <span data-ventana="subcategoria" class="btn btn-sec btn-chico">+ Nueva subcategoría</span>
+              </div>
+            </div>
+
+            <div class="cat-grupo">
+              <div class="cat-grupo-cab">
+                <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></span>
+                <div>
+                  <h2>Mochilas</h2>
+                  <div class="desc">Todo lo que se carga al hombro</div>
+                </div>
+                <span class="chip">Categoría fija</span>
+                <span class="cuenta">23 productos · 4 subcategorías</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>De día · hasta 30 L</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">9 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>De travesía · 30 a 60 L</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">11 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>De expedición · más de 60 L</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">3 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Hidratación</b>
+                <span class="pill pill-neutro">Oculta</span>
+                <span class="cuenta">0 productos</span>
+                <span data-ventana="subcategoria" data-titulo="Editar subcategoría" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="cat-grupo-pie">
+                <span data-ventana="subcategoria" class="btn btn-sec btn-chico">+ Nueva subcategoría</span>
+              </div>
+            </div>
+
+            <div class="cat-grupo">
+              <div class="cat-grupo-cab">
+                <span class="ico"><svg viewBox="0 0 24 24"><use href="#ico-aislante"/></svg></span>
+                <div>
+                  <h2>Accesorios</h2>
+                  <div class="desc">El resto del equipo de la salida</div>
+                </div>
+                <span class="chip">Categoría fija</span>
+                <span class="cuenta">41 productos · 4 subcategorías</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Iluminación</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">12 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Aislantes y bolsas de dormir</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">15 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Bastones</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">7 productos</span>
+                <span data-ventana="categoria" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="subcat">
+                <b>Bidones y cocina</b>
+                <span class="pill pill-ok">Visible</span>
+                <span class="cuenta">7 productos</span>
+                <span data-ventana="subcategoria" data-titulo="Editar subcategoría" class="btn btn-fant btn-chico">Editar</span>
+              </div>
+              <div class="cat-grupo-pie">
+                <span data-ventana="subcategoria" class="btn btn-sec btn-chico">+ Nueva subcategoría</span>
+              </div>
+            </div>
+
+            <div class="auditoria">
+              <div><b>Log de auditoría</b></div>
+              <div>04/09 10:15 · admin@aventura360 · alta de subcategoría «Bidones y cocina» en Accesorios</div>
+              <div>02/09 17:32 · admin@aventura360 · subcategoría «Hidratación» visible → oculta (sin productos)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-kits">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a class="act" href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Kits</h1>
+              <span class="sub">La disponibilidad la calcula el sistema con el stock de cada componente</span>
+              <span data-ventana="kit" class="btn btn-prim btn-chico" style="margin-left:auto">+ Nuevo kit</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>Código</th><th>Kit</th><th>Componentes</th><th class="num">Suma suelta</th><th class="num">Precio kit</th><th>Disponibilidad</th><th></th></tr>
+                <tr>
+                  <td class="cod">KIT-CAMP-FDS</td>
+                  <td><b>Kit Camping Fin de Semana</b></td>
+                  <td><div class="comps-mini"><i><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i></div></td>
+                  <td class="num">367.200</td>
+                  <td class="num">328.300</td>
+                  <td><span class="pill pill-ok">Disponible · 3</span></td>
+                  <td><span data-ventana="kit" data-titulo="Editar kit" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">KIT-TREK-DIA</td>
+                  <td><b>Kit Trekking de Día</b></td>
+                  <td><div class="comps-mini"><i><svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-botella"/></svg></i></div></td>
+                  <td class="num">155.600</td>
+                  <td class="num">138.200</td>
+                  <td><span class="pill pill-warn">Últimas 2</span></td>
+                  <td><span data-ventana="kit" data-titulo="Editar kit" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">KIT-NOCHE</td>
+                  <td><b>Kit Noche en Carpa</b></td>
+                  <td><div class="comps-mini"><i><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i></div></td>
+                  <td class="num">162.900</td>
+                  <td class="num">153.800</td>
+                  <td><span class="pill pill-warn">Últimas 2</span></td>
+                  <td><span data-ventana="kit" data-titulo="Editar kit" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">KIT-KAYAK</td>
+                  <td><b>Kit Salida en Kayak</b></td>
+                  <td><div class="comps-mini"><i><svg viewBox="0 0 24 24"><use href="#ico-botella"/></svg></i><i class="falta"><svg viewBox="0 0 24 24"><use href="#ico-aislante"/></svg></i><i><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></i></div></td>
+                  <td class="num">137.200</td>
+                  <td class="num">124.300</td>
+                  <td><span class="pill pill-error">Sin componente</span></td>
+                  <td><span data-ventana="kit" data-titulo="Editar kit" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="aviso" style="margin-top:14px">
+              <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+              <div>
+                <b>Kit Salida en Kayak fuera del catálogo</b>
+                Le falta stock del aislante (AISL-ESP1-VRD, 0 unidades). Mientras un componente no alcance, el kit no se muestra en el catálogo ni lo recomienda el asistente.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-ofertas">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a class="act" href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Ofertas</h1>
+              <span class="sub">Se activan y vencen solas según la vigencia</span>
+              <span class="select" style="margin-left:auto">Estado: todas</span>
+              <span data-ventana="oferta" data-titulo="Nueva oferta" class="btn btn-prim btn-chico">+ Nueva oferta</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>Aplica a</th><th class="num">Descuento</th><th>Vigencia</th><th style="width:220px">Transcurrido</th><th>Estado</th><th></th></tr>
+                <tr>
+                  <td><b>Domo Aconcagua 3P</b><div class="cod" style="color:var(--texto-suave)">CARP-DOM3-VRD</div></td>
+                  <td class="num">−15%</td>
+                  <td>02/09 → 30/09</td>
+                  <td><span class="barra-fecha"><span class="riel"><i style="left:0;width:28%"></i></span>quedan 21 días</span></td>
+                  <td><span class="pill pill-ok">Vigente</span></td>
+                  <td><span data-ventana="oferta" data-titulo="Editar oferta" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Farol Litoral 600 lm</b><div class="cod" style="color:var(--texto-suave)">LINT-FAR6-NGR</div></td>
+                  <td class="num">−20%</td>
+                  <td>01/09 → 15/09</td>
+                  <td><span class="barra-fecha"><span class="riel"><i style="left:0;width:64%"></i></span>quedan 5 días</span></td>
+                  <td><span class="pill pill-ok">Vigente</span></td>
+                  <td><span data-ventana="oferta" data-titulo="Editar oferta" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Categoría Mochilas</b><div class="cod" style="color:var(--texto-suave)">toda la categoría</div></td>
+                  <td class="num">−10%</td>
+                  <td>20/09 → 05/10</td>
+                  <td><span class="barra-fecha"><span class="riel futuro"><i style="left:0;width:100%"></i></span>arranca en 10 días</span></td>
+                  <td><span class="pill pill-warn">Programada</span></td>
+                  <td><span data-ventana="oferta" data-titulo="Editar oferta" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Aislante Espuma 1P</b><div class="cod" style="color:var(--texto-suave)">AISL-ESP1-VRD</div></td>
+                  <td class="num">−25%</td>
+                  <td>05/09 → 25/09</td>
+                  <td><span class="barra-fecha"><span class="riel"><i style="left:0;width:25%"></i></span>quedan 15 días</span></td>
+                  <td><span class="pill pill-ok">Vigente</span></td>
+                  <td><span data-ventana="oferta" data-titulo="Editar oferta" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Mini Domo 2P</b><div class="cod" style="color:var(--texto-suave)">CARP-MIN2-NGR</div></td>
+                  <td class="num">−12%</td>
+                  <td>01/08 → 31/08</td>
+                  <td><span class="barra-fecha"><span class="riel gastado"><i style="left:0;width:100%"></i></span>venció el 31/08</span></td>
+                  <td><span class="pill pill-neutro">Vencida</span></td>
+                  <td><span data-ventana="oferta" data-titulo="Ver oferta" class="btn btn-fant btn-chico">Ver</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="aviso" style="margin-top:14px">
+              <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+              <div>
+                <b>Una sola oferta por producto</b>
+                Si una oferta de categoría se superpone con una de producto, sobre ese ítem se aplica una sola. La oferta vencida no se borra: queda como antecedente.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
 <section class="pant" id="admin-envios">
   <div class="lienzo">
         <div class="panel">
           <aside class="panel-lat">
             <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
             <div class="panel-gr">Catálogo</div>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Ofertas</a>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
             <div class="panel-gr">Operación</div>
-            <a class="act" href="#m8"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
-            <a href="#m8"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
-            <a href="#m7"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+            <a class="act" href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
           </aside>
 
           <div class="panel-cont">
             <div class="panel-cab">
               <h1>Envíos</h1>
+              <span class="sub">Envío simulado · el estado lo mueve el administrador</span>
               <span class="select" style="margin-left:auto">Estado: todos</span>
               <span class="buscador" style="width:220px"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg>Buscar pedido…</span>
             </div>
 
+            <div class="tabs-panel">
+              <span class="act">Todos <em>12</em></span>
+              <span>Pendientes <em>3</em></span>
+              <span>En preparación <em>4</em></span>
+              <span>En camino <em>2</em></span>
+              <span>Entregados <em>3</em></span>
+            </div>
+
             <div class="caja">
               <table class="tbl">
-                <tr><th>Pedido</th><th>Cliente</th><th>Destino</th><th>Estado actual</th><th>Cambiar a</th><th></th></tr>
+                <tr><th>Pedido</th><th>Cliente</th><th>Destino</th><th>Pagado</th><th>Estado actual</th><th>Cambiar a</th><th></th></tr>
                 <tr>
                   <td class="cod">#A360-000412</td>
                   <td>Julián Olivera</td>
                   <td>Paraná, ER</td>
+                  <td class="cod">28/08</td>
                   <td><span class="pill pill-warn">En preparación</span></td>
                   <td><span class="select">En camino</span></td>
-                  <td><span class="btn btn-prim btn-chico">Actualizar</span></td>
+                  <td><span data-ventana="envio" class="btn btn-prim btn-chico">Actualizar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">#A360-000410</td>
                   <td>David Saipert</td>
                   <td>Rosario, SF</td>
+                  <td class="cod">27/08</td>
                   <td><span class="pill pill-neutro">Pendiente</span></td>
                   <td><span class="select">En preparación</span></td>
-                  <td><span class="btn btn-prim btn-chico">Actualizar</span></td>
+                  <td><span data-ventana="envio" class="btn btn-prim btn-chico">Actualizar</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">#A360-000409</td>
+                  <td>Mariana Duarte</td>
+                  <td>Santa Fe, SF</td>
+                  <td class="cod">26/08</td>
+                  <td><span class="pill pill-warn">En camino</span></td>
+                  <td><span class="select">Entregado</span></td>
+                  <td><span data-ventana="envio" class="btn btn-prim btn-chico">Actualizar</span></td>
                 </tr>
                 <tr>
                   <td class="cod">#A360-000404</td>
                   <td>Lucía Benítez</td>
                   <td>C. del Uruguay, ER</td>
+                  <td class="cod">21/08</td>
                   <td><span class="pill pill-ok">Entregado</span></td>
                   <td><span class="select" style="opacity:.5">—</span></td>
                   <td><span class="btn btn-fant btn-chico">Ver</span></td>
@@ -1342,12 +2577,52 @@
               <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
               <div>
                 <b>Retroceso de estado</b>
-                Pasar de «entregado» a «en camino» pide confirmación y motivo, y queda asentado en el log de auditoría.
+                Pasar de «entregado» a «en camino» pide confirmación y motivo, y queda asentado en el log de auditoría. Cada cambio de estado le manda un correo al cliente.
               </div>
             </div>
 
-            <div class="panel-cab" style="margin-top:26px">
+            <div class="auditoria">
+              <div><b>Últimos cambios de estado</b></div>
+              <div>05/09 09:12 · admin@aventura360 · #A360-000409 en preparación → en camino · cliente notificado</div>
+              <div>04/09 16:48 · admin@aventura360 · #A360-000412 pendiente → en preparación · cliente notificado</div>
+              <div>03/09 10:30 · admin@aventura360 · #A360-000404 en camino → entregado · cliente notificado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-devoluciones">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a class="act" href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
               <h1>Devoluciones</h1>
+              <span class="sub">El stock reingresa al recibir la mercadería, no al aprobar</span>
+              <span class="select" style="margin-left:auto">Estado: todas</span>
+              <span class="buscador" style="width:220px"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg>Buscar pedido…</span>
+            </div>
+
+            <div class="tabs-panel">
+              <span class="act">Pendientes <em>2</em></span>
+              <span>Aprobadas <em>1</em></span>
+              <span>Rechazadas <em>1</em></span>
+              <span>Cerradas <em>6</em></span>
             </div>
 
             <div class="dev">
@@ -1355,7 +2630,7 @@
                 <span class="cod">#A360-000388</span>
                 <span class="fecha">Solicitada el 06/08/2026</span>
                 <span class="pill pill-warn">En revisión</span>
-                <span class="monto">$97.300</span>
+                <span class="monto">$59.200</span>
               </div>
               <div class="dev-cuerpo">
                 <div>
@@ -1364,21 +2639,21 @@
                     <span class="f-op"><i class="on"></i></span>
                     <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></div>
                     <div style="flex:1"><b>Farol Litoral 600 lm</b><div style="color:var(--texto-suave);font-size:12.5px">1 unidad · LINT-FAR6-NGR</div></div>
-                    <span class="num">$23.500</span>
+                    <span class="num">$59.200</span>
                   </div>
                   <div class="dev-item" style="opacity:.6">
                     <span class="f-op"><i></i></span>
                     <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></div>
                     <div style="flex:1"><b>Mini Domo 2P</b><div style="color:var(--texto-suave);font-size:12.5px">1 unidad · CARP-MIN2-NGR</div></div>
-                    <span class="num">$73.800</span>
+                    <span class="num">$97.300</span>
                   </div>
                 </div>
                 <div>
                   <span class="marca" style="display:block;margin-bottom:6px">Motivo declarado</span>
                   <div class="motivo">«El farol llegó con la tapa del compartimento de pilas rota.»</div>
                   <div style="display:flex;gap:10px;margin-top:14px">
-                    <span class="btn btn-sec btn-chico" style="flex:1">Rechazar</span>
-                    <span class="btn btn-prim btn-chico" style="flex:1">Aprobar</span>
+                    <span data-ventana="dev-rechazar" class="btn btn-sec btn-chico" style="flex:1">Rechazar</span>
+                    <span data-ventana="dev-aprobar" class="btn btn-prim btn-chico" style="flex:1">Aprobar</span>
                   </div>
                   <div class="nota-legal">
                     <svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>
@@ -1388,6 +2663,225 @@
               </div>
             </div>
 
+            <div class="dev">
+              <div class="pedido-cab">
+                <span class="cod">#A360-000371</span>
+                <span class="fecha">Solicitada el 02/08/2026</span>
+                <span class="pill pill-ok">Aprobada · esperando mercadería</span>
+                <span class="monto">$41.900</span>
+              </div>
+              <div class="dev-cuerpo">
+                <div>
+                  <span class="marca" style="display:block;margin-bottom:6px">Ítems a devolver · 1 de 1</span>
+                  <div class="dev-item">
+                    <span class="f-op"><i class="on"></i></span>
+                    <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-bastones"/></svg></div>
+                    <div style="flex:1"><b>Bastones Aluminio Par</b><div style="color:var(--texto-suave);font-size:12.5px">1 unidad · BAST-ALU2-AZL</div></div>
+                    <span class="num">$41.900</span>
+                  </div>
+                </div>
+                <div>
+                  <span class="marca" style="display:block;margin-bottom:6px">Motivo declarado</span>
+                  <div class="motivo">«Me quedaron cortos para mi altura, están sin uso.»</div>
+                  <div style="display:flex;gap:10px;margin-top:14px">
+                    <span data-ventana="recepcion" class="btn btn-prim btn-chico" style="flex:1">Registrar recepción y reingresar stock</span>
+                  </div>
+                  <div class="nota-legal">
+                    <svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>
+                    Aprobada el 03/08. Al registrar la recepción vuelven 1 unidad de BAST-ALU2-AZL al stock.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="auditoria">
+              <div><b>Log de auditoría</b></div>
+              <div>03/08 12:04 · admin@aventura360 · devolución #A360-000371 solicitada → aprobada</div>
+              <div>28/07 17:20 · admin@aventura360 · devolución #A360-000352 recibida · stock BAST-ALU2-AZL 17 → 18</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-compras">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a class="act" href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Compras a proveedores</h1>
+              <span class="sub">Cada compra registrada suma stock y queda en el log</span>
+              <span data-ventana="compra" class="btn btn-prim btn-chico" style="margin-left:auto">+ Registrar compra</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>Comprobante</th><th>Proveedor</th><th>Fecha</th><th class="num">Ítems</th><th class="num">Total</th><th>Estado</th><th></th></tr>
+                <tr>
+                  <td class="cod">#C-000087</td>
+                  <td><b>Doite Argentina</b></td>
+                  <td class="cod">01/09/2026</td>
+                  <td class="num">24</td>
+                  <td class="num">1.842.000</td>
+                  <td><span class="pill pill-ok">Ingresada</span></td>
+                  <td><span class="btn btn-fant btn-chico">Ver</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">#C-000086</td>
+                  <td><b>Montagne Mayorista</b></td>
+                  <td class="cod">24/08/2026</td>
+                  <td class="num">31</td>
+                  <td class="num">1.276.500</td>
+                  <td><span class="pill pill-ok">Ingresada</span></td>
+                  <td><span class="btn btn-fant btn-chico">Ver</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">#C-000085</td>
+                  <td><b>Waterdog Distribuidora</b></td>
+                  <td class="cod">18/08/2026</td>
+                  <td class="num">12</td>
+                  <td class="num">318.000</td>
+                  <td><span class="pill pill-warn">En tránsito</span></td>
+                  <td><span data-ventana="compra" data-titulo="Registrar ingreso de mercadería" class="btn btn-prim btn-chico">Registrar ingreso</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="panel-cab" style="margin-top:24px">
+              <h1 style="font-size:22px">Reposición sugerida</h1>
+              <span class="sub">Productos por debajo del mínimo</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>SKU</th><th>Producto</th><th class="num">Stock</th><th class="num">Mínimo</th><th class="num">A pedir</th><th></th></tr>
+                <tr>
+                  <td class="cod">LINT-FAR6-NGR</td><td><b>Farol Litoral 600 lm</b></td>
+                  <td class="num">2</td><td class="num">5</td><td class="num">12</td>
+                  <td><span data-ventana="compra" class="btn btn-sec btn-chico">Agregar a la compra</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">MOCH-TRK50-GRS</td><td><b>Mochila Trekking 50 L</b></td>
+                  <td class="num">2</td><td class="num">6</td><td class="num">10</td>
+                  <td><span data-ventana="compra" class="btn btn-sec btn-chico">Agregar a la compra</span></td>
+                </tr>
+                <tr>
+                  <td class="cod">AISL-ESP1-VRD</td><td><b>Aislante Espuma 1P</b></td>
+                  <td class="num">0</td><td class="num">8</td><td class="num">12</td>
+                  <td><span data-ventana="compra" class="btn btn-sec btn-chico">Agregar a la compra</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="auditoria">
+              <div><b>Log de auditoría</b></div>
+              <div>01/09 09:40 · admin@aventura360 · compra #C-000087 · stock CARP-DOM3-VRD 1 → 7</div>
+              <div>24/08 15:15 · admin@aventura360 · compra #C-000086 · stock BOLS-PAT5-AZL 0 → 6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-reportes">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a class="act" href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="kpis">
+              <div class="kpi"><span>Ventas del mes</span><b>$4,2 M</b></div>
+              <div class="kpi"><span>Pedidos</span><b>38</b></div>
+              <div class="kpi alerta"><span>Bajo mínimo</span><b>3</b></div>
+              <div class="kpi"><span>Devoluciones</span><b>2</b></div>
+            </div>
+
+            <div class="panel-cab">
+              <h1>Reportes</h1>
+              <span class="sub">Período: abril a septiembre de 2026</span>
+              <span class="select" style="margin-left:auto">Últimos 6 meses</span>
+              <span class="btn btn-sec btn-chico"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Exportar CSV</span>
+            </div>
+
+            <div class="rep-cols">
+              <div class="rep-caja">
+                <div class="caja-tit">Ventas por mes</div>
+                <div class="rep-cuerpo">
+                  <div class="columnas">
+                <div class="columna"><span class="valor">2,6 M</span><span class="caño" style="height:61%"></span><span class="mes">Abr</span></div>
+                <div class="columna"><span class="valor">3,1 M</span><span class="caño" style="height:73%"></span><span class="mes">May</span></div>
+                <div class="columna"><span class="valor">2,2 M</span><span class="caño" style="height:52%"></span><span class="mes">Jun</span></div>
+                <div class="columna"><span class="valor">3,4 M</span><span class="caño" style="height:80%"></span><span class="mes">Jul</span></div>
+                <div class="columna"><span class="valor">3,9 M</span><span class="caño" style="height:92%"></span><span class="mes">Ago</span></div>
+                <div class="columna pico"><span class="valor">4,2 M</span><span class="caño" style="height:100%"></span><span class="mes">Sep</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rep-caja">
+                <div class="caja-tit">Productos más vendidos</div>
+                <div class="rep-cuerpo">
+                  <div class="ranking">
+              <div class="rank"><b>Kit Camping Fin de Semana</b><span>11 vendidos · $3.611.300</span><span class="riel"><i style="width:100%"></i></span></div>
+              <div class="rank"><b>Domo Aconcagua 3P</b><span>18 vendidos · $3.409.200</span><span class="riel"><i style="width:94%"></i></span></div>
+              <div class="rank"><b>Mochila Trekking 50 L</b><span>26 vendidos · $1.924.000</span><span class="riel"><i style="width:57%"></i></span></div>
+              <div class="rank"><b>Bastones Aluminio Par</b><span>22 vendidos · $829.620</span><span class="riel"><i style="width:25%"></i></span></div>
+              <div class="rank"><b>Farol Litoral 600 lm</b><span>14 vendidos · $828.800</span><span class="riel"><i style="width:24%"></i></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rep-cols" style="margin-top:16px">
+              <div class="rep-caja">
+                <div class="caja-tit">Stock bajo mínimo</div>
+                <table class="tbl">
+                  <tr><th>Producto</th><th class="num">Stock</th><th class="num">Mínimo</th></tr>
+                  <tr><td><b>Aislante Espuma 1P</b></td><td class="num">0</td><td class="num">8</td></tr>
+                  <tr><td><b>Farol Litoral 600 lm</b></td><td class="num">2</td><td class="num">5</td></tr>
+                  <tr><td><b>Mochila Trekking 50 L</b></td><td class="num">2</td><td class="num">6</td></tr>
+                </table>
+              </div>
+
+              <div class="rep-caja">
+                <div class="caja-tit">Pedidos por estado</div>
+                <table class="tbl">
+                  <tr><th>Estado</th><th class="num">Pedidos</th><th class="num">Monto</th></tr>
+                  <tr><td><span class="pill pill-ok">Entregados</span></td><td class="num">24</td><td class="num">3.180.400</td></tr>
+                  <tr><td><span class="pill pill-warn">En camino</span></td><td class="num">6</td><td class="num">712.900</td></tr>
+                  <tr><td><span class="pill pill-neutro">Pendientes</span></td><td class="num">5</td><td class="num">248.600</td></tr>
+                  <tr><td><span class="pill pill-error">Pago rechazado</span></td><td class="num">3</td><td class="num">141.700</td></tr>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1405,7 +2899,7 @@
             <span class="x">×</span>
           </div>
           <div class="asis-cuerpo">
-            <div class="burb bot">Contame qué actividad vas a hacer y te sugiero el equipo.</div>
+            <div class="burb bot">Cuéntame qué actividad vas a hacer y te sugiero el equipo.</div>
             <div class="burb yo">Acampo dos noches en la costa, somos tres.</div>
             <div class="burb bot">Para camping de tres personas y dos noches te sirve esto:</div>
             <div class="asis-rec">
@@ -1420,8 +2914,8 @@
               <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg></div>
               <div style="flex:1;display:flex;flex-direction:column;gap:2px">
                 <span class="nombre">Kit Camping Fin de Semana</span>
-                <span class="marca">5 componentes · disponible</span>
-                <span class="p-ahora" style="font-size:18px">$264.700</span>
+                <span class="marca">2 productos · disponible</span>
+                <span class="p-ahora" style="font-size:18px">$328.300</span>
               </div>
             </div>
             <div class="asis-chips">
@@ -1429,10 +2923,10 @@
               <span class="asis-chip">Resistente al agua</span>
               <span class="asis-chip">Hasta $150.000</span>
             </div>
-            <div class="burb bot">De reservas de camping no te puedo ayudar. Escribinos al <b>343 000-0000</b>.</div>
+            <div class="burb bot">De reservas de camping no te puedo ayudar. Escríbenos al <b>343 000-0000</b>.</div>
           </div>
           <div class="asis-input">
-            <span>Escribí tu consulta…</span>
+            <span>Escribe tu consulta…</span>
             <span class="asis-env"><svg viewBox="0 0 24 24"><use href="#ico-enviar"/></svg></span>
           </div>
         </div>
@@ -1440,6 +2934,1197 @@
 <button class="asis-burbuja" id="asis-abrir" aria-label="Abrir el asistente">
   <svg viewBox="0 0 24 24"><use href="#ico-chat"/></svg>
 </button>
+
+<section class="pant" id="admin-marcas">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a class="act" href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Marcas</h1>
+              <span class="sub">Se eligen al cargar un producto</span>
+              <span class="buscador" style="margin-left:auto"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg>Buscar marca…</span>
+              <span data-ventana="marca" class="btn btn-prim btn-chico">+ Nueva marca</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>Marca</th><th>Origen</th><th>Proveedores</th><th class="num">Productos</th><th>Estado</th><th></th></tr>
+                <tr>
+                  <td><b>Doite</b></td>
+                  <td>Chile</td>
+                  <td>Doite Argentina</td>
+                  <td class="num">31</td>
+                  <td><span class="pill pill-ok">Activa</span></td>
+                  <td><span data-ventana="marca" data-titulo="Editar marca" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Montagne</b></td>
+                  <td>Argentina</td>
+                  <td>Montagne Mayorista</td>
+                  <td class="num">28</td>
+                  <td><span class="pill pill-ok">Activa</span></td>
+                  <td><span data-ventana="marca" data-titulo="Editar marca" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Waterdog</b></td>
+                  <td>Argentina</td>
+                  <td>Waterdog Distribuidora</td>
+                  <td class="num">19</td>
+                  <td><span class="pill pill-ok">Activa</span></td>
+                  <td><span data-ventana="marca" data-titulo="Editar marca" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Ombak</b></td>
+                  <td>Argentina</td>
+                  <td>—</td>
+                  <td class="num">6</td>
+                  <td><span class="pill pill-neutro">Archivada</span></td>
+                  <td><span data-ventana="marca" data-titulo="Editar marca" class="btn btn-fant btn-chico">Ver</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="aviso" style="margin-top:14px">
+              <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+              <div>
+                <b>Una marca con productos no se elimina</b>
+                Se archiva: deja de ofrecerse al cargar productos nuevos, pero los seis productos de Ombak siguen publicados y con su marca.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section class="pant" id="admin-proveedores">
+  <div class="lienzo">
+        <div class="panel">
+          <aside class="panel-lat">
+            <div class="panel-marca"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>Aventura 360</div>
+            <div class="panel-gr">Catálogo</div>
+            <a href="#admin-productos"><svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>Productos</a>
+            <a href="#admin-categorias"><svg viewBox="0 0 24 24"><use href="#ico-filtro"/></svg>Categorías</a>
+            <a href="#admin-marcas"><svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>Marcas</a>
+            <a href="#admin-kits"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg>Kits</a>
+            <a href="#admin-ofertas"><svg viewBox="0 0 24 24"><use href="#ico-oferta"/></svg>Ofertas</a>
+            <div class="panel-gr">Operación</div>
+            <a href="#admin-envios"><svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>Envíos</a>
+            <a href="#admin-devoluciones"><svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>Devoluciones</a>
+            <a href="#admin-compras"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Compras</a>
+            <a class="act" href="#admin-proveedores"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Proveedores</a>
+            <a href="#admin-reportes"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Reportes</a>
+          </aside>
+
+          <div class="panel-cont">
+            <div class="panel-cab">
+              <h1>Proveedores</h1>
+              <span class="sub">Se eligen al registrar una compra</span>
+              <span class="buscador" style="margin-left:auto"><svg viewBox="0 0 24 24"><use href="#ico-buscar"/></svg>Buscar proveedor…</span>
+              <span data-ventana="proveedor" class="btn btn-prim btn-chico">+ Nuevo proveedor</span>
+            </div>
+
+            <div class="caja">
+              <table class="tbl">
+                <tr><th>Proveedor</th><th>CUIT</th><th>Marcas que distribuye</th><th>Contacto</th><th class="num">Compras</th><th>Estado</th><th></th></tr>
+                <tr>
+                  <td><b>Doite Argentina S.A.</b></td>
+                  <td class="cod">30-71234567-4</td>
+                  <td><span class="chip">Doite</span></td>
+                  <td>Marcelo Ríos<div style="color:var(--texto-suave);font-size:12.5px">011 4788-2200</div></td>
+                  <td class="num">14</td>
+                  <td><span class="pill pill-ok">Activo</span></td>
+                  <td><span data-ventana="proveedor" data-titulo="Editar proveedor" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Montagne Mayorista S.R.L.</b></td>
+                  <td class="cod">30-69887412-1</td>
+                  <td><span class="chip">Montagne</span></td>
+                  <td>Paula Giménez<div style="color:var(--texto-suave);font-size:12.5px">011 4300-9120</div></td>
+                  <td class="num">11</td>
+                  <td><span class="pill pill-ok">Activo</span></td>
+                  <td><span data-ventana="proveedor" data-titulo="Editar proveedor" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Waterdog Distribuidora</b></td>
+                  <td class="cod">30-70551236-8</td>
+                  <td><span class="chip">Waterdog</span></td>
+                  <td>Ernesto Vera<div style="color:var(--texto-suave);font-size:12.5px">0341 455-7788</div></td>
+                  <td class="num">7</td>
+                  <td><span class="pill pill-warn">Compra en tránsito</span></td>
+                  <td><span data-ventana="proveedor" data-titulo="Editar proveedor" class="btn btn-fant btn-chico">Editar</span></td>
+                </tr>
+                <tr>
+                  <td><b>Náutica del Litoral</b></td>
+                  <td class="cod">30-71900044-2</td>
+                  <td><span class="chip">Ombak</span></td>
+                  <td>Sin contacto cargado</td>
+                  <td class="num">2</td>
+                  <td><span class="pill pill-neutro">Inactivo</span></td>
+                  <td><span data-ventana="proveedor" data-titulo="Editar proveedor" class="btn btn-fant btn-chico">Ver</span></td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="aviso" style="margin-top:14px">
+              <svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>
+              <div>
+                <b>Un proveedor puede traer varias marcas</b>
+                Al registrar una compra se muestran primero los productos de las marcas que distribuye, para no tener que buscarlos entre los ochenta y cuatro del catálogo.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+
+<div class="telon" data-ventana="producto">
+  <div class="modal grande" role="dialog" aria-label="Nuevo producto">
+    <div class="modal-cab">
+      <div>
+        <h2>Nuevo producto</h2>
+        <div class="sub"></div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+        <div class="form-sep">Identificación</div>
+      <div class="campo c1">
+        <label>SKU</label>
+        <input type="text" value="" placeholder="CARP-DOM3-VRD">
+        <span class="pista">Único. No se puede repetir.</span>
+      </div>
+      <div class="campo c2">
+        <label>Nombre del producto</label>
+        <input type="text" value="" placeholder="Domo Aconcagua 3P">
+      </div>
+      <div class="campo c1">
+        <label>Marca</label>
+        <div class="con-mas">
+          <select><option>Doite</option><option>Montagne</option><option>Waterdog</option></select>
+          <span data-ventana="marca" class="btn btn-sec" title="Nueva marca">+</span>
+        </div>
+      </div>
+        <div class="form-sep">Clasificación</div>
+      <div class="campo c1">
+        <label>Categoría</label>
+        <select><option>Carpas</option><option>Mochilas</option><option>Accesorios</option></select>
+      </div>
+      <div class="campo c1">
+        <label>Subcategoría</label>
+        <select><option>Domo</option><option>Iglú</option><option>Autoportante</option></select>
+      </div>
+      <div class="campo c2">
+        <label>Ocasión</label>
+        <div class="opciones"><span class="opcion on"><i></i>Trekking</span><span class="opcion on"><i></i>Camping</span><span class="opcion"><i></i>Kayak</span></div>
+      </div>
+      <div class="campo c4">
+        <label>Estado</label>
+        <div class="opciones"><span class="opcion redonda on"><i></i>Nuevo</span><span class="opcion redonda"><i></i>Reacondicionado</span></div>
+      </div>
+        <div class="form-sep">Precio y stock</div>
+      <div class="campo c1">
+        <label>Precio de lista</label>
+        <input type="text" value="" placeholder="$ 222.800">
+      </div>
+      <div class="campo c1">
+        <label>Stock inicial</label>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="campo c1">
+        <label>Stock mínimo</label>
+        <input type="number" placeholder="5">
+        <span class="pista">Avisa cuando el stock cae por debajo.</span>
+      </div>
+      <div class="campo c1">
+        <label>Publicación</label>
+        <select><option>Publicado</option><option>Borrador</option><option>Baja lógica</option></select>
+      </div>
+        <div class="form-sep">Ficha técnica</div>
+      <div class="campo c2">
+        <label>Dimensiones</label>
+        <input type="text" value="" placeholder="210 × 180 × 130 cm">
+      </div>
+      <div class="campo c1">
+        <label>Peso</label>
+        <input type="text" value="" placeholder="3,4 kg">
+      </div>
+      <div class="campo c1">
+        <label>Color</label>
+        <input type="text" value="" placeholder="Verde bosque">
+      </div>
+      <div class="campo c1">
+        <label>Garantía</label>
+        <select><option>6 meses</option><option selected>12 meses</option><option>24 meses</option><option>Sin garantía</option></select>
+      </div>
+      <div class="campo c3">
+        <label>Material</label>
+        <input type="text" value="" placeholder="Poliéster 190T · piso PE 3000 mm">
+      </div>
+      <div class="campo c4">
+        <label>Descripción</label>
+        <textarea placeholder="Para qué sirve, cuándo conviene y qué trae."></textarea>
+      </div>
+      <div class="campo c4">
+        <label>Imágenes</label>
+        <div class="zona-img"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg><div>Arrastra hasta 4 imágenes o <b>elige archivos</b> · JPG o PNG, mínimo 800 px</div></div>
+      </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="obliga">Los campos vacíos no dejan publicar</span>
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-sec" data-cerrar>Guardar borrador</span>
+      <span class="btn btn-prim" data-cerrar>Publicar producto</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="subcategoria">
+  <div class="modal chico" role="dialog" aria-label="Nueva subcategoría">
+    <div class="modal-cab">
+      <div>
+        <h2>Nueva subcategoría</h2>
+        <div class="sub">Cuelga de una de las tres categorías fijas</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c4">
+        <label>Categoría madre</label>
+        <select><option>Carpas</option><option>Mochilas</option><option>Accesorios</option></select>
+        <span class="pista">Las tres categorías son fijas: la subcategoría siempre cuelga de una.</span>
+      </div>
+      <div class="campo c4">
+        <label>Nombre</label>
+        <input type="text" value="" placeholder="Autoportante">
+      </div>
+      <div class="campo c4">
+        <label>Descripción</label>
+        <textarea placeholder="Una línea que explique qué entra aquí."></textarea>
+      </div>
+      <div class="campo c4">
+        <label>Visibilidad</label>
+        <div class="opciones"><span class="opcion on"><i></i>Visible en el catálogo</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Crear subcategoría</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="categoria">
+  <div class="modal chico" role="dialog" aria-label="Editar categoría">
+    <div class="modal-cab">
+      <div>
+        <h2>Editar categoría</h2>
+        <div class="sub">Solo el nombre visible y la descripción</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c2">
+        <label>Nombre visible</label>
+        <input type="text" value="Carpas" placeholder="">
+      </div>
+      <div class="campo c2">
+        <label>Orden en el menú</label>
+        <select><option selected>1</option><option>2</option><option>3</option></select>
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
+        <div>
+          <b>Categoría fija</b>
+          Se puede cambiar cómo se muestra, pero no se elimina ni se mueve: el catálogo entero se apoya en estas tres.
+        </div>
+      </div>
+      <div class="form" style="margin-top:14px">
+      <div class="campo c4">
+        <label>Descripción</label>
+        <textarea>Refugio para dormir afuera</textarea>
+      </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Guardar cambios</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="kit">
+  <div class="modal" role="dialog" aria-label="Nuevo kit">
+    <div class="modal-cab">
+      <div>
+        <h2>Nuevo kit</h2>
+        <div class="sub">Un combo de productos con precio propio</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c1">
+        <label>Código</label>
+        <input type="text" value="" placeholder="KIT-CAMP-FDS">
+      </div>
+      <div class="campo c3">
+        <label>Nombre del kit</label>
+        <input type="text" value="" placeholder="Kit Camping Fin de Semana">
+      </div>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 12px">Componentes</div>
+      <table class="tabla-modal">
+        <tr><th>Producto</th><th style="width:90px">Cantidad</th><th class="num" style="width:110px">Precio unit.</th><th class="num" style="width:110px">Subtotal</th><th style="width:34px"></th></tr>
+        <tr>
+          <td><b>Domo Aconcagua 3P</b><div class="cod" style="color:var(--texto-suave)">CARP-DOM3-VRD · 7 en stock</div></td>
+          <td><input type="number" value="1"></td>
+          <td class="num">189.400</td><td class="num">189.400</td>
+          <td><span class="quitar">×</span></td>
+        </tr>
+        <tr>
+          <td><b>Bolsa de Dormir Patagonia −5°</b><div class="cod" style="color:var(--texto-suave)">BOLS-PAT5-AZL · 6 en stock</div></td>
+          <td><input type="number" value="2"></td>
+          <td class="num">88.900</td><td class="num">177.800</td>
+          <td><span class="quitar">×</span></td>
+        </tr>
+      </table>
+      <div style="margin-top:11px"><span class="btn btn-sec btn-chico">+ Agregar componente</span></div>
+
+      <div class="form" style="margin-top:18px">
+      <div class="campo c2">
+        <label>Precio del kit</label>
+        <input type="text" value="" placeholder="$ 328.300">
+      </div>
+      <div class="campo c2">
+        <label>Publicación</label>
+        <select><option>Publicado</option><option>Borrador</option></select>
+      </div>
+      </div>
+
+      <div class="cuentas" style="margin-top:14px">
+        <div class="resumen-fila"><span>Suma de los sueltos</span><span>$367.200</span></div>
+        <div class="resumen-fila"><span>Precio del kit</span><span>$328.300</span></div>
+        <div class="resumen-fila total"><span>Ahorra el cliente</span><b>$38.900</b></div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+        <div>
+          <b>La disponibilidad no se carga a mano</b>
+          El sistema la calcula con el stock de cada componente y la cantidad que pide el kit. Con estos dos, alcanza para <b>3 kits</b>. Si a alguno se le acaba el stock, el kit sale del catálogo solo.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="obliga">Mínimo 2 componentes</span>
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Crear kit</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="oferta">
+  <div class="modal" role="dialog" aria-label="Nueva oferta">
+    <div class="modal-cab">
+      <div>
+        <h2>Nueva oferta</h2>
+        <div class="sub">Se activa y vence sola según la vigencia</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c4">
+        <label>Aplica a</label>
+        <div class="opciones"><span class="opcion redonda on"><i></i>Un producto</span><span class="opcion redonda"><i></i>Una categoría entera</span></div>
+      </div>
+      <div class="campo c3">
+        <label>Producto</label>
+        <select><option>Domo Aconcagua 3P — CARP-DOM3-VRD</option><option>Farol Litoral 600 lm — LINT-FAR6-NGR</option><option>Mochila Trekking 50 L — MOCH-TRK50-GRS</option></select>
+      </div>
+      <div class="campo c1">
+        <label>Descuento</label>
+        <input type="number" value="15">
+        <span class="pista">En porcentaje.</span>
+      </div>
+        <div class="form-sep">Vigencia</div>
+      <div class="campo c2">
+        <label>Desde</label>
+        <input type="date" value="2026-09-02">
+      </div>
+      <div class="campo c2">
+        <label>Hasta</label>
+        <input type="date" value="2026-09-30">
+      </div>
+      <div class="campo c4">
+        <label>Etiqueta en el catálogo</label>
+        <input type="text" value="−15% hasta 30/09" placeholder="">
+        <span class="pista">Es lo que ve el cliente sobre la foto.</span>
+      </div>
+      </div>
+
+      <div class="cuentas" style="margin-top:16px">
+        <div class="resumen-fila"><span>Precio de lista</span><span>$222.800</span></div>
+        <div class="resumen-fila"><span>Descuento −15%</span><span class="desc">−$33.400</span></div>
+        <div class="resumen-fila total"><span>Queda en</span><b>$189.400</b></div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+        <div>
+          <b>Se activa y vence sola</b>
+          No hace falta volver a entrar: se activa el día de inicio y vence el último día a las 23:59. Sobre un mismo producto se aplica una sola oferta, aunque se superponga con una de categoría.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Crear oferta</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="compra">
+  <div class="modal" role="dialog" aria-label="Registrar compra">
+    <div class="modal-cab">
+      <div>
+        <h2>Registrar compra</h2>
+        <div class="sub">Suma stock y queda en el log de auditoría</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c2">
+        <label>Proveedor</label>
+        <div class="con-mas">
+          <select><option>Doite Argentina</option><option>Montagne Mayorista</option><option>Waterdog Distribuidora</option></select>
+          <span data-ventana="proveedor" class="btn btn-sec" title="Nuevo proveedor">+</span>
+        </div>
+      </div>
+      <div class="campo c1">
+        <label>Comprobante</label>
+        <input type="text" value="" placeholder="#C-000088">
+      </div>
+      <div class="campo c1">
+        <label>Fecha</label>
+        <input type="date" value="2026-09-10">
+      </div>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 12px">Ítems recibidos</div>
+      <table class="tabla-modal">
+        <tr><th>Producto</th><th style="width:90px">Cantidad</th><th class="num" style="width:110px">Costo unit.</th><th class="num" style="width:110px">Subtotal</th><th style="width:34px"></th></tr>
+        <tr>
+          <td><b>Farol Litoral 600 lm</b><div class="cod" style="color:var(--texto-suave)">LINT-FAR6-NGR · stock 2 → 14</div></td>
+          <td><input type="number" value="12"></td>
+          <td class="num">41.000</td><td class="num">492.000</td>
+          <td><span class="quitar">×</span></td>
+        </tr>
+        <tr>
+          <td><b>Mochila Trekking 50 L</b><div class="cod" style="color:var(--texto-suave)">MOCH-TRK50-GRS · stock 2 → 12</div></td>
+          <td><input type="number" value="10"></td>
+          <td class="num">44.400</td><td class="num">444.000</td>
+          <td><span class="quitar">×</span></td>
+        </tr>
+      </table>
+      <div style="margin-top:11px"><span class="btn btn-sec btn-chico">+ Agregar ítem</span></div>
+
+      <div class="cuentas" style="margin-top:16px">
+        <div class="resumen-fila"><span>2 productos · 22 unidades</span><span>$936.000</span></div>
+        <div class="resumen-fila total"><span>Total de la compra</span><b>$936.000</b></div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>
+        <div>
+          <b>Esto suma stock real</b>
+          Al confirmar, cada producto sube por la cantidad cargada y el movimiento queda en el log de auditoría con tu usuario y la fecha.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Registrar y sumar stock</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="envio">
+  <div class="modal chico" role="dialog" aria-label="Cambiar estado del envío">
+    <div class="modal-cab">
+      <div>
+        <h2>Cambiar estado del envío</h2>
+        <div class="sub">Cada cambio le avisa al cliente</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Pedido</span><span class="cod" id="ve-pedido">#A360-000412</span></div>
+        <div class="resumen-fila"><span>Cliente</span><span id="ve-cliente">Julián Olivera</span></div>
+        <div class="resumen-fila"><span>Destino</span><span id="ve-destino">Paraná, ER</span></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;justify-content:center;margin:20px 0">
+        <span class="pill pill-neutro" id="ve-desde">En preparación</span>
+        <span style="font-family:var(--mono);color:var(--texto-suave)">→</span>
+        <span class="pill pill-ok" id="ve-hasta">En camino</span>
+      </div>
+
+      <div id="ve-motivo" hidden>
+        <div class="aviso" style="margin-bottom:14px">
+          <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+          <div>
+            <b>Estás retrocediendo el estado</b>
+            Volver atrás sobre un envío ya avanzado exige un motivo, que queda asentado en el log de auditoría con tu usuario.
+          </div>
+        </div>
+        <div class="form">
+          <div class="campo c4">
+            <label>Motivo del retroceso</label>
+            <textarea placeholder="Por ejemplo: el correo devolvió el paquete por domicilio inexistente."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="nota-legal" style="margin-top:4px">
+        <svg viewBox="0 0 24 24"><use href="#ico-enviar"/></svg>
+        Al confirmar le llega un correo al cliente con el estado nuevo.
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Confirmar y notificar</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="dev-aprobar">
+  <div class="modal" role="dialog" aria-label="Aprobar devolución">
+    <div class="modal-cab">
+      <div>
+        <h2>Aprobar devolución</h2>
+        <div class="sub">Todavía no reingresa stock</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Devolución del pedido</span><span class="cod">#A360-000388</span></div>
+        <div class="resumen-fila"><span>Solicitada</span><span>06/08/2026</span></div>
+        <div class="resumen-fila total"><span>A reintegrar</span><b>$59.200</b></div>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 10px">Ítems aprobados · 1 de 2</div>
+      <div class="dev-item" style="padding-top:0">
+        <div class="ph-cuad" style="width:44px;height:44px"><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></div>
+        <div style="flex:1"><b>Farol Litoral 600 lm</b><div style="color:var(--texto-suave);font-size:12.5px">1 unidad · LINT-FAR6-NGR</div></div>
+        <span class="num">$59.200</span>
+      </div>
+
+      <div class="form" style="margin-top:14px">
+        <div class="campo c4">
+          <label>Nota para el cliente</label>
+          <textarea placeholder="Le llega por correo junto con las instrucciones de envío.">Aprobamos la devolución del farol. Envíalo con el remito dentro de la caja.</textarea>
+        </div>
+      </div>
+
+      <div class="aviso" style="margin-top:6px">
+        <svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>
+        <div>
+          <b>Aprobar todavía no toca el stock</b>
+          La unidad vuelve al inventario solo cuando registres la recepción de la mercadería, y solo por los ítems que efectivamente lleguen.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Aprobar devolución</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="dev-rechazar">
+  <div class="modal chico" role="dialog" aria-label="Rechazar devolución">
+    <div class="modal-cab">
+      <div>
+        <h2>Rechazar devolución</h2>
+        <div class="sub">Se cierra la solicitud</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Devolución del pedido</span><span class="cod">#A360-000388</span></div>
+        <div class="resumen-fila"><span>Cliente</span><span>Lucía Benítez</span></div>
+      </div>
+
+      <div class="form" style="margin-top:16px">
+      <div class="campo c4">
+        <label>Motivo del rechazo</label>
+        <select><option>Fuera del plazo de 10 días</option><option>El producto tiene uso</option><option>No corresponde al pedido</option><option>Otro…</option></select>
+      </div>
+      <div class="campo c4">
+        <label>Detalle para el cliente</label>
+        <textarea placeholder="Explícale en una línea por qué no procede."></textarea>
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+        <div>
+          <b>El motivo se le envía al cliente</b>
+          Rechazar cierra la solicitud. Si después aparece información nueva, el cliente tiene que abrir una devolución distinta.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Rechazar devolución</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="recepcion">
+  <div class="modal" role="dialog" aria-label="Registrar recepción">
+    <div class="modal-cab">
+      <div>
+        <h2>Registrar recepción</h2>
+        <div class="sub">Aquí sí vuelve el stock al inventario</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Devolución del pedido</span><span class="cod">#A360-000371</span></div>
+        <div class="resumen-fila"><span>Aprobada</span><span>03/08/2026</span></div>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 10px">Marca lo que llegó y en qué estado</div>
+      <table class="tabla-modal">
+        <tr><th style="width:34px"></th><th>Producto</th><th style="width:90px">Cantidad</th><th style="width:180px">Estado</th></tr>
+        <tr>
+          <td><span class="opcion on" style="border:none;padding:0;background:none"><i></i></span></td>
+          <td><b>Bastones Aluminio Par</b><div class="cod" style="color:var(--texto-suave)">BAST-ALU2-AZL</div></td>
+          <td><input type="number" value="1"></td>
+          <td><select><option>Apto para vender</option><option>Fallado — no reingresa</option></select></td>
+        </tr>
+      </table>
+
+      <div class="cuentas" style="margin-top:16px">
+        <div class="resumen-fila"><span>BAST-ALU2-AZL</span><span>stock 18 → 19</span></div>
+        <div class="resumen-fila total"><span>A reintegrar al cliente</span><b>$41.900</b></div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-caja"/></svg>
+        <div>
+          <b>Aquí sí vuelve el stock</b>
+          Solo por lo que marques como recibido y apto para vender. Lo que llegue fallado se registra igual, pero no suma al inventario.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Registrar recepción</span>
+    </div>
+  </div>
+</div>
+
+<div class="telon" data-ventana="cta-datos">
+  <div class="modal chico" role="dialog" aria-label="Editar mis datos">
+    <div class="modal-cab">
+      <div>
+        <h2>Editar mis datos</h2>
+        <div class="sub">Se usan para el comprobante de compra</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c4">
+        <label>Nombre y apellido</label>
+        <input type="text" value="Julián Agustín Olivera" placeholder="">
+      </div>
+      <div class="campo c2">
+        <label>Teléfono</label>
+        <input type="text" value="343 512-4488" placeholder="">
+      </div>
+      <div class="campo c1">
+        <label>Tipo de documento</label>
+        <select><option>DNI</option><option>Pasaporte</option><option>CUIT</option></select>
+      </div>
+      <div class="campo c1">
+        <label>Número</label>
+        <input type="text" value="40.221.556" placeholder="">
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
+        <div>
+          <b>Ley 25.326</b>
+          Guardamos solo lo necesario para facturar y enviar. Puedes pedir una copia de tus datos o su baja cuando quieras.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Guardar cambios</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-clave">
+  <div class="modal chico" role="dialog" aria-label="Cambiar la contraseña">
+    <div class="modal-cab">
+      <div>
+        <h2>Cambiar la contraseña</h2>
+        <div class="sub">Cierra las demás sesiones abiertas</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c4">
+        <label>Contraseña actual</label>
+        <input type="text" value="••••••••••">
+      </div>
+      <div class="campo c4">
+        <label>Contraseña nueva</label>
+        <input type="text" value="" placeholder="Mínimo 8 caracteres">
+      </div>
+      <div class="campo c4">
+        <label>Repetir la nueva</label>
+        <input type="text" value="" placeholder="Escríbela otra vez">
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-escudo"/></svg>
+        <div>
+          <b>Mínimo 8 caracteres</b>
+          Que mezcle letras y números. Al guardar se cierran todas las otras sesiones y te avisamos por correo.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Guardar contraseña</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-google">
+  <div class="modal chico" role="dialog" aria-label="Desvincular Google">
+    <div class="modal-cab">
+      <div>
+        <h2>Desvincular Google</h2>
+        <div class="sub">Vas a seguir entrando con correo y contraseña</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="aviso peligro">
+        <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+        <div>
+          <b>Después de desvincular</b>
+          El botón «Continuar con Google» deja de entrar a esta cuenta. Como ya tienes contraseña, no pierdes el acceso ni el historial de pedidos.
+        </div>
+      </div>
+
+      <div class="form" style="margin-top:16px">
+      <div class="campo c4">
+        <label>Contraseña actual</label>
+        <input type="text" value="••••••••••">
+        <span class="pista">Para confirmar que eres tú.</span>
+      </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-peligro btn-prim" data-cerrar>Desvincular</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-avisos">
+  <div class="modal chico" role="dialog" aria-label="Avisos por correo">
+    <div class="modal-cab">
+      <div>
+        <h2>Avisos por correo</h2>
+        <div class="sub">Elige qué avisos quieres recibir</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span class="opcion on" style="justify-content:flex-start"><i></i>Estado de mis pedidos y envíos</span>
+        <span class="opcion on" style="justify-content:flex-start"><i></i>Devoluciones y reintegros</span>
+        <span class="opcion" style="justify-content:flex-start"><i></i>Ofertas y descuentos</span>
+        <span class="opcion" style="justify-content:flex-start"><i></i>Novedades del catálogo</span>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-chat"/></svg>
+        <div>
+          <b>Los dos primeros no se pueden apagar del todo</b>
+          Son avisos de la operación: si compraste, tienes que poder enterarte de qué pasa con tu pedido.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Guardar preferencias</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-direccion">
+  <div class="modal" role="dialog" aria-label="Nueva dirección">
+    <div class="modal-cab">
+      <div>
+        <h2>Nueva dirección</h2>
+        <div class="sub">Aparece para elegir en el checkout</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c2">
+        <label>Nombre de la dirección</label>
+        <input type="text" value="" placeholder="Casa, Trabajo, Casa de mis viejos…">
+      </div>
+      <div class="campo c2">
+        <label>Provincia</label>
+        <select><option>Entre Ríos</option><option>Santa Fe</option><option>Buenos Aires</option><option>Córdoba</option></select>
+      </div>
+      <div class="campo c2">
+        <label>Localidad</label>
+        <input type="text" value="" placeholder="Paraná">
+      </div>
+      <div class="campo c2">
+        <label>Código postal</label>
+        <input type="text" value="" placeholder="3100">
+      </div>
+      <div class="campo c3">
+        <label>Calle</label>
+        <input type="text" value="" placeholder="Av. Almafuerte">
+      </div>
+      <div class="campo c1">
+        <label>Número</label>
+        <input type="text" value="" placeholder="1234">
+      </div>
+      <div class="campo c2">
+        <label>Piso y departamento</label>
+        <input type="text" value="" placeholder="2 B · opcional">
+      </div>
+      <div class="campo c2">
+        <label>Teléfono de contacto</label>
+        <input type="text" value="343 512-4488" placeholder="">
+      </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <span class="opcion" style="justify-content:flex-start"><i></i>Usar como dirección preferida</span>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Guardar dirección</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-borrar-dir">
+  <div class="modal chico" role="dialog" aria-label="Eliminar dirección">
+    <div class="modal-cab">
+      <div>
+        <h2>Eliminar dirección</h2>
+        <div class="sub">No afecta a los pedidos ya hechos</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Casa</span><span></span></div>
+        <div class="resumen-fila"><span>Av. Almafuerte 1234, piso 2 depto B</span><span></span></div>
+        <div class="resumen-fila"><span>Paraná, Entre Ríos · CP 3100</span><span></span></div>
+      </div>
+
+      <div class="aviso peligro" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
+        <div>
+          <b>Es tu dirección preferida</b>
+          Si la eliminas, el checkout te va a pedir que elijas otra. Los pedidos ya enviados conservan la dirección con la que se despacharon.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-peligro btn-prim" data-cerrar>Eliminar</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="pedido-detalle">
+  <div class="modal" role="dialog" aria-label="Pedido #A360-000412">
+    <div class="modal-cab">
+      <div>
+        <h2>Pedido #A360-000412</h2>
+        <div class="sub">Comprado el 28 de agosto de 2026</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <span class="pill pill-ok">Pagado</span>
+        <span class="pill pill-warn">En camino</span>
+        <span class="chip">Mercado Pago · cuenta</span>
+      </div>
+
+      <div class="ruta" style="margin-bottom:20px">
+        <span class="hecho">Pendiente</span>
+        <span class="hecho">En preparación</span>
+        <span class="act">En camino</span>
+        <span>Entregado</span>
+      </div>
+
+      <div class="form-sep" style="margin-bottom:6px">Productos</div>
+      <div class="linea-pedido">
+        <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></div>
+        <div class="dat"><b>Domo Aconcagua 3P</b><small>1 unidad · Doite · CARP-DOM3-VRD</small></div>
+        <span class="num">$189.400</span>
+      </div>
+      <div class="linea-pedido">
+        <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></div>
+        <div class="dat"><b>Mochila Trekking 50 L</b><small>2 unidades · Montagne · MOCH-TRK50-GRS</small></div>
+        <span class="num">$148.000</span>
+      </div>
+      <div class="linea-pedido">
+        <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg></div>
+        <div class="dat"><b>Kit Camping Fin de Semana</b><small>1 unidad · 2 productos, 3 piezas</small></div>
+        <span class="num">$328.300</span>
+      </div>
+
+      <div class="cuentas" style="margin-top:16px">
+        <div class="resumen-fila"><span>Subtotal</span><span>$699.100</span></div>
+        <div class="resumen-fila"><span>Descuentos</span><span class="desc">−$33.400</span></div>
+        <div class="resumen-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
+        <div class="resumen-fila total"><span>Total</span><b>$678.300</b></div>
+      </div>
+
+      <div class="form-sep" style="margin:20px 0 6px">Envío</div>
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Dirección</span><span>Av. Almafuerte 1234, piso 2 depto B</span></div>
+        <div class="resumen-fila"><span>Localidad</span><span>Paraná, Entre Ríos · CP 3100</span></div>
+        <div class="resumen-fila"><span>Salió el</span><span>05/09/2026</span></div>
+      </div>
+
+      <div class="nota-legal" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>
+        El comprobante fiscal lo emite Mercado Pago y te llegó por correo. Aquí abajo puedes descargar el comprobante de la operación.
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cerrar</span>
+      <span class="btn btn-sec"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Descargar comprobante</span>
+      <span class="btn btn-prim" data-cerrar>Solicitar devolución</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-devolucion">
+  <div class="modal" role="dialog" aria-label="Devolución #A360-000388">
+    <div class="modal-cab">
+      <div>
+        <h2>Devolución #A360-000388</h2>
+        <div class="sub">Solicitada el 6 de agosto de 2026</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <span class="pill pill-warn">En revisión</span>
+        <span class="chip">Del pedido #A360-000388</span>
+      </div>
+
+      <div class="ruta" style="margin-bottom:20px">
+        <span class="hecho">Solicitada</span>
+        <span class="act">En revisión</span>
+        <span>Aprobada</span>
+        <span>Reintegrada</span>
+      </div>
+
+      <div class="form-sep" style="margin-bottom:6px">Producto a devolver</div>
+      <div class="linea-pedido">
+        <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-farol"/></svg></div>
+        <div class="dat"><b>Farol Litoral 600 lm</b><small>1 unidad · Waterdog · LINT-FAR6-NGR</small></div>
+        <span class="num">$59.200</span>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 8px">Motivo que declaraste</div>
+      <div class="motivo">«El farol llegó con la tapa del compartimento de pilas rota.»</div>
+
+      <div class="cuentas" style="margin-top:16px">
+        <div class="resumen-fila total"><span>A reintegrar</span><b>$59.200</b></div>
+      </div>
+
+      <div class="aviso" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><use href="#ico-volver"/></svg>
+        <div>
+          <b>Qué falta</b>
+          Estamos revisando la solicitud. Cuando la aprobemos te enviamos por correo las instrucciones para despachar el producto, y el dinero vuelve por Mercado Pago apenas lo recibamos y lo controlemos.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cerrar</span>
+      <span class="btn btn-sec" data-cerrar>Cancelar la solicitud</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="cta-etiqueta">
+  <div class="modal chico" role="dialog" aria-label="Instrucciones de envío">
+    <div class="modal-cab">
+      <div>
+        <h2>Instrucciones de envío</h2>
+        <div class="sub">Devolución #A360-000371 · aprobada el 03/08</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="cuentas" style="background:var(--bg-elev);border-color:var(--borde-fuerte)">
+        <div class="resumen-fila"><span>Enviar a</span><span>Aventura 360</span></div>
+        <div class="resumen-fila"><span>Dirección</span><span>Urquiza 1450, Paraná, Entre Ríos</span></div>
+        <div class="resumen-fila"><span>Referencia</span><span class="cod">DEV-000371</span></div>
+      </div>
+
+      <div class="form-sep" style="margin:18px 0 10px">Antes de enviarlo</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+        <span class="opcion" style="justify-content:flex-start"><i></i>Coloca el producto en su embalaje original</span>
+        <span class="opcion" style="justify-content:flex-start"><i></i>Incluye el remito impreso o escrito a mano con la referencia</span>
+        <span class="opcion" style="justify-content:flex-start"><i></i>Guarda el comprobante del correo hasta el reintegro</span>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-envio"/></svg>
+        <div>
+          <b>Tienes 10 días para enviarlo</b>
+          Pasado ese plazo la solicitud se cierra sola. Cuando el paquete llegue y se controle, el dinero vuelve por el mismo medio de pago.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cerrar</span>
+      <span class="btn btn-prim"><svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>Descargar remito</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="marca">
+  <div class="modal chico" role="dialog" aria-label="Nueva marca">
+    <div class="modal-cab">
+      <div>
+        <h2>Nueva marca</h2>
+        <div class="sub">Se puede elegir al cargar un producto</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c2">
+        <label>Nombre</label>
+        <input type="text" value="" placeholder="Doite">
+      </div>
+      <div class="campo c2">
+        <label>País de origen</label>
+        <input type="text" value="" placeholder="Chile">
+      </div>
+      <div class="campo c4">
+        <label>Sitio web</label>
+        <input type="text" value="" placeholder="doite.com · opcional">
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-etiqueta"/></svg>
+        <div>
+          <b>La marca no se borra si tiene productos</b>
+          Se archiva: deja de aparecer al cargar productos nuevos, pero los que ya la usan la conservan.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Crear marca</span>
+    </div>
+  </div>
+</div>
+<div class="telon" data-ventana="proveedor">
+  <div class="modal" role="dialog" aria-label="Nuevo proveedor">
+    <div class="modal-cab">
+      <div>
+        <h2>Nuevo proveedor</h2>
+        <div class="sub">Se puede elegir al registrar una compra</div>
+      </div>
+      <button class="modal-x" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-cuerpo">
+      <div class="form">
+      <div class="campo c3">
+        <label>Razón social</label>
+        <input type="text" value="" placeholder="Doite Argentina S.A.">
+      </div>
+      <div class="campo c1">
+        <label>CUIT</label>
+        <input type="text" value="" placeholder="30-12345678-9">
+      </div>
+      <div class="campo c4">
+        <label>Marcas que distribuye</label>
+        <div class="opciones"><span class="opcion on"><i></i>Doite</span><span class="opcion"><i></i>Montagne</span><span class="opcion"><i></i>Waterdog</span></div>
+      </div>
+      <div class="campo c2">
+        <label>Contacto</label>
+        <input type="text" value="" placeholder="Nombre y apellido">
+      </div>
+      <div class="campo c2">
+        <label>Teléfono</label>
+        <input type="text" value="" placeholder="011 4000-0000">
+      </div>
+      <div class="campo c4">
+        <label>Correo</label>
+        <input type="text" value="" placeholder="ventas@proveedor.com">
+      </div>
+      </div>
+
+      <div class="aviso" style="margin-top:16px">
+        <svg viewBox="0 0 24 24"><use href="#ico-doc"/></svg>
+        <div>
+          <b>Un proveedor puede traer varias marcas</b>
+          Elige cuáles distribuye para que al registrar una compra aparezcan primero sus productos.
+        </div>
+      </div>
+    </div>
+    <div class="modal-pie">
+      <span class="btn btn-fant" data-cerrar>Cancelar</span>
+      <span class="btn btn-prim" data-cerrar>Crear proveedor</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status">
+  <svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>
+  <span><b id="toast-nombre"></b> se agregó al carrito</span>
+  <span class="btn btn-chico" data-ir="carrito">Ver carrito</span>
+</div>
 
 <button class="tema" id="tema">Tema oscuro</button>
 
@@ -1473,7 +4158,6 @@
     ir(p, '.nav-logo', 'portada');
     ir(p, '.panel-marca', 'portada');
     ir(p, '.nav-links span', 'catalogo');
-    ir(p, '.nav-ico', 'catalogo');
     ir(p, '.nav-chip', 'ingreso', 'Ingresar');
     ir(p, '.nav-chip', 'carrito', 'Carrito');
     ir(p, '.nav-chip', 'pedidos', 'Julián');
@@ -1485,23 +4169,26 @@
   ir(portada, '.btn', 'catalogo');
   ir(portada, '.grid4 .card', 'ficha');
   ir(portada, '.grid3 .card', 'ficha');
-  ir(portada, '.btn-agregar', 'carrito');
+  ir(portada, '.pie-tienda span', 'catalogo');
 
   var catalogo = pant('catalogo');
   ir(catalogo, '.card', 'ficha');
-  ir(catalogo, '.btn-agregar', 'carrito');
+  ir(catalogo, '.pie-tienda span', 'catalogo');
 
   var ficha = pant('ficha');
   ir(ficha, '.ruta-mig span', 'catalogo', 'Carpas');
-  ir(ficha, '.btn-cta', 'carrito');
+  ir(ficha, '.grid4 .card', 'ficha');
+  ir(ficha, '.pie-tienda span', 'catalogo');
 
   var carrito = pant('carrito');
   ir(carrito, '.btn-cta', 'ingreso');
   ir(carrito, '.btn-sec', 'catalogo', 'Seguir comprando');
+  ir(carrito, '.pie-tienda span', 'catalogo');
 
   var ingreso = pant('ingreso');
   ir(ingreso, '.btn-prim', 'checkout');
   ir(ingreso, '.btn-sec', 'checkout', 'Google');
+  ir(ingreso, '.pie-tienda span', 'catalogo');
 
   var checkout = pant('checkout');
   ir(checkout, '.btn-cta', 'pedidos');
@@ -1509,12 +4196,9 @@
   var pedidos = pant('pedidos');
   ir(pedidos, '.btn-cta', 'checkout', 'Reintentar');
   ir(pedidos, '.nav-chip', 'admin-productos', 'Panel');
+  ir(pedidos, '.pie-tienda span', 'catalogo');
 
-  var prod = pant('admin-productos');
-  ir(prod, '.panel-lat a', 'admin-envios', 'Envíos');
-  ir(prod, '.panel-lat a', 'admin-envios', 'Devoluciones');
-  var env = pant('admin-envios');
-  ir(env, '.panel-lat a', 'admin-productos', 'Productos');
+  /* la barra lateral del panel navega por su propio href */
 
   /* ---------- navegacion ---------- */
   var asis = document.getElementById('asis');
@@ -1532,13 +4216,133 @@
     window.scrollTo(0, 0);
   }
 
+  /* ---------- carrito con estado ---------- */
+  var enCarrito = 3;
+  function pintarCarrito(pulso) {
+    document.querySelectorAll('.nav-num').forEach(function (n) {
+      n.textContent = enCarrito;
+      if (pulso) { n.classList.remove('pulso'); void n.offsetWidth; n.classList.add('pulso'); }
+    });
+  }
+  pintarCarrito(false);
+
+  var toast = document.getElementById('toast');
+  var toastNombre = document.getElementById('toast-nombre');
+  var toastTimer = null;
+  function agregar(boton) {
+    var card = boton.closest('.card');
+    var nombre = card ? card.querySelector('.nombre').textContent
+                      : document.querySelector('#ficha .ficha-datos h1').textContent;
+    enCarrito += 1;
+    pintarCarrito(true);
+    var original = boton.innerHTML;
+    boton.classList.add('listo');
+    boton.innerHTML = '\u2713 Agregado';
+    setTimeout(function () { boton.classList.remove('listo'); boton.innerHTML = original; }, 1400);
+    toastNombre.textContent = nombre;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('visible'); }, 3200);
+  }
+
+  /* ---------- buscador en la barra ---------- */
+  function abrirBuscador(lupa) {
+    var der = lupa.parentNode;
+    var campo = der.querySelector('.nav-campo');
+    if (campo) { campo.querySelector('input').focus(); return; }
+    campo = document.createElement('span');
+    campo.className = 'nav-campo';
+    campo.innerHTML = '<input type="search" placeholder="Buscar producto, marca o SKU\u2026">';
+    der.insertBefore(campo, lupa);
+    var input = campo.querySelector('input');
+    input.focus();
+    input.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') { campo.remove(); location.hash = 'catalogo'; }
+      if (ev.key === 'Escape') { campo.remove(); }
+    });
+    input.addEventListener('blur', function () { if (!input.value) setTimeout(function () { campo.remove(); }, 120); });
+  }
+
+  /* ---------- ventanas ---------- */
+  var telones = document.querySelectorAll('.telon');
+  var abierta = null;
+  function cerrarVentana() {
+    if (!abierta) return;
+    abierta.classList.remove('abierto');
+    abierta = null;
+  }
+  function abrirVentana(id, titulo) {
+    var t = document.querySelector('.telon[data-ventana="' + id + '"]');
+    if (!t) return;
+    cerrarVentana();
+    var h = t.querySelector('.modal-cab h2');
+    if (!h.dataset.original) h.dataset.original = h.textContent;
+    h.textContent = titulo || h.dataset.original;
+    t.classList.add('abierto');
+    t.querySelector('.modal-cuerpo').scrollTop = 0;
+    abierta = t;
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarVentana(); });
+
+  /* el modal de envío muestra el motivo solo cuando se retrocede */
+  var ORDEN = ['Pendiente', 'En preparación', 'En camino', 'Entregado'];
+  function prepararEnvio(boton) {
+    var fila = boton.closest('tr');
+    if (!fila) return;
+    var celdas = fila.querySelectorAll('td');
+    var desde = fila.querySelector('.pill').textContent.trim();
+    var hasta = fila.querySelector('.select').textContent.trim();
+    document.getElementById('ve-pedido').textContent = celdas[0].textContent.trim();
+    document.getElementById('ve-cliente').textContent = celdas[1].textContent.trim();
+    document.getElementById('ve-destino').textContent = celdas[2].textContent.trim();
+    document.getElementById('ve-desde').textContent = desde;
+    document.getElementById('ve-hasta').textContent = hasta;
+    var atras = ORDEN.indexOf(hasta) < ORDEN.indexOf(desde);
+    document.getElementById('ve-motivo').hidden = !atras;
+  }
+
+  /* los controles de adentro de una ventana no navegan */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('.telon');
+    if (!t) return;
+    if (e.target === t || e.target.closest('[data-cerrar]')) {
+      e.stopPropagation();
+      cerrarVentana();
+      return;
+    }
+    var op = e.target.closest('.opcion');
+    if (op) {
+      if (op.classList.contains('redonda')) {
+        op.parentNode.querySelectorAll('.opcion').forEach(function (o) { o.classList.remove('on'); });
+        op.classList.add('on');
+      } else {
+        op.classList.toggle('on');
+      }
+    }
+    e.stopPropagation();
+  }, true);
+
   document.addEventListener('click', function (e) {
     if (e.target.closest('.btn-off')) return;
+    var vent = e.target.closest('[data-ventana]');
+    if (vent && !vent.classList.contains('telon')) {
+      e.preventDefault();
+      if (vent.dataset.ventana === 'envio') prepararEnvio(vent);
+      abrirVentana(vent.dataset.ventana, vent.dataset.titulo);
+      return;
+    }
+    var lupa = e.target.closest('.nav-ico');
+    if (lupa) { abrirBuscador(lupa); return; }
+    var sumar = e.target.closest('.btn-agregar, #ficha .ficha-compra .btn-cta');
+    if (sumar) { e.preventDefault(); agregar(sumar); return; }
     var el = e.target.closest('[data-ir]');
     if (!el) return;
     e.preventDefault();
+    toast.classList.remove('visible');
     location.hash = el.dataset.ir;
   });
+
+  window.addEventListener('hashchange', cerrarVentana);
 
   asis.querySelector('.x').addEventListener('click', function () {
     asis.hidden = true;
