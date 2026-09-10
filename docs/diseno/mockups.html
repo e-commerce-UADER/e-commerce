@@ -60,6 +60,15 @@
     box-shadow: 0 0 44px rgba(20,26,18,.10);
   }
   [data-ir] { cursor: pointer; }
+
+  /* Modo tablero: el lienzo se recorta al contenido y se va el cromo del prototipo */
+  html.fija, html.fija body { background:transparent; }
+  html.fija .lienzo { min-height:0; box-shadow:none; }
+  html.fija .panel { min-height:0; }
+  html.fija .tema,
+  html.fija .asis,
+  html.fija .asis-burbuja,
+  html.fija .toast { display:none !important; }
   .tema {
     position: fixed; left: 18px; bottom: 18px; z-index: 60;
     font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
@@ -4132,6 +4141,14 @@
 (function () {
   var raiz = document.documentElement;
 
+  /* ---------- modo tablero ---------- */
+  var params = new URLSearchParams(location.search);
+  var fija = params.get('vista') === 'fija';
+  if (fija) {
+    raiz.classList.add('fija');
+    if (params.get('tema')) raiz.setAttribute('data-theme', params.get('tema'));
+  }
+
   /* ---------- tema ---------- */
   var boton = document.getElementById('tema');
   function oscuro() {
@@ -4210,7 +4227,7 @@
     document.querySelectorAll('.pant').forEach(function (p) {
       p.classList.toggle('act', p.id === destino);
     });
-    var hay = conAsistente.indexOf(destino) !== -1;
+    var hay = !fija && conAsistente.indexOf(destino) !== -1;
     if (!hay) { asis.hidden = true; burbuja.hidden = true; }
     else { burbuja.hidden = !asis.hidden; }
     window.scrollTo(0, 0);

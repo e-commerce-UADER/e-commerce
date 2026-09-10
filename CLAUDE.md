@@ -38,6 +38,7 @@ Antes de escribir una pantalla, mirar estos documentos. Definen lo visual y lo e
 |---|---|
 | [hoja-de-diseno.html](docs/diseno/hoja-de-diseno.html) | Paleta, tipografía, iconografía, componentes, tokens y reglas de aplicación |
 | [mockups.html](docs/diseno/mockups.html) | Prototipo navegable: 21 pantallas en alta fidelidad a 1180 px —siete de tienda, cuatro de Mi cuenta y diez del panel— más 21 ventanas de alta y edición. **Referencia para implementar** |
+| [tablero.html](docs/diseno/tablero.html) | Las mismas 21 pantallas a la vez sobre un lienzo con zoom, agrupadas por flujo. Monta `mockups.html` en iframes, así que nunca se desactualiza. Sirve para presentar |
 | [wireframes.html](docs/diseno/wireframes.html) | Las mismas pantallas en baja fidelidad, anotadas con sus RF y UC, más el flujo de compra completo |
 | [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas. **Decidida: propuesta E** |
 

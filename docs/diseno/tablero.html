@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aventura 360 · Tablero de pantallas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --bosque:#2D4A32; --oliva:#6B7A3A; --naranja:#D4622A; --pizarra:#2E3A42;
+    --n-000:#FFFDF9; --n-050:#F7F3EC; --n-100:#EBE6DC; --n-200:#D9D4C7; --n-300:#B8B4A6; --n-500:#7C7F73;
+    --bg:var(--n-100); --bg-elev:var(--n-000); --bg-sunken:var(--n-050);
+    --texto:var(--pizarra); --texto-suave:var(--n-500);
+    --borde:var(--n-200); --borde-fuerte:var(--n-300);
+    --primario:var(--bosque); --acento:var(--naranja); --sobre-prim:#F4F7F2;
+    --display:"Barlow Condensed","Arial Narrow",sans-serif;
+    --cuerpo:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;
+    --mono:"JetBrains Mono","Consolas",monospace;
+    --radio:3px;
+    --trama:rgba(45,74,50,.09);
+  }
+  :root[data-theme="dark"] {
+    --bg:#12140F; --bg-elev:#1F241D; --bg-sunken:#171A15;
+    --texto:#E8E4D8; --texto-suave:#9A9C8E; --borde:#333A2F; --borde-fuerte:#4A5243;
+    --primario:#7FA274; --acento:#E8814D; --sobre-prim:#12140F;
+    --trama:rgba(232,228,216,.07);
+  }
+
+  * { box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    margin:0; font-family:var(--cuerpo); color:var(--texto);
+    background:var(--bg);
+    background-image:radial-gradient(var(--trama) 1px, transparent 1px);
+    background-size:26px 26px;
+    overflow:hidden; -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------------- Barra ---------------- */
+  .barra {
+    position:fixed; inset:0 0 auto 0; z-index:20; height:58px;
+    display:flex; align-items:center; gap:18px; padding:0 20px;
+    background:var(--primario); color:var(--sobre-prim);
+    border-bottom:3px solid var(--acento);
+  }
+  .barra-marca { display:flex; align-items:center; gap:10px; font-family:var(--display); text-transform:uppercase; font-weight:700; font-size:20px; letter-spacing:.02em; flex:none; }
+  .barra-marca .emblema { width:32px; height:32px; border-radius:50%; overflow:hidden; background:#F7F3EC; position:relative; flex:none; }
+  .barra-marca .emblema img { position:absolute; width:190%; left:-45%; top:-7%; }
+  .barra-marca i { font-style:normal; opacity:.72; }
+  .barra-sub { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; opacity:.7; padding-left:14px; border-left:1px solid rgba(255,255,255,.25); }
+  .barra-der { margin-left:auto; display:flex; align-items:center; gap:8px; }
+
+  .grupo-btn { display:flex; align-items:center; border:1px solid rgba(255,255,255,.3); border-radius:var(--radio); overflow:hidden; }
+  .grupo-btn button, .barra .bt {
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
+    background:transparent; color:inherit; border:none; padding:8px 12px; cursor:pointer;
+    display:flex; align-items:center; gap:7px; text-decoration:none; white-space:nowrap;
+  }
+  .grupo-btn button + button { border-left:1px solid rgba(255,255,255,.22); }
+  .grupo-btn button:hover, .barra .bt:hover { background:rgba(0,0,0,.18); }
+  .barra .bt { border:1px solid rgba(255,255,255,.3); border-radius:var(--radio); }
+  .barra .bt.acento { background:var(--acento); border-color:var(--acento); color:#FFF8F3; }
+  .zoom-val { font-family:var(--mono); font-size:11.5px; min-width:52px; text-align:center; padding:0 4px; }
+  .barra svg { width:15px; height:15px; }
+
+  /* ---------------- Lienzo ---------------- */
+  .visor { position:absolute; inset:58px 0 0 0; overflow:hidden; cursor:grab; }
+  .visor.arrastrando { cursor:grabbing; }
+  .mundo { position:absolute; top:0; left:0; transform-origin:0 0; padding:54px 60px 90px; }
+
+  .flujo { margin-bottom:70px; }
+  .flujo-cab { display:flex; align-items:baseline; gap:16px; margin-bottom:22px; }
+  .flujo-num {
+    font-family:var(--mono); font-size:13px; letter-spacing:.18em; color:var(--acento);
+  }
+  .flujo-cab h2 {
+    font-family:var(--display); text-transform:uppercase; font-weight:700;
+    font-size:40px; line-height:1; margin:0; letter-spacing:.01em;
+  }
+  .flujo-cab .cuenta { font-family:var(--mono); font-size:12px; color:var(--texto-suave); }
+  .flujo-cab .nota { font-size:15px; color:var(--texto-suave); max-width:640px; }
+
+  .fila { display:flex; align-items:flex-start; gap:46px; }
+  .flujo-cab { flex-wrap:wrap; }
+
+  .tabla { display:flex; flex-direction:column; gap:11px; flex:none; }
+  .tabla-cab { display:flex; align-items:baseline; gap:10px; }
+  .tabla-num {
+    font-family:var(--mono); font-size:11px; color:var(--sobre-prim);
+    background:var(--primario); padding:3px 7px; border-radius:2px; flex:none;
+  }
+  .tabla-cab h3 {
+    font-family:var(--display); text-transform:uppercase; font-weight:600;
+    font-size:22px; line-height:1; margin:0; letter-spacing:.02em;
+  }
+  .tabla-refs { font-family:var(--mono); font-size:10.5px; color:var(--texto-suave); letter-spacing:.05em; }
+  .tabla-nota { font-size:13.5px; color:var(--texto-suave); max-width:413px; line-height:1.45; }
+
+  .marco {
+    position:relative; border:1px solid var(--borde-fuerte); background:var(--bg-elev);
+    box-shadow:0 14px 38px rgba(20,26,18,.14); overflow:hidden; flex:none;
+  }
+  :root[data-theme="dark"] .marco { box-shadow:0 14px 38px rgba(0,0,0,.5); }
+  .marco iframe { border:0; display:block; transform-origin:0 0; width:1180px; }
+  .marco .tapa { position:absolute; inset:0; }
+  .marco .abrir {
+    position:absolute; right:9px; bottom:9px; z-index:3; opacity:0;
+    font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--acento); color:#FFF8F3; border:none; padding:6px 10px; border-radius:var(--radio);
+    cursor:pointer; text-decoration:none; transition:opacity .15s ease;
+  }
+  .marco:hover .abrir { opacity:1; }
+  .marco.cargando::after {
+    content:"cargando…"; position:absolute; inset:0; display:grid; place-items:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--texto-suave); background:var(--bg-sunken);
+  }
+
+  .flecha { flex:none; align-self:center; display:flex; flex-direction:column; align-items:center; gap:6px; margin-top:34px; }
+  .flecha svg { width:38px; height:14px; color:var(--borde-fuerte); }
+  .flecha span { font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--texto-suave); white-space:nowrap; }
+
+  .rejilla { display:grid; grid-template-columns:repeat(5, max-content); gap:46px 40px; align-items:start; }
+
+  /* ---------------- Ayuda ---------------- */
+  .ayuda {
+    position:fixed; left:20px; bottom:18px; z-index:20;
+    display:flex; align-items:center; gap:14px; padding:9px 15px;
+    background:var(--bg-elev); border:1px solid var(--borde-fuerte); border-radius:999px;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; color:var(--texto-suave);
+    box-shadow:0 6px 18px rgba(20,26,18,.14);
+  }
+  .ayuda kbd {
+    font-family:var(--mono); font-size:10px; background:var(--bg-sunken);
+    border:1px solid var(--borde-fuerte); border-bottom-width:2px; border-radius:3px; padding:1px 5px; color:var(--texto);
+  }
+  .ayuda button { background:none; border:none; color:var(--texto-suave); cursor:pointer; font-size:14px; line-height:1; padding:0 0 0 4px; font-family:var(--cuerpo); }
+  .ayuda button:hover { color:var(--acento); }
+  .ayuda[hidden] { display:none; }
+</style>
+
+<div class="barra">
+  <span class="barra-marca">
+    <span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span>
+    <b>Aventura</b><i>360</i>
+  </span>
+  <span class="barra-sub">Tablero de pantallas</span>
+
+  <span class="barra-der">
+    <span class="grupo-btn">
+      <button id="menos" title="Alejar">−</button>
+      <span class="zoom-val" id="zoom-val">35 %</span>
+      <button id="mas" title="Acercar">+</button>
+    </span>
+    <button class="bt" id="ajustar">Ver todo</button>
+    <button class="bt" id="tema">Tema oscuro</button>
+    <a class="bt acento" href="mockups.html" target="_blank" rel="noopener">Abrir el prototipo ↗</a>
+  </span>
+</div>
+
+<div class="visor" id="visor">
+  <div class="mundo" id="mundo">
+
+    <!-- ================= FLUJO DE COMPRA ================= -->
+    <section class="flujo">
+      <div class="flujo-cab">
+        <span class="flujo-num">01</span>
+        <h2>Flujo de compra</h2>
+        <span class="cuenta">7 pantallas</span>
+        <span class="nota">De la portada al pedido pagado. La sesión se exige recién en el checkout: el catálogo y el carrito funcionan sin cuenta.</span>
+      </div>
+      <div class="fila" data-fila>
+        <div class="tabla" data-pant="portada" data-alto="1837">
+          <div class="tabla-cab"><span class="tabla-num">01</span><h3>Portada</h3></div>
+          <div class="tabla-refs">RF01 · RF16 · RF25 · RF26</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Ver catálogo</span></div>
+        <div class="tabla" data-pant="catalogo" data-alto="1429">
+          <div class="tabla-cab"><span class="tabla-num">02</span><h3>Catálogo</h3></div>
+          <div class="tabla-refs">UC01 · UC02 — RF17 · RF20</div>
+          <div class="tabla-nota">Filtros combinables. El producto agotado se muestra atenuado y sin botón de compra, nunca se oculta.</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Elegir producto</span></div>
+        <div class="tabla" data-pant="ficha" data-alto="1837">
+          <div class="tabla-cab"><span class="tabla-num">03</span><h3>Ficha de producto</h3></div>
+          <div class="tabla-refs">UC01 · UC04 — RF14 · RF15 · RF22</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Agregar</span></div>
+        <div class="tabla" data-pant="carrito" data-alto="982">
+          <div class="tabla-cab"><span class="tabla-num">04</span><h3>Carrito</h3></div>
+          <div class="tabla-refs">UC04 · UC28 — RF28 · RF29</div>
+          <div class="tabla-nota">Funciona sin sesión. Al ingresar se fusiona con el carrito de la cuenta en lugar de reemplazarlo.</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Finalizar</span></div>
+        <div class="tabla" data-pant="ingreso" data-alto="1161">
+          <div class="tabla-cab"><span class="tabla-num">05</span><h3>Ingreso y registro</h3></div>
+          <div class="tabla-refs">UC05 · UC06 · UC30 — RF08</div>
+          <div class="tabla-nota">Único muro de la compra. Si el correo de Google coincide con una cuenta local, se vinculan en un solo usuario.</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Con sesión</span></div>
+        <div class="tabla" data-pant="checkout" data-alto="885">
+          <div class="tabla-cab"><span class="tabla-num">06</span><h3>Checkout y pago</h3></div>
+          <div class="tabla-refs">UC10 · UC11 — RF30 · RF34</div>
+          <div class="tabla-nota">Revalida stock antes de generar el pedido. El pago se delega entero a Mercado Pago.</div>
+        </div>
+        <div class="flecha"><svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h34"/><path d="m28 2 6 5-6 5"/></svg><span>Pagado</span></div>
+        <div class="tabla" data-pant="pedidos" data-alto="1099">
+          <div class="tabla-cab"><span class="tabla-num">07</span><h3>Mis pedidos</h3></div>
+          <div class="tabla-refs">UC12 · UC17 — RF36 · RF37</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MI CUENTA ================= -->
+    <section class="flujo">
+      <div class="flujo-cab">
+        <span class="flujo-num">02</span>
+        <h2>Mi cuenta</h2>
+        <span class="cuenta">4 pantallas</span>
+        <span class="nota">Lo que el cliente administra de sí mismo. El correo se muestra como dato fijo: es la llave que une el acceso local con el de Google.</span>
+      </div>
+      <div class="fila" data-fila>
+        <div class="tabla" data-pant="mis-datos" data-alto="1078">
+          <div class="tabla-cab"><span class="tabla-num">08</span><h3>Mis datos</h3></div>
+          <div class="tabla-refs">RF05 · RF08 — RNF08</div>
+        </div>
+        <div class="tabla" data-pant="direcciones" data-alto="933">
+          <div class="tabla-cab"><span class="tabla-num">09</span><h3>Direcciones</h3></div>
+          <div class="tabla-refs">RF30 · RF31</div>
+        </div>
+        <div class="tabla" data-pant="seguridad" data-alto="858">
+          <div class="tabla-cab"><span class="tabla-num">10</span><h3>Seguridad</h3></div>
+          <div class="tabla-refs">RF06 · RF07 — RNF05 · RNF07</div>
+        </div>
+        <div class="tabla" data-pant="mis-devoluciones" data-alto="1254">
+          <div class="tabla-cab"><span class="tabla-num">11</span><h3>Mis devoluciones</h3></div>
+          <div class="tabla-refs">UC13 — RF39 · RF40</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PANEL · CATÁLOGO ================= -->
+    <section class="flujo">
+      <div class="flujo-cab">
+        <span class="flujo-num">03</span>
+        <h2>Panel · Catálogo</h2>
+        <span class="cuenta">5 pantallas</span>
+        <span class="nota">Lo que el administrador publica. Las categorías son tres y fijas; todo lo demás se abre como subcategoría.</span>
+      </div>
+      <div class="rejilla" data-fila>
+        <div class="tabla" data-pant="admin-productos" data-alto="811">
+          <div class="tabla-cab"><span class="tabla-num">12</span><h3>Productos y stock</h3></div>
+          <div class="tabla-refs">UC19 · UC21 — RF18 · RF46 · RNF10</div>
+        </div>
+        <div class="tabla" data-pant="admin-categorias" data-alto="1903">
+          <div class="tabla-cab"><span class="tabla-num">13</span><h3>Categorías</h3></div>
+          <div class="tabla-refs">RF13</div>
+        </div>
+        <div class="tabla" data-pant="admin-marcas" data-alto="584">
+          <div class="tabla-cab"><span class="tabla-num">14</span><h3>Marcas</h3></div>
+          <div class="tabla-refs">RF13 · RF14</div>
+        </div>
+        <div class="tabla" data-pant="admin-kits" data-alto="584">
+          <div class="tabla-cab"><span class="tabla-num">15</span><h3>Kits</h3></div>
+          <div class="tabla-refs">UC29 — RF21 · RF22 · RF23</div>
+        </div>
+        <div class="tabla" data-pant="admin-ofertas" data-alto="584">
+          <div class="tabla-cab"><span class="tabla-num">16</span><h3>Ofertas</h3></div>
+          <div class="tabla-refs">UC23 — RF25 · RF26 · RF27</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PANEL · OPERACIÓN ================= -->
+    <section class="flujo">
+      <div class="flujo-cab">
+        <span class="flujo-num">04</span>
+        <h2>Panel · Operación</h2>
+        <span class="cuenta">5 pantallas</span>
+        <span class="nota">El día a día del negocio: mover envíos, resolver devoluciones, reponer stock y mirar los números.</span>
+      </div>
+      <div class="rejilla" data-fila>
+        <div class="tabla" data-pant="admin-envios" data-alto="721">
+          <div class="tabla-cab"><span class="tabla-num">17</span><h3>Envíos</h3></div>
+          <div class="tabla-refs">UC24 — RF35 · RF36</div>
+          <div class="tabla-nota">Envío simulado. Cada cambio de estado notifica al cliente y el retroceso exige motivo.</div>
+        </div>
+        <div class="tabla" data-pant="admin-devoluciones" data-alto="881">
+          <div class="tabla-cab"><span class="tabla-num">18</span><h3>Devoluciones</h3></div>
+          <div class="tabla-refs">UC25 — RF41 · RF42</div>
+          <div class="tabla-nota">Aprobar no reingresa stock: eso ocurre al registrar la recepción, y solo por lo recibido.</div>
+        </div>
+        <div class="tabla" data-pant="admin-compras" data-alto="730">
+          <div class="tabla-cab"><span class="tabla-num">19</span><h3>Compras</h3></div>
+          <div class="tabla-refs">UC26 — RF19</div>
+        </div>
+        <div class="tabla" data-pant="admin-proveedores" data-alto="584">
+          <div class="tabla-cab"><span class="tabla-num">20</span><h3>Proveedores</h3></div>
+          <div class="tabla-refs">RF19</div>
+        </div>
+        <div class="tabla" data-pant="admin-reportes" data-alto="818">
+          <div class="tabla-cab"><span class="tabla-num">21</span><h3>Reportes</h3></div>
+          <div class="tabla-refs">RF47</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="ayuda" id="ayuda">
+  <span><kbd>Arrastrar</kbd> mover</span>
+  <span><kbd>Ctrl</kbd> + <kbd>rueda</kbd> zoom</span>
+  <span><kbd>0</kbd> ver todo</span>
+  <span>Doble clic en una pantalla la abre</span>
+  <button id="cerrar-ayuda" title="Ocultar">×</button>
+</div>
+
+<script>
+(function () {
+  var raiz  = document.documentElement;
+  var visor = document.getElementById('visor');
+  var mundo = document.getElementById('mundo');
+
+  var ESCALA_TABLA = 0.35;   // cuánto se reduce cada pantalla de 1180 px
+  var MIN = 0.15, MAX = 1.6;
+
+  /* -------- monta un iframe por pantalla, sin duplicar el HTML -------- */
+  function fuente(id) {
+    return 'mockups.html?vista=fija&tema=' + (oscuro() ? 'dark' : 'light') + '#' + id;
+  }
+
+  /* de a poco, para no ahogar al navegador con veintiún documentos de golpe */
+  var cola = [];
+  function vaciarCola() {
+    var f = cola.shift();
+    if (!f) { if (typeof ajustar === 'function') ajustar(); return; }
+    f();
+    setTimeout(vaciarCola, 90);
+  }
+
+  function montar() {
+    document.querySelectorAll('.tabla').forEach(function (t) {
+      var id   = t.dataset.pant;
+      var alto = parseInt(t.dataset.alto, 10);
+      var m = document.createElement('div');
+      m.className = 'marco cargando';
+      m.style.width  = Math.round(1180 * ESCALA_TABLA) + 'px';
+      m.style.height = Math.round(alto * ESCALA_TABLA) + 'px';
+
+      var f = document.createElement('iframe');
+      f.setAttribute('title', id);
+      f.setAttribute('scrolling', 'no');
+      f.style.height = alto + 'px';
+      f.style.transform = 'scale(' + ESCALA_TABLA + ')';
+      f.addEventListener('load', function () { m.classList.remove('cargando'); });
+      cola.push(function () { f.src = fuente(id); });
+
+      var tapa = document.createElement('div');
+      tapa.className = 'tapa';
+      tapa.addEventListener('dblclick', function () { window.open('mockups.html#' + id, '_blank'); });
+
+      var abrir = document.createElement('a');
+      abrir.className = 'abrir';
+      abrir.textContent = 'Abrir ↗';
+      abrir.href = 'mockups.html#' + id;
+      abrir.target = '_blank';
+      abrir.rel = 'noopener';
+
+      m.appendChild(f); m.appendChild(tapa); m.appendChild(abrir);
+      t.appendChild(m);
+    });
+    vaciarCola();
+  }
+
+  /* ---------------------------- tema ---------------------------- */
+  function oscuro() { return raiz.getAttribute('data-theme') === 'dark'; }
+  var btTema = document.getElementById('tema');
+  function rotular() { btTema.textContent = oscuro() ? 'Tema claro' : 'Tema oscuro'; }
+  btTema.addEventListener('click', function () {
+    raiz.setAttribute('data-theme', oscuro() ? 'light' : 'dark');
+    rotular();
+    document.querySelectorAll('.marco').forEach(function (m) { m.classList.add('cargando'); });
+    cola = [];
+    document.querySelectorAll('.tabla').forEach(function (t) {
+      var f = t.querySelector('iframe'), id = t.dataset.pant;
+      cola.push(function () { f.src = fuente(id); });
+    });
+    vaciarCola();
+  });
+  rotular();
+
+  /* --------------------------- zoom y pan --------------------------- */
+  var z = 0.35, x = 0, y = 0;
+  var valZoom = document.getElementById('zoom-val');
+
+  function pintar() {
+    mundo.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + z + ')';
+    valZoom.textContent = Math.round(z * 100) + ' %';
+  }
+  function zoomEn(nuevo, cx, cy) {
+    nuevo = Math.min(MAX, Math.max(MIN, nuevo));
+    var r = visor.getBoundingClientRect();
+    cx = (cx === undefined ? r.width / 2 : cx - r.left);
+    cy = (cy === undefined ? r.height / 2 : cy - r.top);
+    x = cx - (cx - x) * (nuevo / z);
+    y = cy - (cy - y) * (nuevo / z);
+    z = nuevo;
+    pintar();
+  }
+  function medir() {
+    var antes = mundo.style.transform;
+    mundo.style.transform = 'none';
+    var m = { ancho: mundo.offsetWidth, alto: mundo.offsetHeight };
+    mundo.style.transform = antes;
+    return m;
+  }
+  function ajustar() {
+    var r = visor.getBoundingClientRect(), m = medir();
+    z = Math.min((r.width - 24) / m.ancho, (r.height - 24) / m.alto);
+    z = Math.min(MAX, Math.max(MIN, z));
+    x = (r.width - m.ancho * z) / 2;
+    y = (r.height - m.alto * z) / 2;
+    if (y < 12) y = 12;
+    pintar();
+  }
+
+  document.getElementById('mas').addEventListener('click', function () { zoomEn(z * 1.25); });
+  document.getElementById('menos').addEventListener('click', function () { zoomEn(z / 1.25); });
+  document.getElementById('ajustar').addEventListener('click', ajustar);
+
+  visor.addEventListener('wheel', function (e) {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      zoomEn(z * (e.deltaY < 0 ? 1.12 : 1 / 1.12), e.clientX, e.clientY);
+    } else {
+      e.preventDefault();
+      x -= e.deltaX; y -= e.deltaY;
+      pintar();
+    }
+  }, { passive:false });
+
+  var arrastrando = false, px = 0, py = 0;
+  visor.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.abrir')) return;
+    arrastrando = true; px = e.clientX; py = e.clientY;
+    visor.classList.add('arrastrando');
+    visor.setPointerCapture(e.pointerId);
+  });
+  visor.addEventListener('pointermove', function (e) {
+    if (!arrastrando) return;
+    x += e.clientX - px; y += e.clientY - py;
+    px = e.clientX; py = e.clientY;
+    pintar();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    visor.addEventListener(ev, function () {
+      arrastrando = false; visor.classList.remove('arrastrando');
+    });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === '0') ajustar();
+    if (e.key === '+' || e.key === '=') zoomEn(z * 1.25);
+    if (e.key === '-') zoomEn(z / 1.25);
+  });
+
+  var ayuda = document.getElementById('ayuda');
+  document.getElementById('cerrar-ayuda').addEventListener('click', function () { ayuda.hidden = true; });
+
+  montar();
+  requestAnimationFrame(function () { requestAnimationFrame(ajustar); });
+  window.addEventListener('resize', function () { pintar(); });
+})();
+</script>
