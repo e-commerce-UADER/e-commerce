@@ -37,7 +37,7 @@ Antes de escribir una pantalla, mirar estos documentos. Definen lo visual y lo e
 | Documento | Qué define |
 |---|---|
 | [hoja-de-diseno.html](docs/diseno/hoja-de-diseno.html) | Paleta, tipografía, iconografía, componentes, tokens y reglas de aplicación |
-| [mockups.html](docs/diseno/mockups.html) | Prototipo navegable: nueve pantallas en alta fidelidad a 1180 px, con la portada resuelta y los botones cableados. **Referencia para implementar** |
+| [mockups.html](docs/diseno/mockups.html) | Prototipo navegable: 21 pantallas en alta fidelidad a 1180 px —siete de tienda, cuatro de Mi cuenta y diez del panel— más 21 ventanas de alta y edición. **Referencia para implementar** |
 | [wireframes.html](docs/diseno/wireframes.html) | Las mismas pantallas en baja fidelidad, anotadas con sus RF y UC, más el flujo de compra completo |
 | [propuestas-landing.html](docs/diseno/propuestas-landing.html) | Cinco portadas alternativas. **Decidida: propuesta E** |
 
@@ -84,6 +84,9 @@ Estas concentran el riesgo del sistema. Cambiarlas sin releer el caso de uso cor
 9. **El comprobante fiscal lo emite Mercado Pago** (RF37). El sistema genera únicamente el comprobante de la operación (ítems, descuentos, envío y total) y lo publica en el historial del cliente.
 10. **La devolución no toca el stock al solicitarse** (UC13). El reingreso ocurre recién cuando el administrador aprueba y se recibe la mercadería, y admite devolución parcial (UC25).
 11. **El asistente es semiautomatizado** (RF43, apartado 1.4). Recomienda a partir de criterios de búsqueda sobre el catálogo —ID, SKU, marca, categoría, estado y ocasión (RF45)—, no es un agente conversacional general. Fuera de ese dominio, deriva al número de contacto (RF48).
+12. **El correo no se cambia** (RF08, decisión del equipo). Es la llave que une la cuenta local con la de Google y de la que cuelga el historial de pedidos: se muestra en «Mis datos» como dato fijo, sin botón de edición. Para operar con otro correo hay que abrir otra cuenta.
+13. **Las categorías son tres y son fijas** (RF13, decisión del equipo): **Carpas, Mochilas y Accesorios**. No se crean ni se borran desde el panel; el administrador solo edita su nombre visible y su descripción. Lo que el negocio necesite abrir se agrega como **subcategoría** dentro de una de las tres, y ahí sí hay alta, baja y edición. Un producto pertenece a una categoría y, opcionalmente, a una subcategoría de esa misma categoría. Una subcategoría con productos no se elimina: se oculta. Los kits y las ofertas **no son categorías**: son secciones propias del catálogo.
+14. **Marcas y proveedores son datos del negocio, no constantes del código** (RF13, RF19). Ambos se dan de alta desde el panel y tienen su propia pantalla. Un proveedor puede distribuir varias marcas. Ninguno de los dos se elimina si tiene productos o compras asociadas: se archiva, deja de ofrecerse en los formularios y los registros que lo usan lo conservan.
 
 ## Seguridad (no negociable)
 
@@ -104,7 +107,7 @@ Se suma a la lista, por decisión del equipo: **vista móvil y diseño mobile-fi
 
 ## Convenciones
 
-- **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español rioplatense** (voseo, igual que el logo: "Preparate, explorá, viví").
+- **Idioma:** código, nombres de variables y funciones en inglés; comentarios, mensajes de UI y contenido de cara al usuario en **español neutro** (tuteo: "elige", "puedes", "guarda"). Nada de voseo. La única excepción es el lema de marca —*"Preparate · Explorá · Viví"*—, que está impreso en el logo y se usa tal cual.
 - **Trazabilidad:** al implementar algo, referenciar el requerimiento o caso de uso en el commit y, cuando aclare la intención, en el código. Ejemplo de commit: `feat(cart): fusion de carrito anonimo al iniciar sesion (UC04, UC06)`.
 - **Commits:** en la organización de GitHub del equipo, con historial trazable por funcionalidad (RNF14).
 - **Coautoría:** el trabajo es de los dos integrantes. Cerrar los commits con la línea del compañero que no los escribió, y **nunca** atribuir coautoría a una herramienta:
