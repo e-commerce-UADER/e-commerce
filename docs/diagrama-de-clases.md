@@ -129,7 +129,6 @@ classDiagram
 
     Usuario "1" --> "0..*" Pedido : realiza
     Usuario "1" --> "0..1" Carrito : posee
-    Usuario "1" --> "0..*" Devolucion : solicita
 
     Categoria "1" --> "0..*" Producto : agrupa
 
@@ -220,6 +219,8 @@ Simulado: el administrador mueve el estado a mano y cada cambio notifica al clie
 ### Devolución
 
 La solicitud no toca el stock (UC13). El reingreso ocurre cuando el administrador aprueba y se recibe la mercadería; `recibido` habilita ese reingreso y permite la devolución parcial (UC25).
+
+Cuelga del pedido, no del usuario: toda devolución nace de una compra, así que quién la solicitó se sabe siguiendo `Pedido → Usuario`. Una relación directa desde `Usuario` sería el mismo dato por dos caminos.
 
 `solicitada → aprobada | rechazada → reembolsada`
 
