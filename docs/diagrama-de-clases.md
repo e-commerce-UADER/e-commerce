@@ -8,6 +8,13 @@ Criterio: sin separar por responsabilidades, sin normalizar y solo con entidades
 
 ## Diagrama
 
+![Diagrama de clases de Aventura 360](diagramas/diagrama-de-clases.png)
+
+Imagen lista para el informe: [PNG](diagramas/diagrama-de-clases.png) (2890 × 2826) · [SVG](diagramas/diagrama-de-clases.svg) para imprimir o escalar sin perder nitidez. Se regeneran desde el bloque Mermaid de abajo, que es la fuente.
+
+<details>
+<summary>Fuente del diagrama</summary>
+
 ```mermaid
 classDiagram
     class Usuario {
@@ -145,6 +152,8 @@ classDiagram
 
     CompraProveedor "0..*" --> "1" Producto : ingresa
 ```
+
+</details>
 
 ---
 
