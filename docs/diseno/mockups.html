@@ -193,12 +193,15 @@
   .ver-todo:hover { color:var(--acento); }
 
   .stepper { display:inline-flex; align-items:center; border:1px solid var(--borde-fuerte); border-radius:var(--radio); background:var(--bg-elev); }
-  .stepper b { width:30px; height:30px; display:grid; place-items:center; font-family:var(--mono); font-size:14px; font-weight:400; color:var(--texto-suave); }
+  .stepper b { width:30px; height:30px; display:grid; place-items:center; font-family:var(--mono); font-size:14px; font-weight:400; color:var(--texto-suave); cursor:pointer; user-select:none; }
+  .stepper b:hover { color:var(--texto); background:var(--bg-sunken); }
+  .stepper b.tope { opacity:.3; pointer-events:none; }
   .stepper i { width:34px; height:30px; display:grid; place-items:center; font-style:normal; font-size:15px; border-left:1px solid var(--borde); border-right:1px solid var(--borde); font-family:var(--mono); }
 
   .caja { border:1px solid var(--borde); background:var(--bg-elev); }
   .caja-tit { font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--texto-suave); padding:11px 15px; border-bottom:1px solid var(--borde); }
   .aviso { display:flex; gap:11px; padding:13px 15px; border:1px solid color-mix(in srgb,var(--warn) 45%,transparent); background:color-mix(in srgb,var(--warn) 9%,transparent); font-size:13.5px; }
+  .aviso[hidden], .resumen-fila[hidden], .linea[hidden] { display:none; }
   .aviso svg { width:18px; height:18px; color:var(--warn); flex:none; margin-top:2px; }
   .aviso b { font-family:var(--display); text-transform:uppercase; letter-spacing:.04em; font-size:15px; display:block; }
 
@@ -308,6 +311,9 @@
   .linea-info { flex:1; display:flex; flex-direction:column; gap:5px; }
   .linea-acc { display:flex; align-items:center; gap:14px; margin-top:6px; }
   .linea-precio { text-align:right; display:flex; flex-direction:column; gap:3px; align-items:flex-end; }
+  #checkout-lineas .linea:last-child { border-bottom:none; }
+  .vacio { display:flex; flex-direction:column; align-items:center; gap:13px; padding:46px 0 34px; color:var(--texto-suave); font-size:14.5px; }
+  .vacio svg { width:36px; height:36px; color:var(--borde-fuerte); }
   .titulo-pant { font-family:var(--display); text-transform:uppercase; font-weight:600; font-size:30px; margin:0 0 4px; }
 
   .pasos { display:flex; border:1px solid var(--borde); background:var(--bg-elev); margin:22px 26px 0; }
@@ -1217,63 +1223,15 @@
         <div class="col2">
           <div>
             <h1 class="titulo-pant">Tu carrito</h1>
-            <span style="font-size:13.5px;color:var(--texto-suave)">3 productos · sin sesión iniciada</span>
+            <span style="font-size:13.5px;color:var(--texto-suave)" id="carrito-cuenta">3 productos · sin sesión iniciada</span>
 
-            <div class="linea" style="margin-top:12px">
-              <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></div>
-              <div class="linea-info">
-                <span class="marca">Carpas · Doite · CARP-DOM3-VRD</span>
-                <span class="nombre">Domo Aconcagua 3P</span>
-                <div class="linea-acc">
-                  <span class="stepper"><b>−</b><i>1</i><b>+</b></span>
-                  <span class="btn btn-fant btn-chico" style="padding-left:0">Quitar</span>
-                </div>
-              </div>
-              <div class="linea-precio">
-                <span class="p-ahora" style="font-size:21px">$189.400</span>
-                <span class="p-antes">$222.800</span>
-                <span class="chip acento">−15%</span>
-              </div>
-            </div>
+            <div id="carrito-lineas" style="margin-top:12px"></div>
 
-            <div class="linea">
-              <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></div>
-              <div class="linea-info">
-                <span class="marca">Mochilas · Montagne · MOCH-TRK50-GRS</span>
-                <span class="nombre">Mochila Trekking 50 L</span>
-                <div class="linea-acc">
-                  <span class="stepper"><b>−</b><i>2</i><b>+</b></span>
-                  <span class="btn btn-fant btn-chico" style="padding-left:0">Quitar</span>
-                </div>
-              </div>
-              <div class="linea-precio">
-                <span class="p-ahora" style="font-size:21px">$148.000</span>
-                <span style="font-size:12px;color:var(--texto-suave)">$74.000 c/u</span>
-              </div>
-            </div>
-
-            <div class="linea">
-              <div class="ph-cuad"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg></div>
-              <div class="linea-info">
-                <span class="marca">Kit · KIT-CAMP-FDS</span>
-                <span class="nombre">Kit Camping Fin de Semana</span>
-                <span style="font-size:13px;color:var(--texto-suave)">Carpa Domo Aconcagua 3P + 2 bolsas de dormir</span>
-                <div class="linea-acc">
-                  <span class="stepper"><b>−</b><i>1</i><b>+</b></span>
-                  <span class="btn btn-fant btn-chico" style="padding-left:0">Quitar</span>
-                </div>
-              </div>
-              <div class="linea-precio">
-                <span class="p-ahora" style="font-size:21px">$328.300</span>
-                <span class="chip prim">Precio de kit</span>
-              </div>
-            </div>
-
-            <div class="aviso" style="margin-top:18px">
+            <div class="aviso" style="margin-top:18px" id="carrito-aviso">
               <svg viewBox="0 0 24 24"><use href="#ico-alerta"/></svg>
               <div>
                 <b>Aviso de recálculo</b>
-                La oferta de Domo Aconcagua 3P vence el 30/09 a las 23:59. Si confirmas el pedido después de esa fecha, el precio se recalcula y te lo mostramos antes de pagar.
+                <span id="carrito-aviso-txt"></span>
               </div>
             </div>
           </div>
@@ -1281,12 +1239,12 @@
           <div class="caja" style="position:sticky;top:16px">
             <div class="caja-tit">Resumen</div>
             <div style="padding:6px 17px 17px">
-              <div class="resumen-fila"><span>Subtotal</span><span>$699.100</span></div>
-              <div class="resumen-fila"><span>Descuentos</span><span class="desc">−$33.400</span></div>
-              <div class="resumen-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
-              <div class="resumen-fila total"><span>Total</span><b>$678.300</b></div>
+              <div class="resumen-fila"><span>Subtotal</span><span id="car-subtotal">$699.100</span></div>
+              <div class="resumen-fila" id="car-fila-desc"><span>Descuentos</span><span class="desc" id="car-desc">−$33.400</span></div>
+              <div class="resumen-fila"><span>Envío a Paraná</span><span id="car-envio">$12.600</span></div>
+              <div class="resumen-fila total"><span>Total</span><b id="car-total">$678.300</b></div>
               <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
-                <span class="btn btn-cta btn-ancho">Finalizar compra</span>
+                <span class="btn btn-cta btn-ancho" id="car-cta">Finalizar compra</span>
                 <span class="btn btn-sec btn-ancho">Seguir comprando</span>
               </div>
               <div class="nota-legal">
@@ -1367,32 +1325,7 @@
 
             <h1 class="titulo-pant" style="font-size:24px;margin-top:26px">Revisa tu pedido</h1>
             <div class="caja">
-              <div style="padding:4px 17px">
-                <div class="linea" style="padding:13px 0">
-                  <div class="ph-cuad" style="width:70px;height:56px"><svg viewBox="0 0 24 24"><use href="#ico-carpa"/></svg></div>
-                  <div class="linea-info">
-                    <span class="nombre" style="font-size:17px">Domo Aconcagua 3P</span>
-                    <span style="font-size:13px;color:var(--texto-suave)">1 unidad · Doite</span>
-                  </div>
-                  <span class="p-ahora" style="font-size:19px">$189.400</span>
-                </div>
-                <div class="linea" style="padding:13px 0">
-                  <div class="ph-cuad" style="width:70px;height:56px"><svg viewBox="0 0 24 24"><use href="#ico-mochila"/></svg></div>
-                  <div class="linea-info">
-                    <span class="nombre" style="font-size:17px">Mochila Trekking 50 L</span>
-                    <span style="font-size:13px;color:var(--texto-suave)">2 unidades · Montagne</span>
-                  </div>
-                  <span class="p-ahora" style="font-size:19px">$148.000</span>
-                </div>
-                <div class="linea" style="padding:13px 0;border-bottom:none">
-                  <div class="ph-cuad" style="width:70px;height:56px"><svg viewBox="0 0 24 24"><use href="#ico-kit"/></svg></div>
-                  <div class="linea-info">
-                    <span class="nombre" style="font-size:17px">Kit Camping Fin de Semana</span>
-                    <span style="font-size:13px;color:var(--texto-suave)">1 unidad · 2 productos, 3 piezas</span>
-                  </div>
-                  <span class="p-ahora" style="font-size:19px">$328.300</span>
-                </div>
-              </div>
+              <div style="padding:4px 17px" id="checkout-lineas"></div>
             </div>
 
             <div class="aviso" style="margin-top:16px">
@@ -1407,10 +1340,10 @@
           <div class="caja" style="position:sticky;top:16px">
             <div class="caja-tit">Total</div>
             <div style="padding:6px 17px 17px">
-              <div class="resumen-fila"><span>Subtotal</span><span>$699.100</span></div>
-              <div class="resumen-fila"><span>Descuentos</span><span class="desc">−$33.400</span></div>
-              <div class="resumen-fila"><span>Envío a Paraná</span><span>$12.600</span></div>
-              <div class="resumen-fila total"><span>Total</span><b>$678.300</b></div>
+              <div class="resumen-fila"><span>Subtotal</span><span id="chk-subtotal">$699.100</span></div>
+              <div class="resumen-fila" id="chk-fila-desc"><span>Descuentos</span><span class="desc" id="chk-desc">−$33.400</span></div>
+              <div class="resumen-fila"><span>Envío a Paraná</span><span id="chk-envio">$12.600</span></div>
+              <div class="resumen-fila total"><span>Total</span><b id="chk-total">$678.300</b></div>
               <div style="margin-top:16px">
                 <span class="btn btn-cta btn-ancho">Pagar con Mercado Pago</span>
               </div>
@@ -4142,7 +4075,7 @@
 
 <div class="toast" id="toast" role="status">
   <svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>
-  <span><b id="toast-nombre"></b> se agregó al carrito</span>
+  <span><b id="toast-nombre"></b> <span id="toast-detalle">se agregó al carrito</span></span>
   <span class="btn btn-chico" data-ir="carrito">Ver carrito</span>
 </div>
 
@@ -4246,34 +4179,193 @@
     window.scrollTo(0, 0);
   }
 
+  /* ---------- catalogo ---------- */
+  /* el precio con oferta va cargado y no calculado: el del domo esta redondeado a la centena */
+  var CATALOGO = {
+    'CARP-DOM3-VRD':  { nombre:'Domo Aconcagua 3P', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:222800, precio:189400, oferta:15, stock:7, vence:'30/09' },
+    'CARP-CUM4-AZL':  { nombre:'Cumbre 4P Autoportante', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:254900, stock:2 },
+    'CARP-REF2-GRS':  { nombre:'Refugio 2P Liviana', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:142000, stock:0 },
+    'CARP-IGL4-VRD':  { nombre:'Igl\u00fa Paran\u00e1 4P', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:310500, stock:4 },
+    'CARP-MIN2-NGR':  { nombre:'Mini Domo 2P', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:97300, stock:11 },
+    'CARP-LIT3-ARE':  { nombre:'Domo Litoral 3P', marca:'Doite', cat:'Carpas', ico:'ico-carpa', lista:168900, stock:9 },
+    'MOCH-TRK50-GRS': { nombre:'Mochila Trekking 50 L', marca:'Montagne', cat:'Mochilas', ico:'ico-mochila', lista:74000, stock:2 },
+    'LINT-FAR6-NGR':  { nombre:'Farol Litoral 600 lm', marca:'Waterdog', cat:'Accesorios', ico:'ico-farol', lista:74000, precio:59200, oferta:20, stock:2, vence:'15/09' },
+    'BAST-ALU2-AZL':  { nombre:'Bastones Aluminio Par', marca:'Doite', cat:'Accesorios', ico:'ico-bastones', lista:41900, precio:37710, oferta:10, stock:18 },
+    'AISL-ESP1-VRD':  { nombre:'Aislante Espuma 1P', marca:'Montagne', cat:'Accesorios', ico:'ico-aislante', lista:23500, precio:17625, oferta:25, stock:0, vence:'25/09' },
+    'BOLS-PAT5-AZL':  { nombre:'Bolsa de Dormir Patagonia \u22125\u00b0', marca:'Montagne', cat:'Accesorios', ico:'ico-mochila', lista:88900, stock:6 },
+    'KIT-CAMP-FDS':   { nombre:'Kit Camping Fin de Semana', kit:true, ico:'ico-kit', lista:328300, stock:3, detalle:'Carpa Domo Aconcagua 3P + 2 bolsas de dormir', piezas:'2 productos, 3 piezas' },
+    'KIT-TREK-DIA':   { nombre:'Kit Trekking de D\u00eda', kit:true, ico:'ico-kit', lista:138200, stock:2, detalle:'3 productos', piezas:'3 productos' },
+    'KIT-NOCHE':      { nombre:'Kit Noche en Carpa', kit:true, ico:'ico-kit', lista:153800, stock:2, detalle:'2 productos', piezas:'2 productos' }
+  };
+  var ENVIO = 12600;
+
   /* ---------- carrito con estado ---------- */
-  var enCarrito = 3;
-  function pintarCarrito(pulso) {
+  var carro = [
+    { sku:'CARP-DOM3-VRD', cant:1 },
+    { sku:'MOCH-TRK50-GRS', cant:2 },
+    { sku:'KIT-CAMP-FDS', cant:1 }
+  ];
+
+  function precio(p) { return p.precio || p.lista; }
+  function pesos(n) { return '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function skuDe(texto) { return texto.trim().split(/\s+/).pop(); }
+  function icono(p) { return '<svg viewBox="0 0 24 24"><use href="#' + p.ico + '"/></svg>'; }
+  function unidades(n) { return n + (n === 1 ? ' unidad' : ' unidades'); }
+  function enCarro(sku) {
+    return carro.filter(function (it) { return it.sku === sku; })[0] || null;
+  }
+  function fichaSku() { return skuDe(document.querySelector('#ficha .ficha-datos .marca').textContent); }
+
+  function cuentas() {
+    var c = { subtotal:0, desc:0, envio:0, total:0 };
+    carro.forEach(function (it) {
+      var p = CATALOGO[it.sku];
+      c.subtotal += p.lista * it.cant;
+      c.desc += (p.lista - precio(p)) * it.cant;
+    });
+    c.envio = carro.length ? ENVIO : 0;
+    c.total = c.subtotal - c.desc + c.envio;
+    return c;
+  }
+
+  function lineaCarrito(it) {
+    var p = CATALOGO[it.sku];
+    var h = '<div class="linea"><div class="ph-cuad">' + icono(p) + '</div><div class="linea-info">';
+    h += '<span class="marca">' + (p.kit ? 'Kit \u00b7 ' + it.sku : p.cat + ' \u00b7 ' + p.marca + ' \u00b7 ' + it.sku) + '</span>';
+    h += '<span class="nombre">' + p.nombre + '</span>';
+    if (p.detalle) h += '<span style="font-size:13px;color:var(--texto-suave)">' + p.detalle + '</span>';
+    h += '<div class="linea-acc"><span class="stepper" data-sku="' + it.sku + '">';
+    h += '<b class="' + (it.cant <= 1 ? 'tope' : '') + '">\u2212</b><i>' + it.cant + '</i>';
+    h += '<b class="' + (it.cant >= p.stock ? 'tope' : '') + '">+</b></span>';
+    h += '<span class="btn btn-fant btn-chico" style="padding-left:0" data-quitar="' + it.sku + '">Quitar</span>';
+    h += '</div></div><div class="linea-precio">';
+    h += '<span class="p-ahora" style="font-size:21px">' + pesos(precio(p) * it.cant) + '</span>';
+    if (p.oferta) h += '<span class="p-antes">' + pesos(p.lista * it.cant) + '</span>';
+    if (it.cant > 1) h += '<span style="font-size:12px;color:var(--texto-suave)">' + pesos(precio(p)) + ' c/u</span>';
+    if (p.oferta) h += '<span class="chip acento">\u2212' + p.oferta + '%</span>';
+    else if (p.kit) h += '<span class="chip prim">Precio de kit</span>';
+    return h + '</div></div>';
+  }
+
+  function lineaCheckout(it) {
+    var p = CATALOGO[it.sku];
+    return '<div class="linea" style="padding:13px 0">' +
+      '<div class="ph-cuad" style="width:70px;height:56px">' + icono(p) + '</div>' +
+      '<div class="linea-info"><span class="nombre" style="font-size:17px">' + p.nombre + '</span>' +
+      '<span style="font-size:13px;color:var(--texto-suave)">' + unidades(it.cant) + ' \u00b7 ' + (p.kit ? p.piezas : p.marca) + '</span></div>' +
+      '<span class="p-ahora" style="font-size:19px">' + pesos(precio(p) * it.cant) + '</span></div>';
+  }
+
+  function pintarFicha() {
+    var st = document.querySelector('#ficha .ficha-compra .stepper');
+    var topes = st.querySelectorAll('b');
+    var n = parseInt(st.querySelector('i').textContent, 10) || 1;
+    topes[0].classList.toggle('tope', n <= 1);
+    topes[1].classList.toggle('tope', n >= CATALOGO[fichaSku()].stock);
+  }
+
+  function pintar(pulso) {
+    var c = cuentas();
+
     document.querySelectorAll('.nav-num').forEach(function (n) {
-      n.textContent = enCarrito;
+      n.textContent = carro.length;
       if (pulso) { n.classList.remove('pulso'); void n.offsetWidth; n.classList.add('pulso'); }
     });
+
+    document.getElementById('carrito-lineas').innerHTML = carro.length
+      ? carro.map(lineaCarrito).join('')
+      : '<div class="vacio"><svg viewBox="0 0 24 24"><use href="#ico-carrito"/></svg>' +
+        '<div>Todav\u00eda no agregaste nada al carrito.</div>' +
+        '<span class="btn btn-sec btn-chico" data-ir="catalogo">Ver cat\u00e1logo</span></div>';
+
+    document.getElementById('carrito-cuenta').textContent =
+      (carro.length ? carro.length + (carro.length === 1 ? ' producto' : ' productos') : 'Vac\u00edo') +
+      ' \u00b7 sin sesi\u00f3n iniciada';
+
+    var enOferta = carro.filter(function (it) { return CATALOGO[it.sku].vence; })[0];
+    document.getElementById('carrito-aviso').hidden = !enOferta;
+    if (enOferta) {
+      var p = CATALOGO[enOferta.sku];
+      document.getElementById('carrito-aviso-txt').textContent = 'La oferta de ' + p.nombre +
+        ' vence el ' + p.vence + ' a las 23:59. Si confirmas el pedido despu\u00e9s de esa fecha,' +
+        ' el precio se recalcula y te lo mostramos antes de pagar.';
+    }
+
+    document.getElementById('checkout-lineas').innerHTML = carro.map(lineaCheckout).join('');
+    document.getElementById('car-cta').classList.toggle('btn-off', carro.length === 0);
+
+    ['car', 'chk'].forEach(function (k) {
+      document.getElementById(k + '-subtotal').textContent = pesos(c.subtotal);
+      document.getElementById(k + '-desc').textContent = '\u2212' + pesos(c.desc);
+      document.getElementById(k + '-envio').textContent = pesos(c.envio);
+      document.getElementById(k + '-total').textContent = pesos(c.total);
+      document.getElementById(k + '-fila-desc').hidden = c.desc === 0;
+    });
   }
-  pintarCarrito(false);
+
+  function tocarStepper(b) {
+    var st = b.closest('.stepper');
+    var campo = st.querySelector('i');
+    var paso = b === st.querySelector('b') ? -1 : 1;
+    var sku = st.dataset.sku;
+    if (!sku) {
+      var tope = CATALOGO[fichaSku()].stock;
+      campo.textContent = Math.min(Math.max(1, (parseInt(campo.textContent, 10) || 1) + paso), tope);
+      pintarFicha();
+      return;
+    }
+    var it = enCarro(sku);
+    if (!it) return;
+    it.cant = Math.min(Math.max(1, it.cant + paso), CATALOGO[sku].stock);
+    pintar(false);
+  }
+
+  function quitar(sku) {
+    carro = carro.filter(function (it) { return it.sku !== sku; });
+    pintar(false);
+  }
 
   var toast = document.getElementById('toast');
   var toastNombre = document.getElementById('toast-nombre');
+  var toastDetalle = document.getElementById('toast-detalle');
   var toastTimer = null;
-  function agregar(boton) {
-    var card = boton.closest('.card');
-    var nombre = card ? card.querySelector('.nombre').textContent
-                      : document.querySelector('#ficha .ficha-datos h1').textContent;
-    enCarrito += 1;
-    pintarCarrito(true);
-    var original = boton.innerHTML;
-    boton.classList.add('listo');
-    boton.innerHTML = '\u2713 Agregado';
-    setTimeout(function () { boton.classList.remove('listo'); boton.innerHTML = original; }, 1400);
+  function avisar(nombre, detalle) {
     toastNombre.textContent = nombre;
+    toastDetalle.textContent = detalle;
     toast.classList.add('visible');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('visible'); }, 3200);
   }
+
+  function agregar(boton) {
+    var card = boton.closest('.card');
+    var sku = skuDe(card ? card.querySelector('.marca').textContent
+                         : document.querySelector('#ficha .ficha-datos .marca').textContent);
+    var p = CATALOGO[sku];
+    if (!p) return;
+
+    var campoFicha = card ? null : document.querySelector('#ficha .ficha-compra .stepper i');
+    var pedidas = campoFicha ? (parseInt(campoFicha.textContent, 10) || 1) : 1;
+    var it = enCarro(sku);
+    var libre = p.stock - (it ? it.cant : 0);
+    if (libre <= 0) { avisar(p.nombre, 'ya est\u00e1 en el carrito con todo el stock disponible'); return; }
+
+    var suma = Math.min(pedidas, libre);
+    if (!it) { it = { sku:sku, cant:0 }; carro.push(it); }
+    it.cant += suma;
+    if (campoFicha) { campoFicha.textContent = 1; pintarFicha(); }
+    pintar(true);
+
+    var original = boton.innerHTML;
+    boton.classList.add('listo');
+    boton.innerHTML = '\u2713 Agregado';
+    setTimeout(function () { boton.classList.remove('listo'); boton.innerHTML = original; }, 1400);
+
+    avisar(p.nombre, it.cant > suma ? 'ahora va con ' + unidades(it.cant) : 'se agreg\u00f3 al carrito');
+  }
+
+  pintar(false);
+  pintarFicha();
 
   /* ---------- buscador en la barra ---------- */
   function abrirBuscador(lupa) {
@@ -4365,6 +4457,10 @@
     if (lupa) { abrirBuscador(lupa); return; }
     var sumar = e.target.closest('.btn-agregar, #ficha .ficha-compra .btn-cta');
     if (sumar) { e.preventDefault(); agregar(sumar); return; }
+    var paso = e.target.closest('.stepper b');
+    if (paso) { e.preventDefault(); tocarStepper(paso); return; }
+    var saca = e.target.closest('[data-quitar]');
+    if (saca) { e.preventDefault(); quitar(saca.dataset.quitar); return; }
     var el = e.target.closest('[data-ir]');
     if (!el) return;
     e.preventDefault();
