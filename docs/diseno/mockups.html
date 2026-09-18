@@ -1288,6 +1288,7 @@
         <div class="nav">
           <span class="nav-logo"><span class="emblema"><img src="../../assets/logo-aventura360.jpeg" alt="Aventura 360"></span><b>Aventura</b><i>360</i></span>
           <span class="nav-der" style="margin-left:auto">
+            <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-grafico"/></svg>Panel</span>
             <span class="nav-chip"><svg viewBox="0 0 24 24"><use href="#ico-usuario"/></svg>Julián O.</span>
           </span>
         </div>
@@ -4115,6 +4116,7 @@
     ir(p, '.nav-chip', 'ingreso', 'Ingresar');
     ir(p, '.nav-chip', 'carrito', 'Carrito');
     ir(p, '.nav-chip', 'pedidos', 'Julián');
+    ir(p, '.nav-chip', 'admin-productos', 'Panel');
     ir(p, '.ruta-mig span', 'portada', 'Inicio');
   });
 
@@ -4149,7 +4151,6 @@
 
   var pedidos = pant('pedidos');
   ir(pedidos, '.btn-cta', 'checkout', 'Reintentar');
-  ir(pedidos, '.nav-chip', 'admin-productos', 'Panel');
   ir(pedidos, '.pie-tienda span', 'catalogo');
 
   /* la barra lateral del panel navega por su propio href */
