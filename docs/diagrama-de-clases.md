@@ -10,7 +10,7 @@ Criterio: sin separar por responsabilidades, sin normalizar y solo con entidades
 
 ![Diagrama de clases de Aventura 360](diagramas/diagrama-de-clases.png)
 
-Imagen lista para el informe: [PNG](diagramas/diagrama-de-clases.png) (2890 × 2826) · [SVG](diagramas/diagrama-de-clases.svg) para imprimir o escalar sin perder nitidez. Se regeneran desde el bloque Mermaid de abajo, que es la fuente.
+Imagen lista para el informe: [PNG](diagramas/diagrama-de-clases.png) (3236 × 3204) · [SVG](diagramas/diagrama-de-clases.svg) para imprimir o escalar sin perder nitidez · [PDF](diagramas/diagrama-de-clases.pdf) de una página para adjuntar o imprimir. Se regeneran desde el bloque Mermaid de abajo, que es la fuente.
 
 <details>
 <summary>Fuente del diagrama</summary>
@@ -129,6 +129,7 @@ classDiagram
 
     Usuario "1" --> "0..*" Pedido : realiza
     Usuario "1" --> "0..1" Carrito : posee
+    Usuario "1" --> "0..*" CompraProveedor : realiza
 
     Categoria "1" --> "0..*" Producto : agrupa
 
@@ -227,6 +228,8 @@ Cuelga del pedido, no del usuario: toda devolución nace de una compra, así que
 ### CompraProveedor
 
 La vía por la que entra stock (RF18, UC21). Cantidades nulas o negativas se rechazan.
+
+A diferencia de `Devolucion`, esta sí cuelga de `Usuario`: la compra la registra un administrador y no hay otro camino para saber quién la cargó, mientras que toda devolución nace de un pedido que ya apunta a su usuario. Ese dato es además lo que pide el log de auditoría cada vez que entra stock (RNF10).
 
 ---
 
