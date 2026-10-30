@@ -29,7 +29,7 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 | 1 | 12 – 16 oct | Base del proyecto y gestiones externas | P1 | |
 | 2 | 19 – 23 oct | Modelo de datos y componentes base | P1 | H1 |
 | 3 | 26 – 30 oct | Cuentas locales y roles | P1 | |
-| 4 | 2 – 6 nov | Google y recuperación de contraseña | P1 | |
+| 4 | 2 – 6 nov | Ingreso con Google | P1 | |
 | 5 | 9 – 13 nov | Panel de catálogo | P1 | |
 | 6 | 16 – 20 nov | Tienda: portada, catálogo, ficha y búsqueda | P1 | H2 |
 | 7 | 23 – 27 nov | Kits y disponibilidad | P1 | |
@@ -39,7 +39,7 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 | 11 | 21 – 25 dic | Confirmación de venta e historial | P1 | |
 | 12 | 28 dic – 1 ene | Envíos, contacto, legales y cierre del MVP | P1 | H4 |
 | 13 | 4 – 8 ene | Ofertas y compras a proveedores | P2 | |
-| 14 | 11 – 15 ene | Cuentas P2: verificación, vinculación, perfil | P2 | |
+| 14 | 11 – 15 ene | Cuentas P2: vinculación, perfil y contraseña | P2 | |
 | 15 | 18 – 22 ene | Devoluciones, comprobante y aviso de envío | P2 | |
 | 16 | 25 – 29 ene | Asistente, auditoría y respaldo | P2 | H5 |
 | 17 | 1 – 5 feb | Reportes, P3, pruebas en navegadores y entrega | P3 | H6 |
@@ -77,28 +77,29 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 
 ### Sprint 3 — Cuentas locales y roles · 26 al 30 oct
 
-- UC05 Registro con correo y contraseña (sin la verificación, que es `P2`)
-- UC06 Inicio de sesión: mensajes genéricos, contador de intentos, bloqueo temporal, límite de solicitudes
-- UC18 Cerrar sesión
+- UC05 Registro con correo y contraseña: política mínima de contraseñas, cuenta habilitada al crearse
+- UC06 Inicio de sesión: mensaje genérico, sin revelar si el correo existe
+- UC16 Cerrar sesión
 - Middleware de autorización por rol y guardas de ruta en el frontend
 - Pantalla `ingreso`
 
 **Demo:** registrarse, entrar, ver el panel solo con rol de administrador y salir.
 
-### Sprint 4 — Google y recuperación · 2 al 6 nov
+### Sprint 4 — Ingreso con Google · 2 al 6 nov
 
 - UC07 Ingreso con Google: `state`, rechazo sin correo verificado, cancelación, alta sin contraseña
-- UC08 Recuperar la contraseña: mensaje único, token de un solo uso, cierre de sesiones
 - Pruebas de las reglas de RNF05 y RNF07
+- Adaptador de correo en `infrastructure/mail/`, pendiente de la Fase 0
+- **Carga liviana:** la semana se usa también para cerrar lo pendiente de los sprints 1 a 3
 
-**Demo:** entrar con una cuenta de Google y recuperar la contraseña de una cuenta local por correo.
+**Demo:** entrar con una cuenta de Google y llegar a «Mi cuenta» con la sesión iniciada; sin correo verificado, el acceso se rechaza.
 
 ### Sprint 5 — Panel de catálogo · 9 al 13 nov
 
-- UC19 Productos: alta, modificación, baja lógica, SKU único
+- UC17 Productos: alta, modificación, baja lógica, SKU único
 - Carga de imágenes con orden y portada
-- UC20 Categorías: alta, renombre y baja, con reasignación de productos
-- Navegación del panel (RF46)
+- UC18 Categorías: alta, renombre y baja, con reasignación de productos
+- Navegación del panel (RF44)
 
 **Demo:** el administrador crea una categoría y carga en ella un producto con imágenes.
 
@@ -113,8 +114,8 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 
 ### Sprint 7 — Kits · 23 al 27 nov
 
-- UC22 Armar un kit, con precio propio o descuento (RF24 es `P2`, pero va acá porque es parte del mismo formulario)
-- UC29 Disponibilidad del kit por cantidad total, como función reutilizable
+- UC20 Armar un kit, con precio propio o descuento (RF22 es `P2`, pero va acá porque es parte del mismo formulario)
+- UC27 Disponibilidad del kit por cantidad total, como función reutilizable
 - Kits en el catálogo, excluyendo los no disponibles
 
 **Demo:** un kit desaparece del catálogo al dejar sin stock uno de sus componentes.
@@ -130,8 +131,8 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 
 ### Sprint 9 — Checkout · 7 al 11 dic
 
-- **Decisión previa:** cómo se calcula el costo de envío (tarifa fija, por provincia o por peso)
-- UC10 Confirmar la compra: sesión exigida solo acá, revalidación de stock y kits, dirección de envío, resumen, pedido en `PENDIENTE_PAGO` con precios congelados
+- Costo de envío fijo, editable desde el panel (RF32)
+- UC08 Confirmar la compra: sesión exigida solo acá, revalidación de stock y kits, dirección de envío, resumen, pedido en `PENDIENTE_PAGO` con precios congelados
 - Carga mínima de una dirección dentro del checkout (la gestión completa de direcciones es `P2`, en el sprint 14)
 - Prueba de precios congelados
 
@@ -140,24 +141,24 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 ### Sprint 10 — Mercado Pago · 14 al 18 dic
 
 - **Despliegue de prueba con HTTPS** (o un túnel) para que Mercado Pago pueda llamar al webhook
-- UC11 Preferencia de pago, páginas de resultado, webhook con firma validada, consulta del estado real, idempotencia
-- UC27 Descuento de stock en una transacción con control de concurrencia, reversión total y `REVISION_MANUAL`
+- UC09 Preferencia de pago, páginas de resultado, webhook con firma validada, consulta del estado real, idempotencia
+- UC25 Descuento de stock en una transacción con control de concurrencia, reversión total y `REVISION_MANUAL`
 - Pruebas: webhook inválido, webhook repetido, dos pagos sobre la última unidad
 
 **Demo (H3):** compra completa con una tarjeta de prueba del sandbox y stock descontado.
 
 ### Sprint 11 — Confirmación e historial · 21 al 25 dic · media carga
 
-- UC16 Correo de confirmación de venta con reintento
-- UC12 Mis pedidos: lista y detalle, con la píldora de estado
+- UC14 Correo de confirmación de venta con reintento
+- UC10 Mis pedidos: lista y detalle, con la píldora de estado
 - Aviso en el panel de pedidos en revisión manual
 
 **Demo:** el cliente recibe el correo y ve el pedido pagado en su historial.
 
 ### Sprint 12 — Cierre del MVP · 28 dic al 1 ene · media carga
 
-- UC24 Estado del envío (simulado), con confirmación al retroceder y registro de quién lo cambió
-- RF48 Número de contacto en el pie
+- UC22 Estado del envío (simulado), con confirmación al retroceder y registro de quién lo cambió
+- RF46 Número de contacto en el pie
 - RNF17 y RNF08: Términos y Condiciones, Política de Devoluciones y Política de Privacidad
 - Repaso de las pruebas `P1` de la sección «Pruebas mínimas» del ToDo
 
@@ -165,28 +166,27 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 
 ### Sprint 13 — Ofertas y compras · 4 al 8 ene
 
-- UC23 Crear ofertas por producto, categoría o kit, con prioridad
-- UC28 Aplicar una sola oferta por ítem en catálogo, carrito y pedido; aviso si vence con el ítem en el carrito
-- RF27 Vigencia por fecha (`P3`, pero sale casi sola si la consulta ya filtra por fecha)
-- UC21 Registrar compra a proveedor
+- UC21 Crear ofertas por producto, categoría o kit
+- UC26 Aplicar una sola oferta por ítem, la de mayor porcentaje, en catálogo, carrito y pedido; aviso si vence con el ítem en el carrito
+- RF25 Vigencia por fecha (`P3`, pero sale casi sola si la consulta ya filtra por fecha)
+- UC19 Registrar compra a proveedor
 
 **Demo:** una oferta programada para mañana no aparece hoy; al registrar una compra, un kit vuelve a estar disponible.
 
 ### Sprint 14 — Cuentas P2 · 11 al 15 ene
 
-- UC09 Verificar el correo y bloqueo del checkout para cuentas sin verificar
-- UC30 Vincular Google con una cuenta local
-- UC15 Cambiar la contraseña
-- UC14 Mis datos y direcciones completas
+- UC28 Vincular Google con una cuenta local
+- UC13 Cambiar la contraseña
+- UC12 Mis datos y direcciones completas
 
 **Demo:** una cuenta local y otra de Google con el mismo correo terminan siendo un solo usuario con un solo historial.
 
 ### Sprint 15 — Devoluciones y comprobante · 18 al 22 ene
 
-- UC13 Solicitar una devolución, sin tocar el stock
-- UC25 Aprobar, rechazar, registrar recepción parcial y marcar como reembolsada
-- RF37 Comprobante de la operación en el historial y en el correo
-- UC17 Aviso por correo del cambio de estado del envío
+- UC11 Solicitar una devolución, sin tocar el stock
+- UC23 Aprobar, rechazar, registrar recepción parcial y marcar como reembolsada
+- RF35 Comprobante de la operación en el historial y en el correo
+- UC15 Aviso por correo del cambio de estado del envío
 
 **Demo:** devolución parcial de un pedido: solo vuelve al stock lo recibido.
 
@@ -195,13 +195,14 @@ Plan de **17 sprints de una semana** (≈ 4 meses), del **lunes 12 de octubre de
 - UC03 Asistente por criterios de ID, SKU, marca, categoría, estado y ocasión, con derivación al contacto
 - RNF10 Registro de auditoría en stock, precio, envíos y devoluciones, más su visor en el panel
 - RNF18 Respaldo periódico con restauración probada
-- Limpieza programada de tokens vencidos
+- RNF13 Revisión de diseño de extensibilidad
+- RNF12 Acuerdo de disponibilidad con el proveedor de hosting
 
 **Demo (H5):** pedirle al asistente «carpa para 4 personas» y ver las recomendaciones; ver en la auditoría quién cambió un precio.
 
 ### Sprint 17 — Entrega · 1 al 5 feb
 
-- `P3`: UC26 Reportes de ventas y stock, y kits en el asistente (RF44)
+- `P3`: UC24 Reportes de ventas y stock, y kits en el asistente (RF42)
 - RNF01 y RNF15 Prueba manual en Chrome, Firefox, Safari y Edge, en escritorio, tableta y móvil
 - Despliegue final sobre HTTPS
 - Actualizar `trazabilidad.md` y los README

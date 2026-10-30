@@ -1,7 +1,7 @@
 # Iconografía
 
 Set redibujado a partir de la franja inferior del logo de Aventura 360, donde aparecen
-carpa, mochila, farol y bastones. Esos cuatro son los íconos de categoría (RF16); el
+carpa, mochila, farol y bastones. Esos cuatro son los íconos de categoría (RF14); el
 resto completa la interfaz manteniendo la misma construcción.
 
 ## Construcción
