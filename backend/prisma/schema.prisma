@@ -1,0 +1,9 @@
+// Esquema de datos de Aventura 360. Los modelos llegan en la Fase 1 (sprint 2).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}

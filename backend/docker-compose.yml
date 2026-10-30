@@ -1,0 +1,21 @@
+# PostgreSQL local para desarrollo y pruebas. Crea dos bases separadas:
+# aventura360 (desarrollo) y aventura360_test (pruebas automáticas).
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: aventura
+      POSTGRES_PASSWORD: aventura
+      POSTGRES_DB: aventura360
+    ports:
+      - '5433:5432' # 5433 en el host, para no chocar con un PostgreSQL local
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+      - ./docker/postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U aventura -d aventura360']
+      interval: 5s
+      retries: 10
+
+volumes:
+  datos-postgres:
