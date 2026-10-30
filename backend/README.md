@@ -6,24 +6,24 @@ API REST en Express sobre Node.js, con PostgreSQL y Prisma como ORM.
 
 ```
 src/
-├── config/            Variables de entorno, CORS, rate limiting, logger
+├── config/            Variables de entorno, CORS, logger
 ├── modules/           Un módulo por área funcional del documento de requerimientos
-│   ├── auth/          RF02-RF09, RF12 · UC05-UC09, UC15, UC18, UC30
-│   ├── users/         RF10, RF11 · UC14 (perfil y direcciones)
-│   ├── catalog/       RF13-RF20 · UC01, UC02, UC19, UC20, UC21
-│   ├── kits/          RF21-RF24 · UC22, UC29
-│   ├── offers/        RF25-RF27 · UC23, UC28
-│   ├── cart/          RF01, RF28-RF30 · UC04 (carrito anónimo y fusión)
-│   ├── orders/        RF39 · UC10, UC12, UC27
-│   ├── payments/      RF31-RF33 · UC11 (preferencia + webhook)
-│   ├── shipping/      RF34-RF36 · UC24, UC17
-│   ├── returns/       RF40-RF42 · UC13, UC25
-│   ├── assistant/     RF43-RF45 · UC03
-│   ├── admin/         RF46, RF47 · UC26 y agregación del panel
-│   └── contact/       RF48
+│   ├── auth/          RF02-RF07, RF10 · UC05-UC07, UC13, UC16, UC28
+│   ├── users/         RF08, RF09 · UC12 (perfil y direcciones)
+│   ├── catalog/       RF11-RF18 · UC01, UC02, UC17, UC18, UC19
+│   ├── kits/          RF19-RF22 · UC20, UC27
+│   ├── offers/        RF23-RF25 · UC21, UC26
+│   ├── cart/          RF01, RF26-RF28 · UC04 (carrito anónimo y fusión)
+│   ├── orders/        RF37 · UC08, UC10, UC25
+│   ├── payments/      RF29-RF31 · UC09 (preferencia + webhook)
+│   ├── shipping/      RF32-RF34 · UC22, UC15 (estado y costo fijo de envío)
+│   ├── returns/       RF38-RF40 · UC11, UC23
+│   ├── assistant/     RF41-RF43 · UC03
+│   ├── admin/         RF44, RF45 · UC24 y agregación del panel
+│   └── contact/       RF46
 ├── shared/            Middlewares, errores, validadores y utilidades transversales
 ├── infrastructure/    Adaptadores a servicios externos (DB, mail, MP, OAuth, storage)
-└── jobs/              Tareas programadas (vencimiento de ofertas y tokens, respaldo)
+└── jobs/              Tareas programadas (vencimiento de ofertas, respaldo)
 ```
 
 Cada módulo sigue el mismo patrón de cinco archivos:

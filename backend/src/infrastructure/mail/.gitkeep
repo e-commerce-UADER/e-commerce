@@ -1,1 +1,1 @@
-Adaptador del servicio de correo externo: verificacion, reset, venta, envio (UC05, UC08, UC16, UC17).
+Adaptador del servicio de correo externo: confirmacion de venta y estado del envio (UC14, UC15).

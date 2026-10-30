@@ -8,7 +8,7 @@ SPA en React con Vite. Interfaz responsive (RNF01) para visitante, cliente y adm
 src/
 ├── app/            Providers, router y bootstrap
 ├── features/       Un directorio por dominio, con components/, hooks/ y api/ propios
-│   ├── auth/       Login local, registro, Google, verificación y reset
+│   ├── auth/       Login local, registro y Google
 │   ├── catalog/    Listado, filtros y ficha de producto
 │   ├── cart/       Carrito anónimo y de usuario
 │   ├── checkout/   Dirección, resumen y redirección a Mercado Pago
